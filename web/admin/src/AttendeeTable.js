@@ -11,25 +11,29 @@ class AttendeeTable extends Component {
     }
   }
 
-  contentCell = () => {
-    this.state.list.map(item => {
+  contentCell = (item) => {
       return (
-        <AttendeeCell/>
+        <li>
+        <p>{item}</p>
+        </li>
       )
-    }
-  )
   }
 
 
   render() {
     return (
       <div>
-      <p>Attendee Content</p>
-      <span className="leftContainer">
-        <ul>
-          {this.contentCell()}
-        </ul>
-      </span>
+        <p>Attendee Content</p>
+        <span className="leftContainer">
+          <ul>
+            {this.state.list.map(item => {
+              return (
+                this.contentCell(item)
+              )  
+            }
+            )}         
+          </ul>
+        </span>
       </div>
     )
   }

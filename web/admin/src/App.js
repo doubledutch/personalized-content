@@ -4,6 +4,7 @@ import ContentTable from './ContentTable'
 import AttendeeTable from './AttendeeTable'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 

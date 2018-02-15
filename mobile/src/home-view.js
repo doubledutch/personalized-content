@@ -13,7 +13,7 @@ export default class HomeView extends Component {
   constructor() {
     super()
 
-    this.state = { task: '', userPrivateTasks: [], sharedTasks: [], componentConfigs: [{type: "TextView"}] }
+    this.state = {componentConfigs: [{type: "TextView"}] }
 
     this.signin = fbc.signin()
       .then(user => this.user = user)
