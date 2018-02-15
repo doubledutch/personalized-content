@@ -6,3 +6,23 @@
 .avatar {
   width: 40px;
 }
+
+.box {
+  width: 50%;
+  height: 400px;
+}
+
+.leftContainer {
+  display: flex;
+  flex-flow: row wrap;
+  width: 40%;
+  margin-Top: 10px;
+  margin-Left: 21px;
+  margin-bottom: 10px;
+  background-Color:white;
+  border: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  overflow: scroll;
+  padding: 20px;
+}
