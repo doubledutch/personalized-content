@@ -5,7 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "@doubledutch/admin-client": "^1.0.2",
-    "@doubledutch/firebase-connector": "^3.2.3",
+    "@doubledutch/firebase-connector": "^3.3.0",
     "moment": "^2.20.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

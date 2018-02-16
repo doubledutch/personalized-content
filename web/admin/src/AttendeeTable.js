@@ -7,15 +7,15 @@ class AttendeeTable extends Component {
   constructor(props) {
     super()
     this.state = {
-      list: [1,2,3,4,5,6]
+      // list: this.props.pendingContent
     }
   }
 
-  contentCell = (item) => {
+  contentCell = (c) => {
       return (
-        <li>
-        <p>{item}</p>
-        </li>
+        <li key={c.key}>
+            {JSON.stringify(c)}
+          </li>
       )
   }
 
@@ -25,13 +25,8 @@ class AttendeeTable extends Component {
       <div>
         <p>Attendee Content</p>
         <span className="leftContainer">
-          <ul>
-            {this.state.list.map(item => {
-              return (
-                this.contentCell(item)
-              )  
-            }
-            )}         
+          <ul>{ this.props.pendingContent.map(c => (
+            this.contentCell(c)))}
           </ul>
         </span>
       </div>
