@@ -16,9 +16,9 @@ on a per-event basis.
 #### `private/admin`
 
 The master list of content is only accessible with admin (CMS) tokens.
-Each content item's key (which must be a string in Firebase) is the index that
-should be used to order content. Any reordering of content must update the keys
-in the master list.
+Each content item's key is a unique ID assigned by Firebase. An `order` property
+is the index that should be used to order content. Any reordering of content
+must update all the `order` properties for all content whose index has changed.
 
 Two separate copies of the master list of content will be kept as `content` and
 `pendingContent`. `pendingContent` contains all changes that have been made
