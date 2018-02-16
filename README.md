@@ -30,14 +30,14 @@ millisecond timestamp is also updated. A `Revert changes` button will simply
 copy `content` to `pendingContent`, annihilating any changes made after the last
 publish (Note that no copying to other DB locations is necessary in this case).
 
-The `visibility` property of each content item specifies which attendees should
+The visibility properties of each content item specify which attendees should
 be able to see the content.  An attendee who matches ANY of the specified tiers,
 groups, or attendee IDs can see the content (i.e. filters are OR-ed together).
-If `visibility.all` is `true`, no filtering is performed, and all attendees will
-see the content.
+If `tierIds`, `groupIds`, and `attendeeIds` are empty, no filtering is
+performed, and all attendees will see the content.
 
 This master content list (which is hidden from attendees) is copied to other
-database paths based on `visibility`. Any changes (creates, updates, reordering,
+database paths based on visibility` Any changes (creates, updates, reordering,
 deletions, or changes in visibility) must propagate to those other database
 paths in a reliable way.
 
@@ -46,34 +46,31 @@ paths in a reliable way.
   "pendingContent": "NOTE: same structure as `content`",
   "lastPublishedAt": "1518725377387",
   "content": {
-    "0": {
+    "abc": {
+      "order": 0,
       "type": "web",
       "title": "DoubleDutch",
       "url:": "https://doubledutch.me",
-      "visibility": {
-        "tierIds": [55,78],
-        "groupIds": [42],
-        "attendeeIds": [901,1027]
-      }
+      "tierIds": [55,78],
+      "groupIds": [42],
+      "attendeeIds": [901,1027]
     },
-    "1": {
+    "def": {
+      "order": 1,
       "type": "text",
       "title": "Honey Badgers",
       "text": "They don't care",
-      "visibility": {
-        "tierIds": [],
-        "groupIds": [],
-        "attendeeIds": []
-      }
+      "tierIds": [],
+      "groupIds": [],
+      "attendeeIds": []
     },
-    "2": {
+    "ghi": {
+      "order": 2,
       "type": "survey",
       "surveyId": 12345,
-      "visibility": {
-        "tierIds": [],
-        "groupIds": [],
-        "attendeeIds": [1234]
-      }
+      "tierIds": [],
+      "groupIds": [],
+      "attendeeIds": [1234]
     }
   }
 }
@@ -92,7 +89,7 @@ These database locations have access limited to firebase tokens with the
 appropriate `userId`/`tierId` claims, so visibility is implied.
 
 The `public/admin` DB location is used for any content with
-`"visibility": {"all": true}}` or a non-empty list of attendee groups specified
+no `tierId`s/`attendeeId`s specified, or a non-empty list of attendee groups specified
 (`"visibility": {"groupIds": [...]}}`). This means that content filtered ONLY by
 tier or specific attendees will secured to only those attendees at the database
 level, but if any attendee groups are specified, the content should not be
@@ -126,10 +123,10 @@ perform the following steps, in this order:
 assumes that no keys other than `content` are present under
 `private/adminable/users` and `private/adminable/tiers`, and is a simple way to
 ensure that stale data does not persist for any attendees.
-2. Make one or more copies of the `pendingContent` (with `visibility` property
+2. Make one or more copies of the `pendingContent` (with visibility properties
 removed for the `private/adminable/users` and `private/adminable/tiers`
 locations) to the same locations that were wiped clean in the previous step,
-according to the `visibility` rules.
+according to the visibility rules.
 3. Set `private/admin/content` to the value of `pendingContent`.
 4. Set `private/admin/lastPublishedAt` to `moment().valueOf()` (Unix millisecond
 timestamp)
@@ -140,8 +137,8 @@ A mobile client's state will mirror the Firebase data in these locations, for
 the current attendee's `userId` and `tierId`:
 
 - **`public/admin`**: Content items here are added if any of the current
-attendee's groups match any of the `visibility.groupIds`, or no
-`visibility` filters are specified (i.e. global visibility).
+attendee's groups match any of the `groupIds`, or no
+visibility filters are specified (i.e. global visibility).
 - **`private/adminable/users/:userId`**: All content items found here are added
 - **`private/adminable/tiers/:tierId`**: All content items found here are added
 

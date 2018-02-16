@@ -21,9 +21,12 @@ export default class App extends PureComponent {
     fbc.signinAdmin()
     .then(user => {
 
-      const addContent = stateKey => data => this.setState(state => ({[stateKey]: [...state[stateKey], {...data.val(), key: data.key}].sort(sortContent)}))
-      const removeContent = stateKey => data => this.setState(state => ({[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
-      const changeContent = stateKey => data => this.setState(state => ({[stateKey]: state[stateKey].map(x => x.key === data.key ? {...data.val(), key: data.key} : x).sort(sortContent)}))
+      const addContent = stateKey => data => this.setState(state => (
+        {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
+      const removeContent = stateKey => data => this.setState(state => (
+        {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
+      const changeContent = stateKey => data => this.setState(state => (
+        {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
 
       contentRef().on('child_added', addContent('content'))
       pendingContentRef().on('child_added', addContent('pendingContent'))
@@ -74,8 +77,17 @@ export default class App extends PureComponent {
       //tiersRef().remove()
 
       // 2. Create derived copies from `pendingContent`
-      // TODO: create derived copies in public/admin, private/adminable/users, & private/adminable/tiers
-
+      // 2a. Public bucket gets copies of global content and those with attendee group filters.
+      publicContentRef().set(
+        contentArrayToFirebaseObject(this.state.pendingContent
+          .filter(c =>
+            c.groupIds.length
+            || (!c.tierIds.length && !c.attendeeIds.length))
+          .map(c => ({...c, tierIds: null, attendeeIds: null}))
+        ))
+      // 2b. TODO Users bucket gets a copy for each attendee
+      // 2c. TODO Tiers bucket gets a copy for each tier
+      
       // 3. Copy `pendingContent` to `content`
       contentRef().set(contentArrayToFirebaseObject(this.state.pendingContent))
 
@@ -92,11 +104,19 @@ export default class App extends PureComponent {
   }
 }
 
+// Converts [{key: 'abc', ...}, ...] to {abc: {...}, ...}
 const contentArrayToFirebaseObject = arr => arr.reduce((obj, c) => {
   const { key, ...content } = c
   obj[key] = content
   return obj
 }, {})
+
+function addDefaults(content) {
+  if (!content.tierIds) content.tierIds = []
+  if (!content.groupIds) content.groupIds = []
+  if (!content.attendeeIds) content.attendeeIds = []
+  return content
+}
 
 const sortContent = (a,b) => a.order < b.order ? -1 : 1
 const contentRef = () => fbc.database.private.adminRef('content')
