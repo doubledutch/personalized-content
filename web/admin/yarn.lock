@@ -8,9 +8,9 @@
   dependencies:
     babel-runtime "^6.26.0"
 
-"@doubledutch/firebase-connector@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@doubledutch/firebase-connector/-/firebase-connector-3.2.3.tgz#606f87f259447e10e9477e3693912676cfba5e0a"
+"@doubledutch/firebase-connector@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@doubledutch/firebase-connector/-/firebase-connector-3.3.0.tgz#1365402b9b019a2c0d812e9bb5cd6cff0a76c7c5"
   dependencies:
     babel-runtime "^6.26.0"
     firebase "^4.6.0"

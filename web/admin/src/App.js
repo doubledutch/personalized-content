@@ -62,6 +62,14 @@ export default class App extends PureComponent {
         <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
         <ul>{ pendingContent.map(c => (
           <li key={c.key}>
+            {c.attendeeIds.length
+              ? <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: []})}>- attendee</button>
+              : <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: [24601]})}>+ attendee</button>
+            }
+            {c.tierIds.length
+              ? <button onClick={() => pendingContentRef().child(c.key).update({tierIds: []})}>- tiers</button>
+              : <span><button onClick={() => pendingContentRef().child(c.key).update({tierIds: [42]})}>+ tier</button><button onClick={() => pendingContentRef().child(c.key).update({tierIds: ['default', 42]})}>+ tiers</button></span>
+            }
             {JSON.stringify(c)}
           </li>
         ))}</ul>
@@ -74,9 +82,10 @@ export default class App extends PureComponent {
       // 1. Remove all derived copies
       publicContentRef().remove()
       usersRef().remove()
-      //tiersRef().remove()
+      tiersRef().remove()
 
       // 2. Create derived copies from `pendingContent`
+      
       // 2a. Public bucket gets copies of global content and those with attendee group filters.
       publicContentRef().set(
         contentArrayToFirebaseObject(this.state.pendingContent
@@ -84,9 +93,14 @@ export default class App extends PureComponent {
             c.groupIds.length
             || (!c.tierIds.length && !c.attendeeIds.length))
           .map(c => ({...c, tierIds: null, attendeeIds: null}))
-        ))
-      // 2b. TODO Users bucket gets a copy for each attendee
-      // 2c. TODO Tiers bucket gets a copy for each tier
+        )
+      )
+
+      // 2b. Users bucket gets a copy for each attendee
+      usersRef().set(getDerivedCopiesGroupedBy(this.state.pendingContent, 'attendeeIds'))
+
+      // 2c. Tiers bucket gets a copy for each tier
+      tiersRef().set(getDerivedCopiesGroupedBy(this.state.pendingContent, 'tierIds'))
       
       // 3. Copy `pendingContent` to `content`
       contentRef().set(contentArrayToFirebaseObject(this.state.pendingContent))
@@ -104,6 +118,23 @@ export default class App extends PureComponent {
   }
 }
 
+function getDerivedCopiesGroupedBy(pendingContent, groupIdArrayKey) {
+  const groupedArrays = pendingContent.reduce((groupedArrays, c) => {
+    if (c[groupIdArrayKey].length) {
+      const content = {...c, tierIds: null, attendeeIds: null, groupIds: null}
+      c[groupIdArrayKey].forEach(id => {
+        if (!groupedArrays[id]) groupedArrays[id] = []
+        groupedArrays[id].push(content)
+      })
+    }
+    return groupedArrays
+  }, {})
+  return Object.keys(groupedArrays).reduce((obj, id) => {
+    obj[id] = contentArrayToFirebaseObject(groupedArrays[id])
+    return obj
+  }, {})
+}
+
 // Converts [{key: 'abc', ...}, ...] to {abc: {...}, ...}
 const contentArrayToFirebaseObject = arr => arr.reduce((obj, c) => {
   const { key, ...content } = c
@@ -119,9 +150,11 @@ function addDefaults(content) {
 }
 
 const sortContent = (a,b) => a.order < b.order ? -1 : 1
+
 const contentRef = () => fbc.database.private.adminRef('content')
 const pendingContentRef = () => fbc.database.private.adminRef('pendingContent')
 const lastPublishedAtRef = () => fbc.database.private.adminRef('lastPublishedAt')
+
 const publicContentRef = () => fbc.database.public.adminRef('content')
-const usersRef = () => fbc.database.private.adminableUsersRef()
-//const tiersRef = () => fbc.database.private.tiersRef()
+const usersRef = userId => fbc.database.private.adminableUsersRef(userId)
+const tiersRef = tierId => fbc.database.private.tiersRef(tierId)
