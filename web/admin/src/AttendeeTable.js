@@ -11,13 +11,13 @@ class AttendeeTable extends Component {
     }
   }
 
-  contentCell = (c) => {
-      return (
-        <li key={c.key}>
-            {JSON.stringify(c)}
-          </li>
-      )
-  }
+  // contentCell = (c) => {
+  //     return (
+  //       <li key={c.key}>
+  //           {JSON.stringify(c)}
+  //         </li>
+  //     )
+  // }
 
 
   render() {
@@ -25,9 +25,9 @@ class AttendeeTable extends Component {
       <div>
         <p>Attendee Content</p>
         <span className="leftContainer">
-          <ul>{ this.props.pendingContent.map(c => (
+          {/* <ul>{ this.props.pendingContent.map(c => (
             this.contentCell(c)))}
-          </ul>
+          </ul> */}
         </span>
       </div>
     )

@@ -9,20 +9,29 @@ class ContentTable extends Component {
     }
   }
 
-  contentCell = () => {
+  contentCell = (c) => {
     return (
-      <li>
+      <li key={c.key} className="listItem">
+          <div className="contentListItem">
+          <p className="contentIcon">X</p>
+          <p className="itemTitle">{c.title}</p>
+          <p className="itemTitle">{c.attendeeIds.length} Attendees</p>
+          <p className="itemTitle">View</p>
+          </div>
         </li>
     )
-  }
+}
+
+// {JSON.stringify(c)}
   render() {
     return (
       <div>
-      <p>Current Content</p>
-      <span className="leftContainer">
-        <ul>
-        </ul>
-      </span>
+        <p>Attendee Content</p>
+        <span className="leftContainer">
+          <ul className="contentList">{ this.props.pendingContent.map(c => (
+            this.contentCell(c)))}
+          </ul>
+        </span>
       </div>
     )
   }

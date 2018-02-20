@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import './App.css'
 import ContentTable from './ContentTable'
 import AttendeeTable from './AttendeeTable'
+import SelectTable from './SelectTable'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
@@ -14,7 +15,10 @@ export default class App extends PureComponent {
     super()
   this.state = {
     content: [],
-    pendingContent: []
+    pendingContent: [],
+    homeView: true,
+    currentContent: '',
+    allUsers: []
   }
 
   this.signin = fbc.signinAdmin()
@@ -30,8 +34,8 @@ export default class App extends PureComponent {
 
   componentDidMount() {
     this.signin.then(() => {
-      client.getUsers().then(user => {
-
+      client.getUsers().then(users => {
+      this.setState({allUsers: users})
       const addContent = stateKey => data => this.setState(state => (
         {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
       const removeContent = stateKey => data => this.setState(state => (
@@ -59,7 +63,7 @@ export default class App extends PureComponent {
   render() {
     const {pendingContent, lastPublishedAt} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
-
+    if (this.state.homeView) {
     return (
       <div className="App">
         <div>
@@ -69,12 +73,12 @@ export default class App extends PureComponent {
             <button onClick={this.discard}>Discard changes</button>
           </span> : null }
         </div>
-        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
-        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
-        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
-        <ContentTable/>
-        <AttendeeTable
+        
+        <button onClick={this.showView} value="homeView">Make New Content</button>
+        <ContentTable
         pendingContent = {pendingContent}
+        />
+        <AttendeeTable
         />
         <ul>{ pendingContent.map(c => (
           <li key={c.key}>
@@ -92,6 +96,30 @@ export default class App extends PureComponent {
       </div>
     )
   }
+    else 
+    var currentList = []
+    if (this.state.currentContent.attendeeIds) {
+      currentList = this.state.currentContent.attendeeIds
+    }
+    return (
+      <div className="App">
+        <SelectTable
+          currentList={currentList}
+          list = {this.state.allUsers}
+        />
+        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
+        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
+        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
+      </div>
+    )
+  }
+
+  showView = () => {
+    var currentState = this.state.homeView
+    this.setState({homeView: !currentState})
+    
+  }
+
 
   publish = () => {
     if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
