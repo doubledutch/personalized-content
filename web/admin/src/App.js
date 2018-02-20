@@ -18,7 +18,8 @@ export default class App extends PureComponent {
     pendingContent: [],
     homeView: true,
     currentContent: '',
-    allUsers: []
+    allUsers: [],
+    currentUsers: []
   }
 
   this.signin = fbc.signinAdmin()
@@ -106,8 +107,9 @@ export default class App extends PureComponent {
         <SelectTable
           currentList={currentList}
           list = {this.state.allUsers}
+          updateList = {this.updateList}
         />
-        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
+        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length, attendeeIds: this.state.currentList})}>+ Text</button>
         <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
         <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
       </div>
@@ -118,6 +120,10 @@ export default class App extends PureComponent {
     var currentState = this.state.homeView
     this.setState({homeView: !currentState})
     
+  }
+
+  updateList = (list) => {
+    this.setState({currentList: list})
   }
 
 

@@ -44,7 +44,7 @@ paths in a reliable way.
 ```json
 {
   "pendingContent": "NOTE: same structure as `content`",
-  "lastPublishedAt": "1518725377387",
+  "lastPublishedAt": 1518725377387,
   "content": {
     "abc": {
       "order": 0,

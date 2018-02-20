@@ -51,12 +51,14 @@ class SelectTable extends Component {
     var list = this.state.newList
     if (event.target.checked) {
       list.push(event.target.name)
+      this.props.updateList(list)
       this.setState({newList: list})
     }
     else {
       var index = this.props.currentList.findIndex(o => o === event.target.name)
       var items = this.state.newList
       items.splice(index, 1)
+      this.props.updateList(items)
       this.setState({newList: items})
     }
   }
