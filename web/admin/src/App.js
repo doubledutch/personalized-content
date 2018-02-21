@@ -4,8 +4,10 @@ import './App.css'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
-const fbc = FirebaseConnector(client, 'personalizedcontent')
 
+import { TextEditor } from './editors'
+
+const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 
 export default class App extends PureComponent {
@@ -60,8 +62,8 @@ export default class App extends PureComponent {
         <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
         <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
         <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
-        <ul>{ pendingContent.map(c => (
-          <li key={c.key}>
+        <ul>
+          { pendingContent.map(c => <li key={c.key}>
             {c.attendeeIds.length
               ? <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: []})}>- attendee</button>
               : <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: [24601]})}>+ attendee</button>
@@ -70,12 +72,33 @@ export default class App extends PureComponent {
               ? <button onClick={() => pendingContentRef().child(c.key).update({tierIds: []})}>- tiers</button>
               : <span><button onClick={() => pendingContentRef().child(c.key).update({tierIds: [42]})}>+ tier</button><button onClick={() => pendingContentRef().child(c.key).update({tierIds: ['default', 42]})}>+ tiers</button></span>
             }
-            {JSON.stringify(c)}
-          </li>
-        ))}</ul>
+            { this.editorFor(c) }
+          </li>)}
+        </ul>
       </div>
     )
   }
+
+  editorFor = c => {
+    switch (c.type) {
+      case 'text': return <div>
+        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
+        <TextEditor content={c} prop="text" title="Text" onUpdate={this.onUpdate} />
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      case 'web': return <div>
+        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
+        <TextEditor content={c} prop="url" title="URL" onUpdate={this.onUpdate} />
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      case 'survey': return <div>
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      default: return <div />
+    }
+  }
+
+  onUpdate = (component, prop, value) => pendingContentRef().child(component.key).update({[prop]: value})
 
   publish = () => {
     if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
