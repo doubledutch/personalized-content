@@ -22,5 +22,5 @@ export class TextEditor extends PureComponent {
 
   onChange = e => this.setState({value: e.target.value})
   
-  onBlur = () => this.props.onUpdate(this.props.content, this.props.prop, this.state.value)
+  onBlur = () => this.props.onUpdate(this.props.prop, this.state.value)
 }
