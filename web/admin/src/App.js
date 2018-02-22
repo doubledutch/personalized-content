@@ -9,6 +9,7 @@ import FirebaseConnector from '@doubledutch/firebase-connector'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { TextEditor } from './editors'
+import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 
@@ -54,8 +55,6 @@ export default class App extends PureComponent {
 
       contentRef().on('child_removed', removeContent('content'))
       pendingContentRef().on('child_removed', removeContent('pendingContent'))
-      pendingContentRef().on('child_removed', data =>
-        data.key === this.state.editingContentId && this.setState({editingContentId: null}))
 
       contentRef().on('child_changed', changeContent('content'))
       pendingContentRef().on('child_changed', changeContent('pendingContent'))
@@ -70,17 +69,14 @@ export default class App extends PureComponent {
 
   render() {
     const {pendingContent, lastPublishedAt, editingContentId} = this.state
+    const editingContent = pendingContent.find(c => c.key === editingContentId)
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     if (this.state.homeView) {
     return (
 
       <div className="app">
-        { editingContentId
-          ? <div>
-              <button onClick={() => this.setState({editingContentId: null})}>&lt; Back</button>
-              TODO - Content editor goes here for content ID: "{editingContentId}"
-              <button onClick={() => this.deleteContent(editingContentId)}>Delete</button>
-            </div>
+        { editingContent
+          ? <ContentEditor content={editingContent} onExit={this.stopEditing} onDelete={this.deleteEditingContent} />
           : <div>
               <h1>Custom content</h1>
               <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
@@ -133,20 +129,12 @@ export default class App extends PureComponent {
     )
   }
 
-  showView = () => {
-    var currentState = this.state.homeView
-    this.setState({homeView: !currentState})
-    
-  }
-
   updateList = (list) => {
     this.setState({currentList: list})
   }
 
 
-  viewContent = c => {
-    this.setState({editingContentId: c.key})
-  }
+  viewContent = c => this.setState({editingContentId: c.key})
 
   addNewContent = () => {
     const {pendingContent} = this.state
@@ -154,7 +142,9 @@ export default class App extends PureComponent {
     if (ref.key) this.setState({editingContentId: ref.key})
   }
 
+  stopEditing = () => this.setState({editingContentId: null})
   deleteContent = key => pendingContentRef().child(key).remove()
+  deleteEditingContent = () => this.deleteContent(this.state.editingContentId)
 
   editorFor = c => {
     switch (c.type) {
