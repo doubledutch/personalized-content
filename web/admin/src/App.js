@@ -6,12 +6,15 @@ import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 
 import { TextEditor } from './editors'
+import AllAttendees from './AllAttendees'
+import CurrentContent from './CurrentContent'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 
 export default class App extends PureComponent {
   state = {
+    editingContentId: null,
     content: [],
     pendingContent: []
   }
@@ -47,18 +50,30 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {pendingContent, lastPublishedAt} = this.state
+    const {pendingContent, lastPublishedAt, editingContentId} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
 
     return (
-      <div className="App">
-        <div>
-          <span>{this.lastPublishedText()}</span>
-          { this.hasUnpublishedChanges() ? <span>
-            <button onClick={this.publish}>Publish changes</button>
-            <button onClick={this.discard}>Discard changes</button>
-          </span> : null }
-        </div>
+      <div className="app">
+        { editingContentId
+          ? <div>
+              <button onClick={() => this.setState({editingContentId: null})}>&lt; Back</button>
+              TODO - Content editor goes here for content ID: "{editingContentId}"
+            </div>
+          : <div>
+              <h1>Custom content</h1>
+              <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
+              <CurrentContent content={pendingContent} onView={this.viewContent} />
+              <AllAttendees />
+            </div>
+        }
+
+        <hr/>
+        <span>{this.lastPublishedText()}</span>
+        { this.hasUnpublishedChanges() ? <span>
+          <button onClick={this.publish}>Publish changes</button>
+          <button onClick={this.discard}>Discard changes</button>
+        </span> : null }
         <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
         <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
         <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
@@ -78,6 +93,12 @@ export default class App extends PureComponent {
       </div>
     )
   }
+
+  viewContent = c => {
+    this.setState({editingContentId: c.key})
+  }
+
+  addNewContent = () => {alert('TODO')}
 
   editorFor = c => {
     switch (c.type) {
