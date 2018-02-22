@@ -7,26 +7,31 @@ import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import { TextEditor } from './editors'
+import AllAttendees from './AllAttendees'
+import CurrentContent from './CurrentContent'
+
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 
 export default class App extends PureComponent {
   constructor() {
     super()
-  this.state = {
-    content: [],
-    pendingContent: [],
-    homeView: true,
-    currentContent: '',
-    allUsers: [],
-    currentUsers: []
+    this.state = {
+      editingContentId: null,
+      content: [],
+      pendingContent: [],
+      homeView: true,
+      currentContent: '',
+      allUsers: [],
+      currentUsers: []
+    }
+
+    this.signin = fbc.signinAdmin()
+        .then(user => this.user = user)
+        .catch(err => console.error(err))
   }
-
-  this.signin = fbc.signinAdmin()
-      .then(user => this.user = user)
-      .catch(err => console.error(err))
-
-}
 
   
 
@@ -49,6 +54,8 @@ export default class App extends PureComponent {
 
       contentRef().on('child_removed', removeContent('content'))
       pendingContentRef().on('child_removed', removeContent('pendingContent'))
+      pendingContentRef().on('child_removed', data =>
+        data.key === this.state.editingContentId && this.setState({editingContentId: null}))
 
       contentRef().on('child_changed', changeContent('content'))
       pendingContentRef().on('child_changed', changeContent('pendingContent'))
@@ -62,27 +69,37 @@ export default class App extends PureComponent {
 }
 
   render() {
-    const {pendingContent, lastPublishedAt} = this.state
+    const {pendingContent, lastPublishedAt, editingContentId} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     if (this.state.homeView) {
     return (
-      <div className="App">
-        <div>
-          <span>{this.lastPublishedText()}</span>
-          { this.hasUnpublishedChanges() ? <span>
-            <button onClick={this.publish}>Publish changes</button>
-            <button onClick={this.discard}>Discard changes</button>
-          </span> : null }
-        </div>
-        
-        <button onClick={this.showView} value="homeView">Make New Content</button>
-        <ContentTable
-        pendingContent = {pendingContent}
-        />
-        <AttendeeTable
-        />
-        <ul>{ pendingContent.map(c => (
-          <li key={c.key}>
+
+      <div className="app">
+        { editingContentId
+          ? <div>
+              <button onClick={() => this.setState({editingContentId: null})}>&lt; Back</button>
+              TODO - Content editor goes here for content ID: "{editingContentId}"
+              <button onClick={() => this.deleteContent(editingContentId)}>Delete</button>
+            </div>
+          : <div>
+              <h1>Custom content</h1>
+              <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
+              <CurrentContent content={pendingContent} onView={this.viewContent} />
+              <AllAttendees />
+            </div>
+        }
+
+        <hr/>
+        <span>{this.lastPublishedText()}</span>
+        { this.hasUnpublishedChanges() ? <span>
+          <button onClick={this.publish}>Publish changes</button>
+          <button onClick={this.discard}>Discard changes</button>
+        </span> : null }
+        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
+        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
+        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
+        <ul>
+          { pendingContent.map(c => <li key={c.key}>
             {c.attendeeIds.length
               ? <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: []})}>- attendee</button>
               : <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: [24601]})}>+ attendee</button>
@@ -91,9 +108,9 @@ export default class App extends PureComponent {
               ? <button onClick={() => pendingContentRef().child(c.key).update({tierIds: []})}>- tiers</button>
               : <span><button onClick={() => pendingContentRef().child(c.key).update({tierIds: [42]})}>+ tier</button><button onClick={() => pendingContentRef().child(c.key).update({tierIds: ['default', 42]})}>+ tiers</button></span>
             }
-            {JSON.stringify(c)}
-          </li>
-        ))}</ul>
+            { this.editorFor(c) }
+          </li>)}
+        </ul>
       </div>
     )
   }
@@ -126,6 +143,39 @@ export default class App extends PureComponent {
     this.setState({currentList: list})
   }
 
+
+  viewContent = c => {
+    this.setState({editingContentId: c.key})
+  }
+
+  addNewContent = () => {
+    const {pendingContent} = this.state
+    const ref = pendingContentRef().push({type: 'text', order: pendingContent.length})
+    if (ref.key) this.setState({editingContentId: ref.key})
+  }
+
+  deleteContent = key => pendingContentRef().child(key).remove()
+
+  editorFor = c => {
+    switch (c.type) {
+      case 'text': return <div>
+        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
+        <TextEditor content={c} prop="text" title="Text" onUpdate={this.onUpdate} />
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      case 'web': return <div>
+        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
+        <TextEditor content={c} prop="url" title="URL" onUpdate={this.onUpdate} />
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      case 'survey': return <div>
+        <div>{JSON.stringify(c)}</div>
+      </div>
+      default: return <div />
+    }
+  }
+
+  onUpdate = (component, prop, value) => pendingContentRef().child(component.key).update({[prop]: value})
 
   publish = () => {
     if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
