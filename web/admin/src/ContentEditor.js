@@ -55,12 +55,14 @@ export default class ContentEditor extends PureComponent {
   }
 
   updateList = (value) => {
-    var queryText = value
+    var queryText = value.toLowerCase()
     if (queryText.length > 0){
       var queryResult=[];
       this.props.list.forEach(function(person){
-          if (person.firstName.toLowerCase().indexOf(queryText)!=-1)
+        var fullName = person.firstName + " " + person.lastName
+        if (fullName.toLowerCase().indexOf(queryText)!=-1){
           queryResult.push(person);
+        }
       });
       this.setState({search: true, newList: queryResult})
     }
