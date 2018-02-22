@@ -38,6 +38,8 @@ export default class App extends PureComponent {
 
       contentRef().on('child_removed', removeContent('content'))
       pendingContentRef().on('child_removed', removeContent('pendingContent'))
+      pendingContentRef().on('child_removed', data =>
+        data.key === this.state.editingContentId && this.setState({editingContentId: null}))
 
       contentRef().on('child_changed', changeContent('content'))
       pendingContentRef().on('child_changed', changeContent('pendingContent'))
@@ -59,6 +61,7 @@ export default class App extends PureComponent {
           ? <div>
               <button onClick={() => this.setState({editingContentId: null})}>&lt; Back</button>
               TODO - Content editor goes here for content ID: "{editingContentId}"
+              <button onClick={() => this.deleteContent(editingContentId)}>Delete</button>
             </div>
           : <div>
               <h1>Custom content</h1>
@@ -98,7 +101,13 @@ export default class App extends PureComponent {
     this.setState({editingContentId: c.key})
   }
 
-  addNewContent = () => {alert('TODO')}
+  addNewContent = () => {
+    const {pendingContent} = this.state
+    const ref = pendingContentRef().push({type: 'text', order: pendingContent.length})
+    if (ref.key) this.setState({editingContentId: ref.key})
+  }
+
+  deleteContent = key => pendingContentRef().child(key).remove()
 
   editorFor = c => {
     switch (c.type) {

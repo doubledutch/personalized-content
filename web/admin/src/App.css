@@ -10,6 +10,10 @@ h2 {
   margin-bottom: 0.4em;
 }
 
+button {
+  cursor: pointer;
+}
+
 .button-big {
   display: block;
   margin: 1em 0;
