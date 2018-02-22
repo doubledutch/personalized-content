@@ -1,31 +1,50 @@
 import React, { PureComponent } from 'react'
 import './App.css'
-
+import ContentTable from './ContentTable'
+import AttendeeTable from './AttendeeTable'
+import SelectTable from './SelectTable'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { TextEditor } from './editors'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
+import TextContent from './TextContent'
+import URLContent from './URLContent'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 
 export default class App extends PureComponent {
-  state = {
+  constructor() {
+    super()
+  this.state = {
     editingContentId: null,
     content: [],
-    pendingContent: []
+    pendingContent: [],
+    pendingNewContent: '',
+    homeView: true,
+    currentContent: '',
+    allUsers: [],
+    currentUsers: []
   }
+
+  this.signin = fbc.signinAdmin()
+      .then(user => this.user = user)
+      .catch(err => console.error(err))
+
+}
+
+  
 
   lastPublishedText = () => this.state.lastPublishedAt ? `Last published ${this.state.lastPublishedAt.fromNow()}` : 'Not yet published'
   hasUnpublishedChanges = () => JSON.stringify(this.state.content) !== JSON.stringify(this.state.pendingContent) // Brute force easy way to check deep equality
 
   componentDidMount() {
-    fbc.signinAdmin()
-    .then(user => {
-
+    this.signin.then(() => {
+      client.getUsers().then(users => {
+      this.setState({allUsers: users})
       const addContent = stateKey => data => this.setState(state => (
         {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
       const removeContent = stateKey => data => this.setState(state => (
@@ -49,12 +68,13 @@ export default class App extends PureComponent {
         this.setState({lastPublishedAt: time ? moment(data.val()) : null})
       })
     })
-  }
+  })
+}
 
   render() {
     const {pendingContent, lastPublishedAt, editingContentId} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
-
+    if (this.state.homeView) {
     return (
       <div className="app">
         { editingContentId
@@ -66,6 +86,7 @@ export default class App extends PureComponent {
           : <div>
               <h1>Custom content</h1>
               <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
+              <button onClick={this.showView} value="homeView">Make New Content</button>
               <CurrentContent content={pendingContent} onView={this.viewContent} />
               <AllAttendees />
             </div>
@@ -96,6 +117,52 @@ export default class App extends PureComponent {
       </div>
     )
   }
+    else 
+    var currentList = []
+    if (this.state.currentContent.attendeeIds) {
+      currentList = this.state.currentContent.attendeeIds
+    }
+    return (
+      <div className="App">
+        <SelectTable
+          currentList={currentList}
+          list = {this.state.allUsers}
+          updateList = {this.updateList}
+        />
+        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length, attendeeIds: this.state.currentList})}>+ Text</button>
+        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
+        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
+        {this.renderContent()}
+      </div>
+    )
+  }
+
+  showView = () => {
+    var currentState = this.state.homeView
+    this.setState({homeView: !currentState})
+  }
+
+  updateList = (list) => {
+    this.setState({currentList: list})
+  }
+
+  renderContent = () => {
+    if (this.state.pendingNewContent) {
+    switch (this.state.pendingNewContent.type) {
+
+      case "text" :
+      return (
+        <TextContent/>
+      )
+
+      case "url":
+      return (
+        <URLContent/>
+      )
+    }
+  }
+  }
+
 
   viewContent = c => {
     this.setState({editingContentId: c.key})

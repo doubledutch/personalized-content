@@ -37,6 +37,7 @@ export default class HomeView extends Component {
       userRef().on('value', setContent('attendeeContent'))
       tierRef().on('value', setContent('tierContent'))
     })
+  
   }
 
   render() {
@@ -80,7 +81,7 @@ function renderContentItem(c) {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d9e1f9',
+    backgroundColor: '#F5F5F5',
   },
   scroll: {
     flex: 1,
