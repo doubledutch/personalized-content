@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import TextView from './Text'
 import { TextContent, WebContent, SurveyContent } from './content'
 
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
@@ -18,7 +17,7 @@ export default class HomeView extends Component {
   constructor() {
     super()
 
-    this.state = {componentConfigs: [{type: "TextView"}] }
+    this.state = { }
 
     this.signin = fbc.signin()
       .then(user => this.user = user)
@@ -38,13 +37,12 @@ export default class HomeView extends Component {
       userRef().on('value', setContent('attendeeContent'))
       tierRef().on('value', setContent('tierContent'))
     })
-  
   }
 
   render() {
     return (
       <View style={s.container}>
-        <TitleBar title="" client={client} signin={this.signin} />
+        <TitleBar title="My Content" client={client} signin={this.signin} />
         <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
           { this.renderContent() }
         </ScrollView>

@@ -8,7 +8,7 @@ import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { TextEditor } from './editors'
+import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 
@@ -33,84 +33,67 @@ export default class App extends PureComponent {
         .catch(err => console.error(err))
   }
 
-  
-
   lastPublishedText = () => this.state.lastPublishedAt ? `Last published ${this.state.lastPublishedAt.fromNow()}` : 'Not yet published'
   hasUnpublishedChanges = () => JSON.stringify(this.state.content) !== JSON.stringify(this.state.pendingContent) // Brute force easy way to check deep equality
 
   componentDidMount() {
     this.signin.then(() => {
       client.getUsers().then(users => {
-      this.setState({allUsers: users})
-      const addContent = stateKey => data => this.setState(state => (
-        {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
-      const removeContent = stateKey => data => this.setState(state => (
-        {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
-      const changeContent = stateKey => data => this.setState(state => (
-        {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
+        this.setState({allUsers: users})
+        const addContent = stateKey => data => this.setState(state => (
+          {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
+        const removeContent = stateKey => data => this.setState(state => (
+          {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
+        const changeContent = stateKey => data => this.setState(state => (
+          {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
 
-      contentRef().on('child_added', addContent('content'))
-      pendingContentRef().on('child_added', addContent('pendingContent'))
+        contentRef().on('child_added', addContent('content'))
+        pendingContentRef().on('child_added', addContent('pendingContent'))
 
-      contentRef().on('child_removed', removeContent('content'))
-      pendingContentRef().on('child_removed', removeContent('pendingContent'))
-      pendingContentRef().on('child_removed', data =>
-        data.key === this.state.editingContentId && this.setState({editingContentId: null}))
+        contentRef().on('child_removed', removeContent('content'))
+        pendingContentRef().on('child_removed', removeContent('pendingContent'))
 
-      contentRef().on('child_changed', changeContent('content'))
-      pendingContentRef().on('child_changed', changeContent('pendingContent'))
+        contentRef().on('child_changed', changeContent('content'))
+        pendingContentRef().on('child_changed', changeContent('pendingContent'))
 
-      lastPublishedAtRef().on('value', data => {
-        const time = data.val()
-        this.setState({lastPublishedAt: time ? moment(data.val()) : null})
+        lastPublishedAtRef().on('value', data => {
+          const time = data.val()
+          this.setState({lastPublishedAt: time ? moment(data.val()) : null})
+        })
       })
     })
-  })
-}
+  }
+
+  editingContent = () => this.state.pendingContent.find(c => c.key === this.state.editingContentId)
 
   render() {
     const {pendingContent, lastPublishedAt, editingContentId} = this.state
+    const editingContent = this.editingContent()
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     if (this.state.homeView) {
     return (
 
       <div className="app">
-        { editingContentId
-          ? <div>
-              <button onClick={() => this.setState({editingContentId: null})}>&lt; Back</button>
-              TODO - Content editor goes here for content ID: "{editingContentId}"
-              <button onClick={() => this.deleteContent(editingContentId)}>Delete</button>
-            </div>
+        { editingContent
+          ? <ContentEditor
+              content={editingContent}
+              onExit={this.stopEditing}
+              onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+              onDelete={this.deleteEditingContent} />
           : <div>
               <h1>Custom content</h1>
+              <div>
+                {this.lastPublishedText()}
+                { this.hasUnpublishedChanges() ? <span>
+                    <button onClick={this.publish}>Publish changes</button>
+                    <button onClick={this.discard}>Discard changes</button>
+                  </span> : null }
+              </div>
               <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
               <CurrentContent content={pendingContent} onView={this.viewContent} />
               <AllAttendees />
             </div>
         }
-
-        <hr/>
-        <span>{this.lastPublishedText()}</span>
-        { this.hasUnpublishedChanges() ? <span>
-          <button onClick={this.publish}>Publish changes</button>
-          <button onClick={this.discard}>Discard changes</button>
-        </span> : null }
-        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length})}>+ Text</button>
-        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
-        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
-        <ul>
-          { pendingContent.map(c => <li key={c.key}>
-            {c.attendeeIds.length
-              ? <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: []})}>- attendee</button>
-              : <button onClick={() => pendingContentRef().child(c.key).update({attendeeIds: [24601]})}>+ attendee</button>
-            }
-            {c.tierIds.length
-              ? <button onClick={() => pendingContentRef().child(c.key).update({tierIds: []})}>- tiers</button>
-              : <span><button onClick={() => pendingContentRef().child(c.key).update({tierIds: [42]})}>+ tier</button><button onClick={() => pendingContentRef().child(c.key).update({tierIds: ['default', 42]})}>+ tiers</button></span>
-            }
-            { this.editorFor(c) }
-          </li>)}
-        </ul>
       </div>
     )
   }
@@ -133,20 +116,12 @@ export default class App extends PureComponent {
     )
   }
 
-  showView = () => {
-    var currentState = this.state.homeView
-    this.setState({homeView: !currentState})
-    
-  }
-
   updateList = (list) => {
     this.setState({currentList: list})
   }
 
 
-  viewContent = c => {
-    this.setState({editingContentId: c.key})
-  }
+  viewContent = c => this.setState({editingContentId: c.key})
 
   addNewContent = () => {
     const {pendingContent} = this.state
@@ -154,28 +129,11 @@ export default class App extends PureComponent {
     if (ref.key) this.setState({editingContentId: ref.key})
   }
 
+  stopEditing = () => this.setState({editingContentId: null})
   deleteContent = key => pendingContentRef().child(key).remove()
+  deleteEditingContent = () => this.deleteContent(this.state.editingContentId)
 
-  editorFor = c => {
-    switch (c.type) {
-      case 'text': return <div>
-        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
-        <TextEditor content={c} prop="text" title="Text" onUpdate={this.onUpdate} />
-        <div>{JSON.stringify(c)}</div>
-      </div>
-      case 'web': return <div>
-        <TextEditor content={c} prop="title" title="Title" onUpdate={this.onUpdate} />
-        <TextEditor content={c} prop="url" title="URL" onUpdate={this.onUpdate} />
-        <div>{JSON.stringify(c)}</div>
-      </div>
-      case 'survey': return <div>
-        <div>{JSON.stringify(c)}</div>
-      </div>
-      default: return <div />
-    }
-  }
-
-  onUpdate = (component, prop, value) => pendingContentRef().child(component.key).update({[prop]: value})
+  onUpdate = (contentItem, prop, value) => pendingContentRef().child(contentItem.key).update({[prop]: value})
 
   publish = () => {
     if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
