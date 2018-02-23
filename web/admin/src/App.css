@@ -96,6 +96,24 @@
   height: 40px;
 } */
 
+.buttonsBox {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.typeButton {
+  height: 60px;	
+  width: 400px;	
+  border: 1px solid #979797;	
+  border-radius: 4px;	
+  margin: 5px;
+  font-size: 20px;
+  color: #4A4A4A;
+  text-align: left;
+  padding-left: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 h1 {
   font-size: 1.5em;
   font-weight: normal;
