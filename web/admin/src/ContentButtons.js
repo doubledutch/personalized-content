@@ -10,12 +10,8 @@ class ContentButtons extends Component {
       color: "#AEAEAE"
     }
   }
-
-
-
-// {JSON.stringify(c)}
   render() {
-    const types = [ "Web Page", "Plain Text", "External API", "Survey"]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "test"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
     return (
       <div>
         <h2>Select Content Type</h2>
@@ -24,13 +20,7 @@ class ContentButtons extends Component {
             types.map((type, i) => (
               this.renderButton(type, i)
             ))
-
           }
-          
-          {/* <button className="typeButton" style={{backgroundColor: this.state.color}} name="web" id="button1" onClick={this.updateCell}>Web Page</button>
-          <button className="typeButton" style={{backgroundColor: this.state.color}} onClick={this.updateCell}>Plain Text</button>
-          <button className="typeButton" style={{backgroundColor: "#FFFFFF"}} onClick={this.updateCell}>External API</button>
-          <button className="typeButton" style={{backgroundColor: "#FFFFFF"}} onClick={this.updateCell}>Survey</button> */}
         </span>
       </div>
     )
@@ -42,7 +32,7 @@ class ContentButtons extends Component {
       color = this.state.color
     }
     return (
-      <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type} onClick={this.updateCell}>{type}</button>
+      <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>{type.name}</button>
     )
 
   }
