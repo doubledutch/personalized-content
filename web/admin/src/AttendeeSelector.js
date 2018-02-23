@@ -12,6 +12,7 @@ export default class AttendeeSelector extends PureComponent {
   }
 
   renderTable = () => {
+    const {content} = this.props
     let list = this.props.allUsers
     if (this.state.search){
       list = this.state.newList
@@ -25,6 +26,16 @@ export default class AttendeeSelector extends PureComponent {
             this.selectAttendee(c)))}
           </ul>
         </span>
+        <div>
+          {content.attendeeIds.length
+            ? <button onClick={this.removeAllAttendeeIds}>- attendee</button>
+            : <button onClick={() => this.addAttendeeId(24601)}>+ attendee</button>
+          }
+          {content.tierIds.length
+            ? <button onClick={this.removeAllTierIds}>- tiers</button>
+            : <span><button onClick={() => this.addTierId(42)}>+ tier 42</button><button onClick={() => this.addTierId('default')}>+ default tier</button></span>
+          }
+        </div>
       </div>
     )
   }

@@ -17,16 +17,6 @@ export default class ContentEditor extends PureComponent {
         </div>
         <div>TODO - Content editor goes here for content w/ key: "{key}"</div>
         <AttendeeSelector content={content} onUpdate={onUpdate} allUsers={this.props.allUsers} />
-        <div>
-          {content.attendeeIds.length
-            ? <button onClick={this.removeAllAttendeeIds}>- attendee</button>
-            : <button onClick={() => this.addAttendeeId(24601)}>+ attendee</button>
-          }
-          {content.tierIds.length
-            ? <button onClick={this.removeAllTierIds}>- tiers</button>
-            : <span><button onClick={() => this.addTierId(42)}>+ tier 42</button><button onClick={() => this.addTierId('default')}>+ default tier</button></span>
-          }
-        </div>
         { this.editorFor(content) }
       </div>
     )
