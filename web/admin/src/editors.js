@@ -9,13 +9,12 @@ export class TextEditor extends PureComponent {
   }
 
   render() {
-    const {title} = this.props
+    const {title, placeholder} = this.props
 
     return (
-      <div>
-        <label>
-          {title} <input type="text" value={this.state.value} onChange={this.onChange} onBlur={this.onBlur} />
-        </label>
+      <div className="contentBox">
+        <h3>{title}</h3>
+          <input className="textInput" type="text" value={this.state.value} onChange={this.onChange} onBlur={this.onBlur} placeholder={placeholder}/>
       </div>
     )
   }

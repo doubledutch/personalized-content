@@ -101,6 +101,26 @@
   flex-flow: column wrap;
 }
 
+.homeBox {
+  margin-top: 40px;
+}
+
+.contentBox {
+  margin-top: 20px;
+}
+
+.textInput {
+  height: 50px;
+  width: 500px;
+  border: 1px solid #AEAEAE;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  font-size: 18px;
+  padding-left: 10px;
+  
+}
+
+
 .typeButton {
   height: 60px;	
   width: 400px;	
@@ -122,6 +142,12 @@ h1 {
 
 h2 {
   font-size: 1.2em;
+  font-weight: normal;
+  margin-bottom: 0.4em;
+}
+
+h3 {
+  font-size: 1.0em;
   font-weight: normal;
   margin-bottom: 0.4em;
 }

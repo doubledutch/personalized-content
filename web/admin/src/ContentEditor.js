@@ -13,13 +13,12 @@ export default class ContentEditor extends PureComponent {
     return (
       <div>
         <div>
-          <button onClick={onExit}>&lt; Back</button>
           <button onClick={onDelete}>Delete</button>
         </div>
         <div>TODO - Content editor goes here for content w/ key: "{key}"</div>
         <AttendeeSelector content={content} onUpdate={onUpdate} allUsers={this.props.allUsers} />
         <ContentButtons content={content} onUpdate={onUpdate}/>
-        <ContentDetailsEditor content={content} onUpdate={onUpdate} />
+        <ContentDetailsEditor content={content} onSave={onExit} onUpdate={onUpdate} />
       </div>
     )
   }

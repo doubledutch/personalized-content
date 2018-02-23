@@ -31,9 +31,9 @@ class ContentButtons extends Component {
 
 
   updateCell = (event) => {
-  const {onUpdate, content} = this.props
-  var name = event.target.name
-  onUpdate("type", name)
+    const {onUpdate, content} = this.props
+    var name = event.target.name
+    onUpdate("type", name)
   }
 }
 

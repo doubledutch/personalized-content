@@ -111,7 +111,7 @@ export default class App extends PureComponent {
 
   addNewContent = () => {
     const {pendingContent} = this.state
-    const ref = pendingContentRef().push({type: 'text', order: pendingContent.length})
+    const ref = pendingContentRef().push({type: '', order: pendingContent.length})
     if (ref.key) this.setState({editingContentId: ref.key})
   }
 
