@@ -22,8 +22,7 @@ export default class App extends PureComponent {
       pendingContent: [],
       homeView: true,
       currentContent: '',
-      allUsers: [],
-      currentUsers: []
+      allUsers: []
     }
 
     this.signin = fbc.signinAdmin()
@@ -39,6 +38,9 @@ export default class App extends PureComponent {
       client.getUsers().then(users => {
         this.setState({allUsers: users})
       })
+
+      client.getTiers().then(tiers => this.setState({tiers}))
+      client.getAttendeeGroups().then(groups => this.setState({groups}))
 
       const addContent = stateKey => data => this.setState(state => (
         {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
@@ -91,6 +93,8 @@ export default class App extends PureComponent {
               <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
               <CurrentContent content={pendingContent} onView={this.viewContent} />
               <AllAttendees />
+              <div>Tiers: {JSON.stringify(this.state.tiers)}</div>
+              <div>Attendee Groups: {JSON.stringify(this.state.groups)}</div>
             </div>
         }
       </div>
