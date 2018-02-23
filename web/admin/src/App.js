@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react'
 import './App.css'
 import ContentTable from './ContentTable'
 import AttendeeTable from './AttendeeTable'
-import SelectTable from './SelectTable'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
@@ -25,7 +23,8 @@ export default class App extends PureComponent {
       homeView: true,
       currentContent: '',
       allUsers: [],
-      currentUsers: []
+      currentUsers: [],
+      search: false
     }
 
     this.signin = fbc.signinAdmin()
@@ -70,14 +69,15 @@ export default class App extends PureComponent {
     const {pendingContent, lastPublishedAt, editingContentId} = this.state
     const editingContent = this.editingContent()
     if (lastPublishedAt === undefined) return <div>Loading...</div>
-    if (this.state.homeView) {
     return (
 
       <div className="app">
         { editingContent
-          ? <ContentEditor
+          ? 
+          <ContentEditor
               content={editingContent}
               onExit={this.stopEditing}
+              list = {this.state.allUsers}
               onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
               onDelete={this.deleteEditingContent} />
           : <div>
@@ -94,24 +94,6 @@ export default class App extends PureComponent {
               <AllAttendees />
             </div>
         }
-      </div>
-    )
-  }
-    else 
-    var currentList = []
-    if (this.state.currentContent.attendeeIds) {
-      currentList = this.state.currentContent.attendeeIds
-    }
-    return (
-      <div className="App">
-        <SelectTable
-          currentList={currentList}
-          list = {this.state.allUsers}
-          updateList = {this.updateList}
-        />
-        <button onClick={() => pendingContentRef().push({type: 'text', title: 'Title', text: 'Sample text', order: pendingContent.length, attendeeIds: this.state.currentList})}>+ Text</button>
-        <button onClick={() => pendingContentRef().push({type: 'web', title: 'Title', url: 'https://doubledutch.me', order: pendingContent.length})}>+ Web</button>
-        <button onClick={() => pendingContentRef().push({type: 'survey', surveyId: 42, order: pendingContent.length})}>+ Survey</button>
       </div>
     )
   }
