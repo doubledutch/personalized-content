@@ -6,6 +6,7 @@ import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
@@ -69,34 +70,43 @@ export default class App extends PureComponent {
 
   render() {
     const {pendingContent, lastPublishedAt, editingContentId} = this.state
-    const editingContent = this.editingContent()
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
-
       <div className="app">
-        { editingContent
-          ? <ContentEditor
-              content={editingContent}
-              onExit={this.stopEditing}
-              list={this.state.allUsers}
-              onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
-              onDelete={this.deleteEditingContent} />
-          : <div>
-              <h1>Custom content</h1>
+        <Router>
+          <div>
+            <Route exact path="/" render={() => (
               <div>
-                {this.lastPublishedText()}
-                { this.hasUnpublishedChanges() ? <span>
-                    <button onClick={this.publish}>Publish changes</button>
-                    <button onClick={this.discard}>Discard changes</button>
-                  </span> : null }
+                <h1>Custom content</h1>
+                <div>
+                  {this.lastPublishedText()}
+                  { this.hasUnpublishedChanges() ? <span>
+                      <button onClick={this.publish}>Publish changes</button>
+                      <button onClick={this.discard}>Discard changes</button>
+                    </span> : null }
+                </div>
+                <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
+                <CurrentContent content={pendingContent} onView={this.viewContent} />
+                <AllAttendees />
+                <div>Tiers: {JSON.stringify(this.state.tiers)}</div>
+                <div>Attendee Groups: {JSON.stringify(this.state.groups)}</div>
               </div>
-              <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
-              <CurrentContent content={pendingContent} onView={this.viewContent} />
-              <AllAttendees />
-              <div>Tiers: {JSON.stringify(this.state.tiers)}</div>
-              <div>Attendee Groups: {JSON.stringify(this.state.groups)}</div>
-            </div>
-        }
+            )} />
+            <Route exact path="/content/:contentId" render={({match}) => {
+              const {contentId} = match.params
+              const editingContent = this.state.pendingContent.find(c => c.key === contentId)
+              if (!editingContent) return <Redirect to="/" />
+              return (
+                <ContentEditor
+                  content={editingContent}
+                  onExit={this.stopEditing}
+                  allUsers={this.state.allUsers}
+                  onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+                  onDelete={this.deleteEditingContent} />
+              )
+            }} />
+          </div>
+        </Router>
       </div>
     )
   }
