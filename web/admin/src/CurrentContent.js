@@ -11,7 +11,7 @@ export default class CurrentContent extends PureComponent {
           { content.map(c => <li key={c.key}>
             <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
             <span className="current-content__title">{titleFor(c)}</span>
-            <Link to={`/content/${c.key}`} className="current-content__view">View</Link>
+            <a onClick={() => onView(c)} href={`#/content/${c.key}`} className="current-content__view">View</a>
           </li>)}
         </ul>
       </div>

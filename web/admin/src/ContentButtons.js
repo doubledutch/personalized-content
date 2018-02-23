@@ -3,15 +3,8 @@ import './App.css'
 import client from '@doubledutch/admin-client'
 
 class ContentButtons extends Component {
-  constructor(props) {
-    super()
-    this.state = {
-      currentType: '',
-      color: "#AEAEAE"
-    }
-  }
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "test"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
     return (
       <div>
         <h2>Select Content Type</h2>
@@ -28,21 +21,19 @@ class ContentButtons extends Component {
 
   renderButton = (type, i) => {
     var color = "#FFFFFF"
-    if (type === this.state.currentType){
-      color = this.state.color
+    if (type.type === this.props.content.type){
+      color = "#AEAEAE"
     }
     return (
       <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>{type.name}</button>
     )
-
   }
 
 
   updateCell = (event) => {
   const {onUpdate, content} = this.props
   var name = event.target.name
-  this.setState({currentType: name})
-  onUpdate(content, "type", name)
+  onUpdate("type", name)
   }
 }
 
