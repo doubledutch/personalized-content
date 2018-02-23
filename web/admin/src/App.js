@@ -23,13 +23,12 @@ export default class App extends PureComponent {
       homeView: true,
       currentContent: '',
       allUsers: [],
-      currentUsers: [],
-      search: false
+      currentUsers: []
     }
 
     this.signin = fbc.signinAdmin()
-        .then(user => this.user = user)
-        .catch(err => console.error(err))
+      .then(user => this.user = user)
+      .catch(err => console.error(err))
   }
 
   lastPublishedText = () => this.state.lastPublishedAt ? `Last published ${this.state.lastPublishedAt.fromNow()}` : 'Not yet published'
@@ -39,26 +38,27 @@ export default class App extends PureComponent {
     this.signin.then(() => {
       client.getUsers().then(users => {
         this.setState({allUsers: users})
-        const addContent = stateKey => data => this.setState(state => (
-          {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
-        const removeContent = stateKey => data => this.setState(state => (
-          {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
-        const changeContent = stateKey => data => this.setState(state => (
-          {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
+      })
 
-        contentRef().on('child_added', addContent('content'))
-        pendingContentRef().on('child_added', addContent('pendingContent'))
+      const addContent = stateKey => data => this.setState(state => (
+        {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
+      const removeContent = stateKey => data => this.setState(state => (
+        {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
+      const changeContent = stateKey => data => this.setState(state => (
+        {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
 
-        contentRef().on('child_removed', removeContent('content'))
-        pendingContentRef().on('child_removed', removeContent('pendingContent'))
+      contentRef().on('child_added', addContent('content'))
+      pendingContentRef().on('child_added', addContent('pendingContent'))
 
-        contentRef().on('child_changed', changeContent('content'))
-        pendingContentRef().on('child_changed', changeContent('pendingContent'))
+      contentRef().on('child_removed', removeContent('content'))
+      pendingContentRef().on('child_removed', removeContent('pendingContent'))
 
-        lastPublishedAtRef().on('value', data => {
-          const time = data.val()
-          this.setState({lastPublishedAt: time ? moment(data.val()) : null})
-        })
+      contentRef().on('child_changed', changeContent('content'))
+      pendingContentRef().on('child_changed', changeContent('pendingContent'))
+
+      lastPublishedAtRef().on('value', data => {
+        const time = data.val()
+        this.setState({lastPublishedAt: time ? moment(data.val()) : null})
       })
     })
   }
@@ -73,11 +73,10 @@ export default class App extends PureComponent {
 
       <div className="app">
         { editingContent
-          ? 
-          <ContentEditor
+          ? <ContentEditor
               content={editingContent}
               onExit={this.stopEditing}
-              list = {this.state.allUsers}
+              list={this.state.allUsers}
               onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
               onDelete={this.deleteEditingContent} />
           : <div>
