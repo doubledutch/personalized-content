@@ -78,7 +78,7 @@ export default class App extends PureComponent {
           ? <ContentEditor
               content={editingContent}
               onExit={this.stopEditing}
-              list={this.state.allUsers}
+              allUsers={this.state.allUsers}
               onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
               onDelete={this.deleteEditingContent} />
           : <div>
