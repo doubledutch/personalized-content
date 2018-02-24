@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default class CurrentContent extends PureComponent {
   render() {
-    const {content, onView} = this.props
+    const {content} = this.props
     return (
       <div className="current-content">
         <h2>Current Content</h2>
