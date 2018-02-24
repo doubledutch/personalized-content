@@ -113,7 +113,8 @@ button {
 }
 
 .button-big {
-  display: block;
+  display: inline-block;
+  text-decoration: none;
   margin: 1em 0;
   background-color: #299fca;
   font-size: 1.2em;
@@ -121,6 +122,14 @@ button {
   padding: 0.8em 1.2em;
   border-radius: 4px;
   border: 0;
+}
+
+.button-big:last-of-type {
+  margin-right: 1em;
+}
+
+.button-big.red {
+  background-color: #be0000;
 }
 
 .current-content {

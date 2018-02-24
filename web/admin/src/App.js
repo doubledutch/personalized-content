@@ -18,7 +18,6 @@ export default class App extends PureComponent {
   constructor() {
     super()
     this.state = {
-      editingContentId: null,
       content: [],
       pendingContent: [],
       homeView: true,
@@ -66,16 +65,14 @@ export default class App extends PureComponent {
     })
   }
 
-  editingContent = () => this.state.pendingContent.find(c => c.key === this.state.editingContentId)
-
   render() {
-    const {pendingContent, lastPublishedAt, editingContentId} = this.state
+    const {groups, pendingContent, lastPublishedAt, tiers} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
         <Router>
           <div>
-            <Route exact path="/" render={() => (
+            <Route exact path="/" render={({history}) => (
               <div>
                 <h1>Custom content</h1>
                 <div>
@@ -85,11 +82,9 @@ export default class App extends PureComponent {
                       <button onClick={this.discard}>Discard changes</button>
                     </span> : null }
                 </div>
-                <button className="button-big" onClick={this.addNewContent}>Add New Content</button>
-                <CurrentContent content={pendingContent} onView={this.viewContent} />
+                <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
+                <CurrentContent content={pendingContent} />
                 <AllAttendees />
-                <div>Tiers: {JSON.stringify(this.state.tiers)}</div>
-                <div>Attendee Groups: {JSON.stringify(this.state.groups)}</div>
               </div>
             )} />
             <Route exact path="/content/:contentId" render={({match}) => {
@@ -99,10 +94,11 @@ export default class App extends PureComponent {
               return (
                 <ContentEditor
                   content={editingContent}
-                  onExit={this.stopEditing}
                   allUsers={this.state.allUsers}
+                  groups={groups}
+                  tiers={tiers}
                   onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
-                  onDelete={this.deleteEditingContent} />
+                  onDelete={() => this.deleteContent(editingContent.key)} />
               )
             }} />
           </div>
@@ -115,20 +111,21 @@ export default class App extends PureComponent {
     this.setState({currentList: list})
   }
 
-
-  viewContent = c => this.setState({editingContentId: c.key})
-
-  addNewContent = () => {
+  addNewContent = ({history}) => {
     const {pendingContent} = this.state
     const ref = pendingContentRef().push({type: 'text', order: pendingContent.length})
-    if (ref.key) this.setState({editingContentId: ref.key})
+    history.push(`/content/${ref.key}`)
   }
 
   stopEditing = () => this.setState({editingContentId: null})
   deleteContent = key => pendingContentRef().child(key).remove()
-  deleteEditingContent = () => this.deleteContent(this.state.editingContentId)
 
-  onUpdate = (contentItem, prop, value) => pendingContentRef().child(contentItem.key).update({[prop]: value})
+  onUpdate = (contentItem, prop, value) => {
+    if (contentItem[prop] != value) {
+      if (value === undefined) value = null
+      pendingContentRef().child(contentItem.key).update({[prop]: value})
+    }
+  }
 
   publish = () => {
     if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
