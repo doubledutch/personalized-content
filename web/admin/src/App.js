@@ -66,7 +66,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {pendingContent, lastPublishedAt} = this.state
+    const {groups, pendingContent, lastPublishedAt, tiers} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
@@ -85,8 +85,6 @@ export default class App extends PureComponent {
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
                 <CurrentContent content={pendingContent} />
                 <AllAttendees />
-                <div>Tiers: {JSON.stringify(this.state.tiers)}</div>
-                <div>Attendee Groups: {JSON.stringify(this.state.groups)}</div>
               </div>
             )} />
             <Route exact path="/content/:contentId" render={({match}) => {
@@ -97,6 +95,8 @@ export default class App extends PureComponent {
                 <ContentEditor
                   content={editingContent}
                   allUsers={this.state.allUsers}
+                  groups={groups}
+                  tiers={tiers}
                   onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
                   onDelete={() => this.deleteContent(editingContent.key)} />
               )
