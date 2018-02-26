@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
-import client from '@doubledutch/admin-client'
 
-class TextContent extends Component {
+export default class TextContent extends Component {
   constructor(props) {
     super()
     this.state = {
     }
   }
-
 
   render() {
     return (
@@ -22,7 +20,4 @@ class TextContent extends Component {
       </div>
     )
   }
-
 }
-
-export default TextContent
