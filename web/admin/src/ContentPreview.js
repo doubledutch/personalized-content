@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { TextEditor } from './editors'
 
 export default class ContentPreview extends PureComponent {
 

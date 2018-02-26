@@ -12,7 +12,6 @@ export default class ContentEditor extends PureComponent {
   }
   render() {
     const {content, groups, onDelete, onUpdate, tiers} = this.props
-    const {key} = content
     return (
       <div>
         <div>
@@ -21,11 +20,9 @@ export default class ContentEditor extends PureComponent {
         </div>
         <AttendeeSelector content={content} onUpdate={onUpdate} allUsers={this.props.allUsers} groups={groups} tiers={tiers} />
         <div>
-        <span>
-        <ContentButtons content={content} onUpdate={onUpdate}/>
-        <ContentDetailsEditor content={content} onUpdate={onUpdate} />
-        </span>
-        <span>
+          <span>
+            <ContentButtons content={content} onUpdate={onUpdate}/>
+            <ContentDetailsEditor content={content} onUpdate={onUpdate} />
           </span>
         </div>
       </div>

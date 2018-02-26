@@ -1,11 +1,8 @@
 import React, { PureComponent } from 'react'
 import './App.css'
-import ContentTable from './ContentTable'
-import AttendeeTable from './AttendeeTable'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
@@ -122,7 +119,7 @@ export default class App extends PureComponent {
   deleteContent = key => pendingContentRef().child(key).remove()
 
   onUpdate = (contentItem, prop, value) => {
-    if (contentItem[prop] != value) {
+    if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       pendingContentRef().child(contentItem.key).update({[prop]: value})
     }
