@@ -19,13 +19,15 @@ export default class AttendeeSelector extends PureComponent {
     }
     return (
       <div>
-        <p>Who should receive this content?</p>
+        <p>Select Attendees</p>
         <SearchBar updateList={this.updateList}/>
         <span className="leftContainer">
           <ul className="formBox">{ list.map(c => (
             this.selectAttendee(c)))}
           </ul>
         </span>
+        <div>Tiers: {JSON.stringify(this.props.tiers)}</div>
+        <div>Attendee Groups: {JSON.stringify(this.props.groups)}</div>
         <div>
           {content.attendeeIds.length
             ? <button onClick={this.removeAllAttendeeIds}>- attendee</button>

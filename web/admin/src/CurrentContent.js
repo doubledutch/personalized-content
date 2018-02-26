@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default class CurrentContent extends PureComponent {
   render() {
-    const {content, onView} = this.props
+    const {content} = this.props
     return (
       <div className="current-content">
         <h2>Current Content</h2>
@@ -11,7 +11,7 @@ export default class CurrentContent extends PureComponent {
           { content.map(c => <li key={c.key}>
             <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
             <span className="current-content__title">{titleFor(c)}</span>
-            <a onClick={() => onView(c)} href={`#/content/${c.key}`} className="current-content__view">View</a>
+            {/* <a onClick={() => onView(c)} href={`#/content/${c.key}`} className="current-content__view">View</a> */}
           </li>)}
         </ul>
       </div>
