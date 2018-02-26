@@ -21,12 +21,12 @@ export default class ContentEditor extends PureComponent {
         </div>
         <AttendeeSelector content={content} onUpdate={onUpdate} allUsers={this.props.allUsers} groups={groups} tiers={tiers} />
         <div>
-        <span>
-        <ContentButtons content={content} onUpdate={onUpdate}/>
-        <ContentDetailsEditor content={content} onUpdate={onUpdate} />
-        </span>
-        <span>
-          </span>
+          <div className="editorBox">
+            <ContentButtons content={content} onUpdate={onUpdate}/>
+            <ContentPreview content={content}/>
+          </div>
+          <ContentDetailsEditor content={content} onUpdate={onUpdate} />
+          
         </div>
       </div>
     )

@@ -6,7 +6,7 @@ class ContentButtons extends Component {
   render() {
     const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
     return (
-      <div>
+      <span>
         <h2>Select Content Type</h2>
         <span className="buttonsBox">
           {
@@ -15,7 +15,7 @@ class ContentButtons extends Component {
             ))
           }
         </span>
-      </div>
+      </span>
     )
   }
 

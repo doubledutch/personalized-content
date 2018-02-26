@@ -78,6 +78,18 @@
   background-color: white;
 }
 
+.phoneBox {
+  margin: 20px;
+  width: 300px;
+  background-color: lightgrey;
+  height: 300px;
+}
+
+.editorBox {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 
 .inputTitle{
   font-size: 14px;
@@ -111,6 +123,7 @@
 .buttonsBox {
   display: flex;
   flex-flow: column wrap;
+  margin-right: 100px;
 }
 
 .homeBox {

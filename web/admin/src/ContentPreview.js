@@ -7,7 +7,7 @@ export default class ContentPreview extends PureComponent {
     const {content} = this.props
     
     return (
-      <div>
+      <div className="phoneBox">
         { this.editorFor(content) }
       
       </div>
@@ -19,8 +19,10 @@ export default class ContentPreview extends PureComponent {
       case 'text': return <div>
        
       </div>
-      case 'web': return <div>
-       
+      case 'web': return <div style={{flex:1}}>
+      <iframe src="https://www.google.com" style="border:2px solid grey;></iframe>
+
+       {/* <WebView autosize={true} src="http://www.google.com" /> */}
       </div>
       case 'api': return <div>
      
