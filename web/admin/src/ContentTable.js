@@ -22,7 +22,6 @@ class ContentTable extends Component {
     )
 }
 
-// {JSON.stringify(c)}
   render() {
     return (
       <div>
