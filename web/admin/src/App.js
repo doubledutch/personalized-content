@@ -69,6 +69,7 @@ export default class App extends PureComponent {
     const {groups, pendingContent, lastPublishedAt, tiers} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
+
       <div className="app">
         <Router>
           <div>
