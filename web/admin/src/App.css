@@ -68,7 +68,7 @@
 
 .phoneBox {
   margin: 20px;
-  width: 300px;
+  width: 318px;
   background-color: lightgrey;
   height: 300px;
 }
@@ -76,6 +76,33 @@
 .editorBox {
   display: flex;
   flex-flow: row wrap;
+}
+
+.textCell {
+  display:flex;
+  flex-flow: column wrap;
+  border: solid;
+  border-width: 1px;
+  border-color: darkgrey;
+  background-color: white;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top:55px;
+  margin-left: 15px;
+  margin-right: 15px;
+
+}
+
+.webCell {
+  border: solid;
+  border-width: 1px;
+  border-color: darkgrey;
+  background-color: white;
+  margin-top:55px;
+  margin-left: 15px;
+  margin-right: 15px;
+
 }
 
 
