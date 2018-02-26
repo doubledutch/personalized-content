@@ -19,7 +19,7 @@ export default class AttendeeSelector extends PureComponent {
     }
     return (
       <div>
-        <p>Select Attendees</p>
+        <h2>Select Attendees</h2>
         <SearchBar updateList={this.updateList}/>
         <span className="leftContainer">
           <ul className="formBox">{ list.map(c => (
@@ -48,7 +48,7 @@ export default class AttendeeSelector extends PureComponent {
       var queryResult=[];
       this.props.list.forEach(function(person){
         var fullName = person.firstName + " " + person.lastName
-        if (fullName.toLowerCase().indexOf(queryText)!=-1){
+        if (fullName.toLowerCase().indexOf(queryText) >= 0){
           queryResult.push(person);
         }
       });

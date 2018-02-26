@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { TextEditor } from './editors'
 
 export default class ContentPreview extends PureComponent {
 
@@ -20,9 +19,8 @@ export default class ContentPreview extends PureComponent {
        
       </div>
       case 'web': return <div style={{flex:1}}>
-      <iframe src="https://www.google.com" style="border:2px solid grey;></iframe>
+      <iframe src={c.url} title="webview" ></iframe>
 
-       {/* <WebView autosize={true} src="http://www.google.com" /> */}
       </div>
       case 'api': return <div>
      

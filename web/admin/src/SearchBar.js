@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import client from '@doubledutch/admin-client'
 
-class SearchBar extends Component {
+export default class SearchBar extends Component {
   constructor(props) {
     super()
     this.state = {
@@ -24,10 +22,3 @@ class SearchBar extends Component {
     )
   }
 }
-
-
-
-
-
-
-export default SearchBar

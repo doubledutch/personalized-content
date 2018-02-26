@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import client from '@doubledutch/admin-client'
 
-class ContentButtons extends Component {
+export default class ContentButtons extends Component {
   render() {
     const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
     return (
@@ -29,14 +27,9 @@ class ContentButtons extends Component {
     )
   }
 
-
   updateCell = (event) => {
-    const {onUpdate, content} = this.props
+    const {onUpdate} = this.props
     var name = event.target.name
     onUpdate("type", name)
   }
 }
-
-
-
-export default ContentButtons

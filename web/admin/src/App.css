@@ -22,18 +22,6 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.formBox{
-  width:  100%;
-  height: 100%;
-  padding: 0px;
-  margin: 0px;
-  flex: 1;
-  
-  flex-direction: row wrap;
-  overflow: scroll;
-  
-}
-
 .checkBox {
   margin-top: 15px;
   height: 15px;
@@ -116,10 +104,6 @@
   /* padding: 20px; */
 }
 
-/* .listItem {
-  height: 40px;
-} */
-
 .buttonsBox {
   display: flex;
   flex-flow: column wrap;
@@ -159,7 +143,6 @@
   color: #4A4A4A;
   text-align: left;
   padding-left: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 h1 {
@@ -170,12 +153,6 @@ h1 {
 
 h2 {
   font-size: 1.2em;
-  font-weight: normal;
-  margin-bottom: 0.4em;
-}
-
-h3 {
-  font-size: 1.0em;
   font-weight: normal;
   margin-bottom: 0.4em;
 }

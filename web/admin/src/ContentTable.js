@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import client from '@doubledutch/admin-client'
 
-class ContentTable extends Component {
+export default class ContentTable extends Component {
   constructor(props) {
     super()
     this.state = {
@@ -20,7 +18,7 @@ class ContentTable extends Component {
           </div>
         </li>
     )
-}
+  }
 
   render() {
     return (
@@ -34,7 +32,4 @@ class ContentTable extends Component {
       </div>
     )
   }
-
 }
-
-export default ContentTable
