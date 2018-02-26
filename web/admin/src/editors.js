@@ -14,7 +14,7 @@ export class TextEditor extends PureComponent {
     return (
       <div className="contentBox">
         <h3>{title}</h3>
-          <input className="textInput" type="text" value={this.state.value} onChange={this.onChange} onBlur={this.onBlur} placeholder={placeholder}/>
+        <input className="textInput" type="text" value={this.state.value} onChange={this.onChange} onBlur={this.onBlur} placeholder={placeholder}/>
       </div>
     )
   }
