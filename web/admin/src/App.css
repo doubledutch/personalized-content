@@ -129,28 +129,8 @@ button {
   height: 30em;
 }
 
-/* .attendee-selector__header {
-  display: flex;
-  background-color: #fbfbfb;
-  border-bottom: 1px solid #e2e2e2;
-}
-
-.attendee-selector__header-summary {
-  width: 10em;
-}
-
-.attendee-selector__header-main {
-  flex: 1;
-  display: flex;
-  border-left: 1px solid #e2e2e2;
-}
-
-.attendee-selector__main {
-  display: flex;
-  flex-direction: row;
-}
-*/
 .attendee-selector__menu {
+  white-space: nowrap;
   width: 10em;
   background-color: #fbfbfb;
   border-right: 1px solid #e2e2e2;
@@ -164,10 +144,19 @@ button {
   margin: 0 1em;
 }
 
+.attendee-selector__search {
+  font-size: 0.9em;
+  border: 1px solid #e2e2e2;
+  border-radius: 0.75em;
+  height: 1.5em;
+  padding: 0 0.75em;
+}
+
 .attendee-selector table {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .attendee-selector thead {
@@ -189,11 +178,14 @@ button {
   line-height: 2.5em;
   height: 2.5em;
   padding: 0 0.75em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .attendee-selector__name
  {
    font-size: 1.2em;
+   overflow: hidden;
  }
 .attendee-selector td:nth-child(1) { width: 0.5em; }
 .attendee-selector td:nth-child(2) { flex: 3; }
