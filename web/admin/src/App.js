@@ -66,7 +66,6 @@ export default class App extends PureComponent {
     const {groups, pendingContent, lastPublishedAt, tiers} = this.state
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
-
       <div className="app">
         <Router>
           <div>
@@ -92,7 +91,7 @@ export default class App extends PureComponent {
               return (
                 <ContentEditor
                   content={editingContent}
-                  allUsers={this.state.allUsers}
+                  getAttendees={this.getAttendees}
                   groups={groups}
                   tiers={tiers}
                   onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
@@ -104,6 +103,8 @@ export default class App extends PureComponent {
       </div>
     )
   }
+
+  getAttendees = query => client.getAttendees(query)
 
   updateList = (list) => {
     this.setState({currentList: list})

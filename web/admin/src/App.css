@@ -103,6 +103,10 @@
   padding-left: 10px;
 }
 
+table, tr, td, tbody, thead {
+  border: none;
+}
+
 h1 {
   font-size: 1.5em;
   font-weight: normal;
@@ -118,6 +122,120 @@ h2 {
 button {
   cursor: pointer;
 }
+
+.attendee-selector {
+  display: flex;
+  border: 1px solid #e2e2e2;
+  height: 30em;
+}
+
+.attendee-selector__attendee--disabled {
+  background-color: #f2f2f2;
+}
+.attendee-selector__menu {
+  white-space: nowrap;
+  width: 10em;
+  background-color: #fbfbfb;
+  border-right: 1px solid #e2e2e2;
+}
+
+.attendee-selector__menu-header {
+  height: 2.5em;
+  line-height: 2.5em;
+  color: #777;
+  border-bottom: 1px solid #e2e2e2;
+  margin: 0 1em;
+}
+
+.attendee-selector__search {
+  font-size: 0.9em;
+  border: 1px solid #e2e2e2;
+  border-radius: 0.75em;
+  height: 1.5em;
+  padding: 0 0.75em;
+}
+
+.attendee-selector table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.attendee-selector thead {
+  height: 2.5em;
+  background-color: #fbfbfb;
+}
+
+.attendee-selector tbody {
+  overflow-y: scroll;
+}
+
+.attendee-selector tr {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.attendee-selector td {
+  line-height: 2.5em;
+  height: 2.5em;
+  padding: 0 0.75em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.attendee-selector__name
+ {
+   font-size: 1.2em;
+   overflow: hidden;
+ }
+.attendee-selector td:nth-child(1) { width: 0.5em; }
+.attendee-selector td:nth-child(2) { flex: 3; }
+.attendee-selector td:nth-child(3) { flex: 1; }
+.attendee-selector td:nth-child(4) { flex: 3; }
+
+[class^="attendee-selector__main-menu-item"] {
+  font-size: 1.2em;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.attendee-selector__main-menu-item {
+  color: #7e7e7e;
+}
+.attendee-selector__main-menu-item--selected {
+  color: 'black';
+}
+
+.pill {
+  font-size: 0.9em;
+  font-weight: 100;
+  border-radius: 4px;
+  padding: 0.2em 0.7em;
+  margin-right: 0.4em;
+}
+
+.pill:last-child {
+  margin-right: 0;
+}
+
+.pill.white {
+  color: #299fca;
+  background-color: white;
+  border: 1px solid #299fca;
+}
+
+.pill.blue {
+  color: white;
+  background-color: #299fca;
+}
+
+
+/* .attendee-selector__main-list {
+  flex: 1;
+  border-left: 1px solid #e2e2e2;
+} */
 
 .button-big {
   display: inline-block;
