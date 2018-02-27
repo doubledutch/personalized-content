@@ -119,13 +119,6 @@ export default class App extends PureComponent {
   deleteContent = key => pendingContentRef().child(key).remove()
 
   onUpdate = (contentItem, prop, value) => {
-    if (value) {
-      const start = value.substring(0,3)
-      start.toLowerCase()
-      if (start === "www"){
-        value = "http://" + value
-      }
-    }
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       pendingContentRef().child(contentItem.key).update({[prop]: value})

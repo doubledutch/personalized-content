@@ -22,6 +22,32 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.textCellTitle {
+  font-size: 16px;
+  padding: 0px;
+  margin: 3px;
+}
+
+.surveyButton {
+  height: 30px;
+  background-Color: red;
+  color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.textCellText {
+  font-size: 12px;
+  padding: 0px;
+  margin: 3px;
+}
+
+.iFrameBox {
+  height: 240px;
+  width: 284px;
+  border: none;
+}
+
 .checkBox {
   margin-top: 15px;
   height: 15px;
@@ -89,8 +115,9 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-top:55px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 16px;
+  margin-right: 16px;
+  min-height: 40px;
 
 }
 
@@ -100,8 +127,8 @@
   border-color: darkgrey;
   background-color: white;
   margin-top:55px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 16px;
+  margin-right: 16px;
 
 }
 
