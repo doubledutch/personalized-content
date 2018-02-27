@@ -60,7 +60,7 @@ export default class ContentDetailsEditor extends PureComponent {
           <div className="homeBox">
             <h2>Add Content</h2>
             <TextEditor content={c} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate} />
-            <TextEditor content={c} prop="url" title="URL" placeholder="http://www.acme.com" onUpdate={onUpdate} />
+            <TextEditor content={c} prop="surveyId" title="surveyId" placeholder="http://www.acme.com" onUpdate={onUpdate} />
             <button className="button-big" onClick={onSave}>Submit Content</button>
           </div>
       </div>

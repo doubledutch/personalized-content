@@ -10,6 +10,12 @@ import CurrentContent from './CurrentContent'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
 
 export default class App extends PureComponent {
   constructor() {
@@ -87,7 +93,7 @@ export default class App extends PureComponent {
                     </span> : null }
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={searchContent} updateList={this.updateList}/>
+                <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd}/>
                 <AllAttendees />
               </div>
             )} />
@@ -128,6 +134,34 @@ export default class App extends PureComponent {
     else {
       this.setState({search: false})
     }
+  }
+
+  onDragEnd = (result) =>{
+    var pendingContent = this.state.pendingContent
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    else {
+      pendingContent = reorder(
+        this.state.pendingContent,
+        result.source.index,
+        result.destination.index
+      )
+    }
+    this.checkOrder(pendingContent)
+    this.setState({
+      pendingContent,
+    });  
+  }
+
+  checkOrder = (pendingContent) => {
+    pendingContent.map((c, index) => {
+      if (c.order !== index) {
+        this.onUpdate(c, "order", index)
+      }
+      return c
+    })
   }
 
   addNewContent = ({history}) => {
