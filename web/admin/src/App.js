@@ -93,7 +93,7 @@ export default class App extends PureComponent {
                     </span> : null }
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd}/>
+                <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
                 <AllAttendees />
               </div>
             )} />
@@ -124,7 +124,7 @@ export default class App extends PureComponent {
       this.state.pendingContent.forEach(function(content){
         var title = content.title
         if (title) {
-          if (title.toLowerCase().indexOf(queryText)!=-1){
+          if (title.toLowerCase().indexOf(queryText)!== -1){
             queryResult.push(content);
           }
         }
@@ -148,20 +148,24 @@ export default class App extends PureComponent {
         result.source.index,
         result.destination.index
       )
-    }
-    this.checkOrder(pendingContent)
-    this.setState({
-      pendingContent,
-    });  
+    }   
+    this.setState({ pendingContent });  
   }
 
-  checkOrder = (pendingContent) => {
-    pendingContent.map((c, index) => {
+  checkOrder = () => {
+    this.state.pendingContent.map((c, index) => {
       if (c.order !== index) {
         this.onUpdate(c, "order", index)
       }
       return c
     })
+  }
+
+
+  cancelUpdates = () => {
+    var pendingContent = this.state.pendingContent
+    pendingContent.sort(sortContent)
+    this.setState({pendingContent})
   }
 
   addNewContent = ({history}) => {

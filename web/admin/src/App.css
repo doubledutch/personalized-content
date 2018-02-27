@@ -208,9 +208,7 @@ button {
   display: inline-block;
   text-decoration: none;
   margin-top: 7px;
-  margin-left: 115px;
   margin-bottom: 10px;
-  background-color: #299fca;
   font-size: 14px;
   height: 31px;
   color: white;
@@ -239,9 +237,9 @@ button {
   margin: 0;
   padding: 0;
   height: 351px;
-  background-color: red;
   border: 1px solid #e2e2e2;
   overflow-y: scroll;
+  background-color: #fbfbfb;
 }
 
 .current-content__list li {
@@ -260,6 +258,7 @@ button {
 
 .current-content__title {
   flex: 1;
+  text-align: left;
 }
 
 .searchBar {
