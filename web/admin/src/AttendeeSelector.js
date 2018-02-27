@@ -1,89 +1,92 @@
 import React, { PureComponent } from 'react'
-import SearchBar from './SearchBar'
 
 export default class AttendeeSelector extends PureComponent {
   state = {
-    newList: [],
-    search: false
+    view: 'attendees'
   }
 
   render() {
-    return this.renderTable()
-  }
-
-  renderTable = () => {
-    const {content} = this.props
-    let list = this.props.allUsers
-    if (this.state.search){
-      list = this.state.newList
-    }
+    const {view} = this.state
     return (
       <div>
         <h2>Select Attendees</h2>
-        <SearchBar updateList={this.updateList}/>
-        <span className="leftContainer">
-          <ul className="formBox">{ list.map(c => (
-            this.selectAttendee(c)))}
-          </ul>
-        </span>
-        <div>Tiers: {JSON.stringify(this.props.tiers)}</div>
-        <div>Attendee Groups: {JSON.stringify(this.props.groups)}</div>
-        <div>
-          {content.attendeeIds.length
-            ? <button onClick={this.removeAllAttendeeIds}>- attendee</button>
-            : <button onClick={() => this.addAttendeeId(24601)}>+ attendee</button>
-          }
-          {content.tierIds.length
-            ? <button onClick={this.removeAllTierIds}>- tiers</button>
-            : <span><button onClick={() => this.addTierId(42)}>+ tier 42</button><button onClick={() => this.addTierId('default')}>+ default tier</button></span>
-          }
+
+        <div className="attendee-selector">
+          <div className="attendee-selector__menu">
+            <div className="attendee-selector__menu-header">{this.menuHeaderText()}</div>
+            <div className={this.classNameForMenuItem('attendees')} onClick={this.viewAllAttendees}>All attendees</div>
+            <div className={this.classNameForMenuItem('tiers')} onClick={this.viewTiers}>Tiers</div>
+            <div className={this.classNameForMenuItem('groups')} onClick={this.viewGroups}>Groups</div>
+          </div>
+          <table className="attendee-selector__table">
+            <thead>
+              <tr>
+                <td>&nbsp;</td>
+                <td><input type="text" placeholder="Search" /></td>
+                <td>{ view === 'attendees' ? 'Tiers' : ''}</td> 
+                <td>{ view === 'attendees' ? 'Groups' : ''}</td> 
+              </tr>
+            </thead>
+            <tbody>
+              { [this.renderTableRows()] }
+            </tbody>
+          </table>
         </div>
-      </div>
+      </div>      
     )
   }
 
-  updateList = (value) => {
-    var queryText = value.toLowerCase()
-    if (queryText.length > 0){
-      var queryResult=[];
-      this.props.list.forEach(function(person){
-        var fullName = person.firstName + " " + person.lastName
-        if (fullName.toLowerCase().indexOf(queryText) >= 0){
-          queryResult.push(person);
-        }
-      });
-      this.setState({search: true, newList: queryResult})
-    }
-    else {
-      this.setState({search: false})
+  renderTableRows = () => {
+    switch (this.state.view) {
+      case 'attendees':
+      const {attendeeIds} = this.props.content
+        return [0,1,2,3,4,5,6,7,8,9].map(x => ({id: x, firstName:'Jane', lastName:'Doe'})).map(a => <tr key={a.id}>
+          <td><input type="checkbox" checked={attendeeIds.includes(a.id)} /></td>
+          <td className="attendee-selector__name">{a.firstName} {a.lastName}</td>
+          <td><span className="pill blue">VIP</span></td>
+          <td><span className="pill white">Engineering</span><span className="pill white">Marketing</span></td>
+        </tr>)
+      case 'tiers':
+      const {tierIds} = this.props.content
+        return this.props.tiers.map(t => <tr key={t.id}>
+          <td><input type="checkbox" checked={tierIds.includes(t.id)} onChange={this.onTierChange(t.id)} /></td>
+          <td className="attendee-selector__name">{t.name}</td>
+          <td className="attendee-selector__name">{t.attendeeCount} attendees</td>
+        </tr>)
+      case 'groups':
+      const {groupIds} = this.props.content
+      return this.props.groups.map(g => <tr key={g.id}>
+        <td><input type="checkbox" checked={groupIds.includes(g.id)} onChange={this.onGroupChange(g.id)} /></td>
+        <td className="attendee-selector__name">{g.name}</td>
+      </tr>)
+    default:
+        return null
     }
   }
 
-  selectAttendee = (c) => {
-    var attendeeBool = false
-    var currentList = []
-    if (this.props.content.attendeeIds) {
-      currentList = this.props.content.attendeeIds
-    }
-    if (currentList.length > 0) {
-      attendeeBool = this.props.content.attendeeIds.find(o => o === c.id)
-    }
-    return (
-      <div className ="listItem">
-        <input
-          className="checkBox"
-          name= {c.id}
-          type="checkbox"
-          value = {attendeeBool}
-          onChange={this.addAttendee} />
-        <label className="boxTitle">
-          {c.firstName + " " + c.lastName}
-        </label>
-      </div>
-    )
+  menuHeaderText = () => {
+    const {content, tiers} = this.props
+    const {attendeeIds, tierIds, groupIds} = content
+    if (groupIds.length) return 'Filters selected'
+    if (!attendeeIds.length && !tierIds.length) return 'No filters selected'
+    const tiersById = tiers.reduce((byId, tier) => { byId[tier.id] = tier; return byId; }, {})
+    const count = attendeeIds.length + tierIds.reduce((count, tierId) => count + (tiersById[tierId] ? tiersById[tierId].attendeeCount : 0), 0)
+    return `${count} selected`
+    //if (attendeeIds.length && !tierids.length && !gro)
   }
 
-  addAttendee = (event) => {
+  classNameForMenuItem = view => `attendee-selector__main-menu-item${view===this.state.view ? '--selected' : ''}`
+
+  setView = view => this.setState({view})
+  viewAllAttendees = () => this.setView('attendees')
+  viewTiers = () => this.setView('tiers')
+  viewGroups = () => this.setView('groups')
+
+  onAttendeeChange = id => event => event.target.checked ? this.addAttendeeId(id) : this.removeAttendeeId(id)
+  onTierChange     = id => event => event.target.checked ? this.addTierId(id)     : this.removeTierId(id)
+  onGroupChange    = id => event => event.target.checked ? this.addGroupId(id)     : this.removeGroupId(id)
+
+  onAttendeeChange = event => {
     if (event.target.checked) {
       this.addAttendeeId(event.target.name)
     }
