@@ -27,10 +27,12 @@ export default class ContentEditor extends PureComponent {
           tiers={tiers}
         />
         <div>
-          <span>
+          <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentDetailsEditor content={content} onUpdate={onUpdate} />
-          </span>
+            <ContentPreview content={content}/>
+          </div>
+          <ContentDetailsEditor content={content} onUpdate={onUpdate} />
+          
         </div>
       </div>
     )

@@ -22,6 +22,32 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.textCellTitle {
+  font-size: 16px;
+  padding: 0px;
+  margin: 3px;
+}
+
+.surveyButton {
+  height: 30px;
+  background-Color: red;
+  color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.textCellText {
+  font-size: 12px;
+  padding: 0px;
+  margin: 3px;
+}
+
+.iFrameBox {
+  height: 240px;
+  width: 284px;
+  border: none;
+}
+
 .checkBox {
   margin-top: 15px;
   height: 15px;
@@ -66,6 +92,46 @@
   background-color: white;
 }
 
+.phoneBox {
+  margin: 20px;
+  width: 318px;
+  background-color: lightgrey;
+  height: 300px;
+}
+
+.editorBox {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.textCell {
+  display:flex;
+  flex-flow: column wrap;
+  border: solid;
+  border-width: 1px;
+  border-color: darkgrey;
+  background-color: white;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top:55px;
+  margin-left: 16px;
+  margin-right: 16px;
+  min-height: 40px;
+
+}
+
+.webCell {
+  border: solid;
+  border-width: 1px;
+  border-color: darkgrey;
+  background-color: white;
+  margin-top:55px;
+  margin-left: 16px;
+  margin-right: 16px;
+
+}
+
 
 .leftContainer {
   display: flex;
@@ -85,6 +151,7 @@
 .buttonsBox {
   display: flex;
   flex-flow: column wrap;
+  margin-right: 100px;
 }
 
 .homeBox {
@@ -249,6 +316,28 @@ button {
   border: 0;
 }
 
+.content-bar {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.button-small {
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  height: 31px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  border: 0;
+}
+
 .button-big:last-of-type {
   margin-right: 1em;
 }
@@ -258,17 +347,17 @@ button {
 }
 
 .current-content {
-  width: 500px;
+  width: 600px;
 }
 
 .current-content__list {
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 200px;
-  background-color: #fbfbfb;
+  height: 351px;
   border: 1px solid #e2e2e2;
   overflow-y: scroll;
+  background-color: #fbfbfb;
 }
 
 .current-content__list li {
@@ -287,6 +376,22 @@ button {
 
 .current-content__title {
   flex: 1;
+  text-align: left;
+}
+
+.searchBar {
+  margin: 5px;
+  margin-left: 30px;
+  margin-top: 7px;
+}
+
+.searchBar input {
+  height: 27px;
+  padding: 0px;
+  padding-left: 10px;
+  border-radius: 15px;
+  font-size: 16px;
+  width: 150px;
 }
 
 .current-content__view  {

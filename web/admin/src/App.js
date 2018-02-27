@@ -10,6 +10,12 @@ import CurrentContent from './CurrentContent'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
 
 export default class App extends PureComponent {
   constructor() {
@@ -19,7 +25,9 @@ export default class App extends PureComponent {
       pendingContent: [],
       homeView: true,
       currentContent: '',
-      allUsers: []
+      allUsers: [],
+      searchContent: [],
+      search: false
     }
 
     this.signin = fbc.signinAdmin()
@@ -63,7 +71,11 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {groups, pendingContent, lastPublishedAt, tiers} = this.state
+    const {groups, pendingContent, lastPublishedAt, tiers, search, newList} = this.state
+    var searchContent = pendingContent
+    if (search) {
+      searchContent = newList
+    }
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
@@ -80,7 +92,7 @@ export default class App extends PureComponent {
                     </span> : null }
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={pendingContent} />
+                <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
                 <AllAttendees />
               </div>
             )} />
@@ -104,10 +116,57 @@ export default class App extends PureComponent {
     )
   }
 
+  updateList = (value) => {
+    var queryText = value.toLowerCase()
+    if (queryText.length > 0){
+      var queryResult=[];
+      this.state.pendingContent.forEach(function(content){
+        var title = content.title
+        if (title) {
+          if (title.toLowerCase().indexOf(queryText)!== -1){
+            queryResult.push(content);
+          }
+        }
+      });
+      this.setState({search: true, newList: queryResult})
+    }
+    else {
+      this.setState({search: false})
+    }
+  }
+
+  onDragEnd = (result) =>{
+    var pendingContent = this.state.pendingContent
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    else {
+      pendingContent = reorder(
+        this.state.pendingContent,
+        result.source.index,
+        result.destination.index
+      )
+    }   
+    this.setState({ pendingContent });  
+  }
+
+  checkOrder = () => {
+    this.state.pendingContent.map((c, index) => {
+      if (c.order !== index) {
+        this.onUpdate(c, "order", index)
+      }
+      return c
+    })
+  }
+
   getAttendees = query => client.getAttendees(query)
 
-  updateList = (list) => {
-    this.setState({currentList: list})
+
+  cancelUpdates = () => {
+    var pendingContent = this.state.pendingContent
+    pendingContent.sort(sortContent)
+    this.setState({pendingContent})
   }
 
   addNewContent = ({history}) => {

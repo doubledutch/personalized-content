@@ -16,8 +16,8 @@ export default class SearchBar extends Component {
 
   render() {
     return (
-      <div style={{margin: 5}}>
-        <input type="text" id="myInput" value={this.state.value} onChange={this.handleChange}/>
+      <div className="searchBar">
+        <input type="text" id="myInput" value={this.state.value} onChange={this.handleChange} placeholder="Search"/>
       </div>
     )
   }
