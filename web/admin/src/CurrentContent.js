@@ -6,7 +6,10 @@ export default class CurrentContent extends PureComponent {
     const {content} = this.props
     return (
       <div className="current-content">
+        <span className="content-bar">
         <h2>Current Content</h2>
+        <button className="button-small">Reorder Content</button>
+        </span>
         <ul className="current-content__list">
           { content.map(c => <li key={c.key}>
             <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
