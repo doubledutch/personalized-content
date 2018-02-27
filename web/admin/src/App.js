@@ -19,7 +19,9 @@ export default class App extends PureComponent {
       pendingContent: [],
       homeView: true,
       currentContent: '',
-      allUsers: []
+      allUsers: [],
+      searchContent: [],
+      search: false
     }
 
     this.signin = fbc.signinAdmin()
@@ -63,7 +65,11 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {groups, pendingContent, lastPublishedAt, tiers} = this.state
+    const {groups, pendingContent, lastPublishedAt, tiers, search, newList} = this.state
+    var searchContent = pendingContent
+    if (search) {
+      searchContent = newList
+    }
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
 
@@ -81,7 +87,7 @@ export default class App extends PureComponent {
                     </span> : null }
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={pendingContent} />
+                <CurrentContent content={searchContent} updateList={this.updateList}/>
                 <AllAttendees />
               </div>
             )} />
@@ -105,8 +111,23 @@ export default class App extends PureComponent {
     )
   }
 
-  updateList = (list) => {
-    this.setState({currentList: list})
+  updateList = (value) => {
+    var queryText = value.toLowerCase()
+    if (queryText.length > 0){
+      var queryResult=[];
+      this.state.pendingContent.forEach(function(content){
+        var title = content.title
+        if (title) {
+          if (title.toLowerCase().indexOf(queryText)!=-1){
+            queryResult.push(content);
+          }
+        }
+      });
+      this.setState({search: true, newList: queryResult})
+    }
+    else {
+      this.setState({search: false})
+    }
   }
 
   addNewContent = ({history}) => {

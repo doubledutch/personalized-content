@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
+import SearchBar from './SearchBar'
 
 export default class CurrentContent extends PureComponent {
   render() {
@@ -7,8 +8,9 @@ export default class CurrentContent extends PureComponent {
     return (
       <div className="current-content">
         <span className="content-bar">
-        <h2>Current Content</h2>
-        <button className="button-small">Reorder Content</button>
+          <h2>Current Content</h2>
+          <button className="button-small">Reorder Content</button>
+          <SearchBar updateList={this.props.updateList}/>
         </span>
         <ul className="current-content__list">
           { content.map(c => <li key={c.key}>
@@ -20,6 +22,10 @@ export default class CurrentContent extends PureComponent {
       </div>
     )
   }
+
+
+
+
 }
 
 function iconFor(c) {
