@@ -129,6 +129,9 @@ button {
   height: 30em;
 }
 
+.attendee-selector__attendee--disabled {
+  background-color: #f2f2f2;
+}
 .attendee-selector__menu {
   white-space: nowrap;
   width: 10em;

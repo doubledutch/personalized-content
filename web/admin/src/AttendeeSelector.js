@@ -2,9 +2,24 @@ import React, { PureComponent } from 'react'
 import debounce from 'lodash.debounce'
 
 export default class AttendeeSelector extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.updateTiersAndGroups(props)
+  }
+
   state = {
     search: '',
     view: 'attendees'
+  }
+
+  componentWillReceiveProps(props) {
+    this.updateTiersAndGroups(props)
+  }
+
+  updateTiersAndGroups = props => {
+    const getById = prop => this.props[prop].reduce((byId, obj) => { byId[obj.id] = obj; return byId; }, {})
+    this.tiers = getById('tiers')
+    this.groups = getById('groups')
   }
 
   componentDidMount() {
@@ -64,25 +79,33 @@ export default class AttendeeSelector extends PureComponent {
   }
 
   renderTableRows = () => {
+    const {tierIds, groupIds} = this.props.content
     switch (this.state.view) {
       case 'attendees':
       const {attendeeIds} = this.props.content
         if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
-        return this.state.attendees.map(a => <tr key={a.id}>
-          <td><input type="checkbox" checked={attendeeIds.includes(a.id)} onChange={this.onAttendeeChange(a.id)} /></td>
-          <td className="attendee-selector__name">{a.firstName} {a.lastName}</td>
-          <td><span className="pill blue">VIP</span></td>
-          <td><span className="pill white">Engineering</span><span className="pill white">Marketing</span></td>
-        </tr>)
+        return this.state.attendees.map(a => {
+          const inTierOrGroup = tierIds.includes(a.tierId) || !!groupIds.find(g => a.userGroupIds.includes(g))
+          return <tr key={a.id} className={'attendee-selector__attendee' + (inTierOrGroup ? '--disabled' : '')}>
+            <td>
+              {!inTierOrGroup && <input type="checkbox" checked={attendeeIds.includes(a.id)} onChange={this.onAttendeeChange(a.id)} /> }
+            </td>
+            <td className="attendee-selector__name">{a.firstName} {a.lastName}</td>
+            <td>
+              { this.tiers[a.tierId] && <span className="pill blue">{this.tiers[a.tierId].name}</span> }
+            </td>
+            <td>
+              { a.userGroupIds.map(id => this.groups[id] && <span className="pill white" key={id}>{this.groups[id].name}</span>) }
+            </td>
+          </tr>
+        })
       case 'tiers':
-      const {tierIds} = this.props.content
         return this.props.tiers.map(t => <tr key={t.id}>
           <td><input type="checkbox" checked={tierIds.includes(t.id)} onChange={this.onTierChange(t.id)} /></td>
           <td className="attendee-selector__name">{t.name}</td>
           <td className="attendee-selector__name">{t.attendeeCount} attendees</td>
         </tr>)
       case 'groups':
-      const {groupIds} = this.props.content
       return this.props.groups.map(g => <tr key={g.id}>
         <td><input type="checkbox" checked={groupIds.includes(g.id)} onChange={this.onGroupChange(g.id)} /></td>
         <td className="attendee-selector__name">{g.name}</td>
@@ -93,14 +116,14 @@ export default class AttendeeSelector extends PureComponent {
   }
 
   menuHeaderText = () => {
-    const {content, tiers} = this.props
-    const {attendeeIds, tierIds, groupIds} = content
+    const {attendeeIds, tierIds, groupIds} = this.props.content
     if (groupIds.length) return 'Filters selected'
-    if (!attendeeIds.length && !tierIds.length) return 'No filters selected'
-    const tiersById = tiers.reduce((byId, tier) => { byId[tier.id] = tier; return byId; }, {})
-    const count = attendeeIds.length + tierIds.reduce((count, tierId) => count + (tiersById[tierId] ? tiersById[tierId].attendeeCount : 0), 0)
-    return `${count} selected`
-    //if (attendeeIds.length && !tierids.length && !gro)
+    if (tierIds.length) {
+      const count = tierIds.reduce((count, tierId) => count + (this.tiers[tierId] ? this.tiers[tierId].attendeeCount : 0), 0)
+      return (attendeeIds.length) ? `${count}+ selected` : `${count} selected`
+    }
+    if (attendeeIds.length) return `${attendeeIds.length} selected`
+    return 'No filters selected'
   }
 
   classNameForMenuItem = view => `attendee-selector__main-menu-item${view===this.state.view ? '--selected' : ''}`
