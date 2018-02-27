@@ -18,7 +18,7 @@ export default class ContentDetailsEditor extends PureComponent {
     const {onUpdate, onSave} = this.props
     switch (c.type) {
       case 'text': return <div>
-        <div className="homeBox">
+        <div>
             <h2>Add a Title</h2>
             <TextEditor content={c} prop="title" title="Title" placeholder="Acme Co Name" onUpdate={onUpdate} />
           </div>
@@ -29,7 +29,7 @@ export default class ContentDetailsEditor extends PureComponent {
           </div>
       </div>
       case 'web': return <div>
-        <div className="homeBox">
+        <div>
           <h2>Add a Title</h2>
           <TextEditor content={c} prop="title" title="Title" placeholder="Acme Co Website" onUpdate={onUpdate} />
         </div>
@@ -40,7 +40,7 @@ export default class ContentDetailsEditor extends PureComponent {
         </div>
       </div>
       case 'api': return <div>
-        <div className="homeBox">
+        <div>
           <h2 className>Add a Title</h2>
           <TextEditor content={c} prop="title" title="Title" placeholder="Acme Co Website" onUpdate={onUpdate} />
         </div>
@@ -53,7 +53,7 @@ export default class ContentDetailsEditor extends PureComponent {
         </div>
     </div>
       case 'survey': return <div>
-        <div className="homeBox">
+        <div>
             <h2>Add a Title</h2>
             <TextEditor content={c} prop="title" title="Title" placeholder="Acme Co Name" onUpdate={onUpdate} />
           </div>

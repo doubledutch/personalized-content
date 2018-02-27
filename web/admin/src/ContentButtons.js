@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class ContentButtons extends Component {
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "External API", type: "api"}, {name: "Survey", type: "survey"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}]
     return (
       <span>
         <h2>Select Content Type</h2>
