@@ -133,16 +133,6 @@
 }
 
 
-.inputTitle{
-  font-size: 14px;
-  height: 50px;
-  margin-bottom: 5px;
-  text-align: left;
-  padding-top: 5px;
-  padding-bottom: 2px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .leftContainer {
   display: flex;
   flex-flow: row wrap;
@@ -166,23 +156,6 @@
 
 .homeBox {
   margin-top: 40px;
-}
-
-.contentBox {
-  margin-top: 20px;
-  width: 40%;
-  flex: 1;
-  flex-flow: row wrap;
-}
-
-.textInput {
-  height: 50px;
-  width: 500px;
-  border: 1px solid #AEAEAE;
-  border-radius: 4px;
-  background-color: #FFFFFF;
-  font-size: 18px;
-  padding-left: 10px;
 }
 
 .typeButton {
@@ -294,4 +267,29 @@ button {
   text-decoration: none;
   color: #828282;
   line-height: 40px;
+}
+
+.text-editor {
+  display: block;
+  margin-top: 1em;
+  max-width: 400px;
+}
+
+.text-editor__title {
+  margin-bottom: 0.5em;
+}
+
+.text-editor__error {
+  margin-bottom: 0.5em;
+  color: #be0000;
+}
+
+.text-editor__input {
+  height: 2.8em;
+  width: 100%;
+  border: 1px solid #AEAEAE;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  font-size: 1.25em;
+  padding: 0 0.7em;
 }
