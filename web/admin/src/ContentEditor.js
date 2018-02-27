@@ -11,14 +11,21 @@ export default class ContentEditor extends PureComponent {
     super()
   }
   render() {
-    const {content, groups, onDelete, onUpdate, tiers} = this.props
+    const {content, getAttendees, groups, onDelete, onUpdate, tiers} = this.props
     return (
       <div>
         <div>
           <Link to="/" className="button-big">Done</Link>
           <button className="button-big red" onClick={onDelete}>Delete</button>
         </div>
-        <AttendeeSelector content={content} onUpdate={onUpdate} allUsers={this.props.allUsers} groups={groups} tiers={tiers} />
+        <AttendeeSelector
+          content={content}
+          onUpdate={onUpdate}
+          getAttendees={getAttendees}
+          allUsers={this.props.allUsers}
+          groups={groups}
+          tiers={tiers}
+        />
         <div>
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>

@@ -51,43 +51,43 @@ export default class CurrentContent extends PureComponent {
             <button className="button-small" style={{backgroundColor: '#299fca', marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
-            <DragDropContext onDragEnd={this.props.onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getListStyle(snapshot.isDraggingOver)}
-                >
-                {
-                  content.map((c, i) => 
-                  (
-                    <Draggable key={i} draggableId={i}>
-                      {(provided, snapshot) => (
-                        <div>
-                          <div
-                            ref={provided.innerRef}
-                            style={getItemStyle(
-                              provided.draggableStyle,
-                              snapshot.isDragging
-                              )}
-                              {...provided.dragHandleProps}
-                            >
-                              <p style={{paddingLeft: 10}}>+</p>
-                              <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                              <span className="current-content__title">{titleFor(c)}</span>
-                            </div>
-                            {provided.placeholder}
+          <DragDropContext onDragEnd={this.props.onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+              {
+                content.map((c, i) => 
+                (
+                  <Draggable key={i} draggableId={i}>
+                    {(provided, snapshot) => (
+                      <div>
+                        <div
+                          ref={provided.innerRef}
+                          style={getItemStyle(
+                            provided.draggableStyle,
+                            snapshot.isDragging
+                            )}
+                            {...provided.dragHandleProps}
+                          >
+                            <p style={{paddingLeft: 10}}>+</p>
+                            <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                            <span className="current-content__title">{titleFor(c)}</span>
                           </div>
-                        )}
-                      </Draggable>
-                  ))
-                }
-                {provided.placeholder}
-                </div>
-                )}
-              </Droppable>
-            </DragDropContext>  
-          </div>
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Draggable>
+                ))
+              }
+              {provided.placeholder}
+              </div>
+              )}
+            </Droppable>
+          </DragDropContext>  
+        </div>
       )
     }
 

@@ -35,7 +35,7 @@ export default class ContentDetailsEditor extends PureComponent {
         </div>
         <div className="homeBox">
           <h2>Add Content</h2>
-          <TextEditor content={c} prop="url" title="URL" regex={/^https?:\/\/[^\/]/} validationMessage="The URL must begin with 'https://' or'http://'" placeholder="http://www.acme.com" onUpdate={onUpdate} />
+          <TextEditor content={c} prop="url" title="URL" regex={/^https?:\/\/[^/]/} validationMessage="The URL must begin with 'https://' or'http://'" placeholder="http://www.acme.com" onUpdate={onUpdate} />
           <button className="button-big" onClick={onSave}>Submit Content</button>
         </div>
       </div>
