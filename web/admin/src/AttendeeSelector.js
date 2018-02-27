@@ -74,7 +74,7 @@ export default class AttendeeSelector extends PureComponent {
             </tbody>
           </table>
         </div>
-      </div>      
+      </div>
     )
   }
 
