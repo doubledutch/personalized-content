@@ -28,7 +28,7 @@ export default class AllAttendees extends PureComponent {
   }
 
   render() {
-    const {search, view} = this.state
+    const {search} = this.state
     return (
       <div style={{width: "50%", marginRight: 50}}>
         <span className="content-bar">
