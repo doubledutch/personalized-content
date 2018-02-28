@@ -43,8 +43,8 @@
 }
 
 .iFrameBox {
-  height: 240px;
-  width: 284px;
+  height: 200px;
+  width: 274px;
   border: none;
 }
 
@@ -95,8 +95,18 @@
 .phoneBox {
   margin: 20px;
   width: 318px;
+  height: 350px;
   background-color: lightgrey;
-  height: 300px;
+}
+
+.phoneScroll {
+  margin-top:62px;
+  margin-left: 16px;
+  margin-right: 16px;
+  padding: 5px;
+  height: 275px;
+  overflow-y: auto;
+  background-color: lightgrey;
 }
 
 .editorBox {
@@ -114,11 +124,8 @@
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-top:62px;
-  margin-left: 16px;
-  margin-right: 16px;
   min-height: 40px;
-
+  margin-top: 5px;
 }
 
 .webCell {
@@ -126,10 +133,7 @@
   border-width: 1px;
   border-color: darkgrey;
   background-color: white;
-  margin-top:55px;
-  margin-left: 16px;
-  margin-right: 16px;
-
+  margin-top: 5px;
 }
 
 
@@ -256,6 +260,11 @@ button {
  {
    font-size: 1.2em;
    overflow: hidden;
+   flex: 1
+ }
+ .attendee-selector__button
+ {
+   width: 50px;
  }
 .attendee-selector td:nth-child(1) { width: 0.5em; }
 .attendee-selector td:nth-child(2) { flex: 3; }

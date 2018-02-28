@@ -12,6 +12,7 @@ export default class ContentEditor extends PureComponent {
   }
   render() {
     const {content, getAttendees, groups, onDelete, onUpdate, tiers} = this.props
+    console.log(content)
     return (
       <div>
         <div>
@@ -29,7 +30,7 @@ export default class ContentEditor extends PureComponent {
         <div>
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentPreview content={content}/>
+            <ContentPreview content={[content]}/>
           </div>
           <ContentDetailsEditor content={content} onUpdate={onUpdate} />
           
