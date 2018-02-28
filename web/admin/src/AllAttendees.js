@@ -66,22 +66,18 @@ export default class AllAttendees extends PureComponent {
   downloadUserData = (event) => {
     const id = event.target.value
     const user = this.state.attendees.find(user => user.id === id)
-    for (var i in this.props.content) {
-      console.log(this.props.content[i])
-    }
-    const userContent = this.props.content.filter(c => this.findUserContent(user.userGroupIds, c.groupIds) || this.findUserContent(user.id, c.attendeeIds) || this.findUserContent(user.tierId, c.tierIds) )
+    const userContent = this.props.content.filter(c => this.findGroupContent(user.userGroupIds, c.groupIds) || this.findUserContent(user.id, c.attendeeIds) || this.findUserContent(user.tierId, c.tierIds) )
     this.props.updateUserData(userContent)
   }
 
   findUserContent = (user, c) => {
+    return c.find(userID => userID === user)
+  }
+
+  findGroupContent = (user, c) => {
     var status = false
-    if (typeof user === "object") {
-      user.map(id => status = c.find(userID => userID === id))
-      return status
-    }
-    else {
-      return c.find(userID => userID === user)
-    }
+    user.map(id => status = c.find(userID => userID === id))
+    return status
   }
 
 }
