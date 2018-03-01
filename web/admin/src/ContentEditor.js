@@ -25,7 +25,7 @@ export default class ContentEditor extends PureComponent {
           groups={groups}
           tiers={tiers}
         />
-        <div>
+        <div className="content-editor__content">
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>
             <ContentPreview content={[content]} surveys={surveys}/>

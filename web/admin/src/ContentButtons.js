@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import TextIcon from './images/text-doc.svg'
+import WebIcon from './images/earth.svg'
 
 export default class ContentButtons extends Component {
   render() {
@@ -23,8 +25,22 @@ export default class ContentButtons extends Component {
       color = "#AEAEAE"
     }
     return (
-      <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>{type.name}</button>
+      <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>
+        <div>
+          {this.renderIcon(type.type)}
+          {type.name}
+        </div>
+      </button>
     )
+  }
+
+
+  renderIcon = (type) => {
+    switch (type) {
+    case 'survey': return <img src={TextIcon}/>
+    case 'text': return <p>T</p>
+    case 'web': return <img src={WebIcon}/>
+    }
   }
 
   updateCell = (event) => {
