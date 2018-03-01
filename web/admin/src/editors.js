@@ -37,3 +37,33 @@ export class TextEditor extends PureComponent {
     return !regex || value == null || value.match(regex)
   }
 }
+
+export class SelectEditor extends PureComponent {
+  componentDidMount() {
+    const {content, prop, onUpdate} = this.props
+    const {value} = this.select
+    if (content[prop] !== value) onUpdate(prop, +value)
+  }
+
+  render() {
+    const {content, options, prop, title} = this.props
+
+    return (
+      <label className="select-editor">
+        <div className="select-editor__title">{title}</div>
+        <select
+          className="select-editor__select"
+          ref={select => this.select = select}
+          value={content[prop]}
+          onChange={this.onChange}
+        >
+          { options.map(o => <option value={o.id} key={o.id}>{o.name}</option>) }
+        </select>
+      </label>
+    )
+  }
+
+  onChange = e => {
+    this.props.onUpdate(this.props.prop, +e.target.value)
+  }
+}
