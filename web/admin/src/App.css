@@ -361,6 +361,10 @@ button {
   background-color: #be0000;
 }
 
+.content-editor__content {
+  margin: 1em 0;
+}
+
 .current-content {
   width: 600px;
 }
@@ -416,13 +420,21 @@ button {
   line-height: 40px;
 }
 
+.select-editor__select {
+  font-size: 1em;
+  width: 30em;
+}
+.select-editor__select option {
+  padding: 0.8em 1em;
+}
+
 .text-editor {
   display: block;
   margin-top: 1em;
   max-width: 400px;
 }
 
-.text-editor__title {
+.text-editor__title, .select-editor__title {
   margin-bottom: 0.5em;
 }
 

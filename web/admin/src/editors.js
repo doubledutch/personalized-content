@@ -46,12 +46,13 @@ export class SelectEditor extends PureComponent {
   }
 
   render() {
-    const {content, options, prop, title} = this.props
+    const {content, options, prop, size, title} = this.props
 
     return (
       <label className="select-editor">
         <div className="select-editor__title">{title}</div>
         <select
+          size={size || 0}
           className="select-editor__select"
           ref={select => this.select = select}
           value={content[prop]}
