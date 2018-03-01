@@ -29,7 +29,7 @@ export default class ContentEditor extends PureComponent {
         <div>
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentPreview content={content}/>
+            <ContentPreview content={[content]}/>
           </div>
           <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
           

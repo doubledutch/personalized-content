@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
+import ContentPreview from './ContentPreview'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
@@ -27,7 +28,8 @@ export default class App extends PureComponent {
       currentContent: '',
       allUsers: [],
       searchContent: [],
-      search: false
+      search: false,
+      userContent : []
     }
 
     this.signin = fbc.signinAdmin()
@@ -94,7 +96,13 @@ export default class App extends PureComponent {
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
                 <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
-                <AllAttendees />
+                <div className="AttendeeBox" style={{marginTop: 50}}>
+                  <AllAttendees  content={this.state.content}
+                    updateUserData={this.updateUserData}
+                    getAttendees={this.getAttendees}
+                    allUsers={this.state.allUsers} />
+                  <ContentPreview content={this.state.userContent}/>
+                </div>
               </div>
             )} />
             <Route exact path="/content/:contentId" render={({match}) => {
@@ -135,6 +143,12 @@ export default class App extends PureComponent {
     else {
       this.setState({search: false})
     }
+  }
+
+  updateUserData = (content) => {
+    const userContent = content.sort(sortContent)
+    this.setState({userContent})
+
   }
 
   onDragEnd = (result) =>{
