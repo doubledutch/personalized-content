@@ -4,8 +4,7 @@ import debounce from 'lodash.debounce'
 export default class AllAttendees extends PureComponent {
 
   state = {
-    search: '',
-    view: 'attendees'
+    search: ''
   }
 
   componentDidMount() {
@@ -49,8 +48,6 @@ export default class AllAttendees extends PureComponent {
   }
 
   renderTableRows = () => {
-    switch (this.state.view) {
-      case 'attendees':
         if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
         return this.state.attendees.map(a => {
           return <tr key={a.id} className={'attendee-selector__attendee'}>
@@ -58,26 +55,21 @@ export default class AllAttendees extends PureComponent {
             <button value={a.id} onClick={this.downloadUserData}>View</button>
           </tr>
         })
-    default:
-        return null
-    }
   }
 
   downloadUserData = (event) => {
     const id = event.target.value
     const user = this.state.attendees.find(user => user.id === id)
-    const userContent = this.props.content.filter(c => this.findGroupContent(user.userGroupIds, c.groupIds) || this.findUserContent(user.id, c.attendeeIds) || this.findUserContent(user.tierId, c.tierIds) )
+    const userContent = this.props.content.filter(c => this.findGroupContent(user.userGroupIds, c.groupIds) || c.attendeeIds.includes(user.id) || c.tierIds.includes(user.tierId) )
     this.props.updateUserData(userContent)
-  }
-
-  findUserContent = (user, c) => {
-    return c.find(userID => userID === user)
   }
 
   findGroupContent = (user, c) => {
     var status = false
-    user.map(id => status = c.find(userID => userID === id))
+    user.forEach(id => status = c.find(userID => userID === id))
     return status
   }
 
 }
+
+const doArraysIntersect = (a, b) => !!a.find(aItem => b.includes(aItem))

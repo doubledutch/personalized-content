@@ -18,14 +18,12 @@ export default class ContentPreview extends PureComponent {
   }
 
   editorFor = (c, i) => {
-    console.log(c.order)
     switch (c.type) {
       case 'text': return <div className="textCell" key={i}>
         <h2 className="textCellTitle">{c.title}</h2>
         <p className="textCellText">{c.text}</p>
       </div>
       case 'web': return <div className="webCell" key={i}>
-        {console.log(c.url)}
         <iframe className="iFrameBox" src={c.url} title="webview" ></iframe>
       </div>
       case 'api': return <div>

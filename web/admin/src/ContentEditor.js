@@ -12,7 +12,6 @@ export default class ContentEditor extends PureComponent {
   }
   render() {
     const {content, getAttendees, groups, onDelete, onUpdate, tiers} = this.props
-    console.log(content)
     return (
       <div>
         <div>
