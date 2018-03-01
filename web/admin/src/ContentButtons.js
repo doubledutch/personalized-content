@@ -7,7 +7,7 @@ export default class ContentButtons extends Component {
     const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}]
     return (
       <span>
-        <h2>Select Content Type</h2>
+        <h2 className="contentTitle" >Select Content Type</h2>
         <span className="buttonsBox">
           {
             types.map((type, i) => (
@@ -34,18 +34,17 @@ export default class ContentButtons extends Component {
     )
   }
 
+  updateCell = (event) => {
+    const {onUpdate} = this.props
+    const name = event.target.name
+    onUpdate("type", name)
+  }
 
   renderIcon = (type) => {
     switch (type) {
-    case 'survey': return <img src={TextIcon}/>
+    case 'survey': return <img src={TextIcon} alt="survey"/>
     case 'text': return <p>T</p>
-    case 'web': return <img src={WebIcon}/>
+    case 'web': return <img src={WebIcon} alt="web"/>
     }
-  }
-
-  updateCell = (event) => {
-    const {onUpdate} = this.props
-    var name = event.target.name
-    onUpdate("type", name)
   }
 }

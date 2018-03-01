@@ -59,7 +59,6 @@ export class SelectEditor extends PureComponent {
           size={6}
         >
           { options.map(o => <option className="select-editor__option" value={o.id} key={o.id}>{o.name}</option>) }
-        
         </select>
       </label>
     )

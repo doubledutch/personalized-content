@@ -10,6 +10,8 @@
   border-bottom-width: 1px;
   flex: 1;
   display: flex;
+  
+  
 }
 
 .boxTitle{
@@ -26,11 +28,24 @@
   font-size: 16px;
   padding: 0px;
   margin: 3px;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.contentTitle {
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #4A4A4A;
+}
+
+.pageTitle {
+    font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #4A4A4A;
 }
 
 .surveyButton {
   height: 30px;
-  background-Color: red;
+  background-Color: #299fca;
   color: white;
   border-radius: 5px;
   margin-top: 5px;
@@ -40,6 +55,8 @@
   font-size: 12px;
   padding: 0px;
   margin: 3px;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .iFrameBox {
@@ -90,6 +107,7 @@
   padding: 0px;
   margin: 12px;
   background-color: white;
+  color: #4A4A4A;
 }
 
 .phoneBox {
@@ -194,6 +212,7 @@
   padding: 0;
   margin-right: 15px;
   margin-top: -2px;
+  color: #4A4A4A;
 }
 
 .typeButton img{
@@ -290,7 +309,9 @@ button {
  {
    font-size: 1.2em;
    overflow: hidden;
-   flex: 1
+   flex: 1;
+   color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
  }
  .attendee-selector__button
  {
@@ -411,6 +432,8 @@ button {
   background-color: white;
   border: 1px solid #e2e2e2;
   vertical-align: middle;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .current-content__icon {
@@ -420,6 +443,8 @@ button {
 .current-content__title {
   flex: 1;
   text-align: left;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .searchBar {
@@ -435,6 +460,8 @@ button {
   border-radius: 15px;
   font-size: 16px;
   width: 150px;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .current-content__view  {
@@ -447,9 +474,13 @@ button {
 .select-editor__select {
   font-size: 1em;
   width: 30em;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .select-editor__select option {
   padding: 0.8em 1em;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-editor {
@@ -460,6 +491,8 @@ button {
 
 .text-editor__title, .select-editor__title {
   margin-bottom: 0.5em;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-editor__error {
@@ -475,6 +508,8 @@ button {
   background-color: #FFFFFF;
   font-size: 1.25em;
   padding: 0 0.7em;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* .select-editor__select {

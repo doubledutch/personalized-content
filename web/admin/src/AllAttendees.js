@@ -31,7 +31,7 @@ export default class AllAttendees extends PureComponent {
     return (
       <div style={{width: "50%", marginRight: 50}}>
         <span className="content-bar">
-          <h2>Select Attendees</h2>
+          <h2 className="contentTitle">Select Attendees</h2>
           <div className="searchBar">
           <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
           </div>

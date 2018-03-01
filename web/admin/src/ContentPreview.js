@@ -45,7 +45,7 @@ export default class ContentPreview extends PureComponent {
       {this.getContent(c.surveyId)}
       <button className="surveyButton">Take the survey</button>
     </div>
-      default: return <div />
+      default: return <div key={i}/>
     }
   }
 }

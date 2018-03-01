@@ -16,6 +16,7 @@ padding: 0,
 border: "1px solid #e2e2e2",
 textAlign: "center",
 fontFamily: "-apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif",
+color: "#4A4A4A",
 // change background colour if dragging
 background: isDragging ? 'lightgray' : 'white',
 
@@ -46,7 +47,7 @@ export default class CurrentContent extends PureComponent {
       return (
         <div className="current-content">
           <span className="content-bar">
-            <h2>Current Content</h2>
+            <h2 className="contentTitle">Current Content</h2>
             <button className="button-small" style={{marginLeft: 100, color: '#299fca', border:"1px solid #299fca"}} onClick={this.cancelNow}>Cancel</button>
             <button className="button-small" style={{backgroundColor: '#299fca', marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
             <SearchBar updateList={this.props.updateList}/>
@@ -95,7 +96,7 @@ export default class CurrentContent extends PureComponent {
       return (
         <div className="current-content">
           <span className="content-bar">
-            <h2>Current Content</h2>
+            <h2 className="contentTitle">Current Content</h2>
             <button className="button-small" style={{marginLeft: 115, backgroundColor: '#299fca'}} onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>

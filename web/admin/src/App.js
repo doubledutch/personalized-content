@@ -86,7 +86,7 @@ export default class App extends PureComponent {
           <div>
             <Route exact path="/" render={({history}) => (
               <div>
-                <h1>Custom content</h1>
+                <h1 className="pageTitle">Custom Content</h1>
                 <div>
                   {this.lastPublishedText()}
                   { this.hasUnpublishedChanges() ? <span>
