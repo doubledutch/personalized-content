@@ -9,7 +9,7 @@ export default class ContentDetailsEditor extends PureComponent {
     return (
       <div>
         { this.editorFor(content) }
-        <div>{JSON.stringify(content)}</div>
+        {/* <div>{JSON.stringify(content)}</div> */}
       </div>
     )
   }
@@ -38,7 +38,7 @@ export default class ContentDetailsEditor extends PureComponent {
           </div>
         </div>
       case 'survey': return <div>
-          <h2>Select a global survey</h2>
+          <h2>Choose Survey</h2>
           <SelectEditor content={c} prop="surveyId" title="Survey" onUpdate={onUpdate} options={surveys} />
         </div>
       default: return null

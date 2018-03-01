@@ -434,3 +434,40 @@ button {
   font-size: 1.25em;
   padding: 0 0.7em;
 }
+
+
+
+.select-editor__title {
+  height: 60px;
+  font-size: 16px;
+  width: 400px;
+  /* background-color: red; */
+}
+
+.select-editor__select {
+  background-color: red;
+  height: 50px;
+  width: 400px;
+  /* font-size: 14px;
+  height: 30px;
+  width: 115px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #393939;
+  border: solid;
+  border-width: 1px;
+  border-color: #CDCDCD;	
+  appearance:none; */
+   /* Firefox */
+  /* -webkit-appearance:none; 
+  text-align: center;
+  padding-right: 20px; */
+
+}
+
+.select-editor__option {
+  background-color: red;
+  height: 50px;
+  width: 400px;
+  appearance:none;
+
+}

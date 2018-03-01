@@ -101,7 +101,7 @@ export default class App extends PureComponent {
                     updateUserData={this.updateUserData}
                     getAttendees={this.getAttendees}
                     allUsers={this.state.allUsers} />
-                  <ContentPreview content={this.state.userContent}/>
+                  <ContentPreview content={this.state.userContent} surveys={surveys}/>
                 </div>
                 
               </div>

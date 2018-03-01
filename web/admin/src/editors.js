@@ -47,17 +47,16 @@ export class SelectEditor extends PureComponent {
 
   render() {
     const {content, options, prop, title} = this.props
-
+    console.log(options)
     return (
       <label className="select-editor">
-        <div className="select-editor__title">{title}</div>
         <select
           className="select-editor__select"
           ref={select => this.select = select}
           value={content[prop]}
           onChange={this.onChange}
         >
-          { options.map(o => <option value={o.id} key={o.id}>{o.name}</option>) }
+          { options.map(o => <option className="select-editor__option" value={o.id} key={o.id}>{o.name}</option>) }
         </select>
       </label>
     )
@@ -67,3 +66,4 @@ export class SelectEditor extends PureComponent {
     this.props.onUpdate(this.props.prop, +e.target.value)
   }
 }
+

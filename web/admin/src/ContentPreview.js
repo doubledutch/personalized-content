@@ -17,6 +17,18 @@ export default class ContentPreview extends PureComponent {
     )
   }
 
+  getContent = (id) => {
+    const survey = this.props.surveys.find(s => s.id === id)
+    if (survey) {
+      return (
+        <div>
+          <h2 className="textCellTitle" style={{textAlign: "center"}}>{survey.name}</h2>
+          <p className="textCellText" style={{textAlign: "center"}}>{survey.description}</p>
+        </div>
+      )
+    }
+  }
+
   editorFor = (c, i) => {
     switch (c.type) {
       case 'text': return <div className="textCell" key={i}>
@@ -30,8 +42,7 @@ export default class ContentPreview extends PureComponent {
      
     </div>
       case 'survey': return <div className="textCell" key={i}>
-      <h2 className="textCellTitle" style={{textAlign: "center"}}>{c.title}</h2>
-      <p className="textCellText">{c.text}</p>
+      {this.getContent(c.surveyId)}
       <button className="surveyButton">Take the survey</button>
     </div>
       default: return <div />
