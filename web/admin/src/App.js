@@ -48,6 +48,7 @@ export default class App extends PureComponent {
 
       client.getTiers().then(tiers => this.setState({tiers}))
       client.getAttendeeGroups().then(groups => this.setState({groups}))
+      client.getSurveys().then(surveys => surveys.filter(isGlobalSurvey)).then(surveys => this.setState({surveys}))
 
       const addContent = stateKey => data => this.setState(state => (
         {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
@@ -73,7 +74,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {groups, pendingContent, lastPublishedAt, tiers, search, newList} = this.state
+    const {groups, pendingContent, lastPublishedAt, surveys, tiers, search, newList} = this.state
     var searchContent = pendingContent
     if (search) {
       searchContent = newList
@@ -115,6 +116,7 @@ export default class App extends PureComponent {
                   getAttendees={this.getAttendees}
                   groups={groups}
                   tiers={tiers}
+                  surveys={surveys}
                   onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
                   onDelete={() => this.deleteContent(editingContent.key)} />
               )
@@ -281,3 +283,5 @@ const lastPublishedAtRef = () => fbc.database.private.adminRef('lastPublishedAt'
 const publicContentRef = () => fbc.database.public.adminRef('content')
 const usersRef = userId => fbc.database.private.adminableUsersRef(userId)
 const tiersRef = tierId => fbc.database.private.tiersRef(tierId)
+
+const isGlobalSurvey = s => !s.listId && !s.itemIds.length
