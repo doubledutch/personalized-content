@@ -60,16 +60,13 @@ export default class AllAttendees extends PureComponent {
   downloadUserData = (event) => {
     const id = event.target.value
     const user = this.state.attendees.find(user => user.id === id)
-    const userContent = this.props.content.filter(c => this.findGroupContent(user.userGroupIds, c.groupIds) || c.attendeeIds.includes(user.id) || c.tierIds.includes(user.tierId) )
+    const userContent = this.props.content.filter(c =>
+      doArraysIntersect(user.userGroupIds, c.groupIds)  // Is attendee part of one of the selected attendee groups?
+      || c.attendeeIds.includes(user.id)                // ...or is he/she specifically selected?
+      || c.tierIds.includes(user.tierId)                // ...or is he/she in one of the selected tiers?
+    )
     this.props.updateUserData(userContent)
   }
-
-  findGroupContent = (user, c) => {
-    var status = false
-    user.forEach(id => status = c.find(userID => userID === id))
-    return status
-  }
-
 }
 
 const doArraysIntersect = (a, b) => !!a.find(aItem => b.includes(aItem))
