@@ -45,6 +45,7 @@ export default class ContentButtons extends Component {
     case 'survey': return <img src={TextIcon} alt="survey"/>
     case 'text': return <p>T</p>
     case 'web': return <img src={WebIcon} alt="web"/>
+    default: return <div/>
     }
   }
 }
