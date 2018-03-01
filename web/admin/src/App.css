@@ -114,6 +114,12 @@
   flex-flow: row wrap;
 }
 
+.AttendeeBox {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 50px;
+}
+
 .textCell {
   display:flex;
   flex-flow: column wrap;
