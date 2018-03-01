@@ -441,15 +441,6 @@ button {
   padding: 0 0.7em;
 }
 
-
-
-.select-editor {
-  height: 60px;
-  font-size: 16px;
-  width: 400px;
-  /* background-color: red; */
-}
-
 .select-editor__select {
   font-size: 16px;
   width: 502px;
@@ -459,9 +450,5 @@ button {
 .select-editor__option {
   border-bottom: 1px solid #AEAEAE;
   padding: 10px; 
-  
-  /* background-color: red; */
-
- 
 
 }
