@@ -31,7 +31,7 @@ export default class ContentEditor extends PureComponent {
             <ContentPreview content={[content]} surveys={surveys}/>
           </div>
           <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
-          <Link to="/" className="button-big">Done</Link>
+          <Link to="/" className="button-big">Submit Content</Link>
         </div>
       </div>
     )

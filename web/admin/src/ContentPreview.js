@@ -9,9 +9,11 @@ export default class ContentPreview extends PureComponent {
       backgroundImage: `url(${Background})`
     }
     return (
-      <div className="phoneBox" style={sectionStyle}>
-        <div className="phoneScroll">
-          { content.map(this.editorFor) }
+      <div className="content-preview">
+        <div className="phoneBox" style={sectionStyle}>
+          <div className="phoneScroll">
+            { content.map(this.editorFor) }
+          </div>
         </div>
       </div>
     )

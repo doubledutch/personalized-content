@@ -2,8 +2,10 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import TextIcon from './images/text-doc.svg'
+import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
+import TextIcon from './images/TextIcon.png'
+import ReorderIcon from './images/Reorder.png'
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
@@ -50,7 +52,7 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content">
           <span className="content-bar">
             <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small" style={{marginLeft: 100, color: '#299fca', border:"1px solid #299fca"}} onClick={this.cancelNow}>Cancel</button>
+            <button className="button-small" style={{color: '#299fca', border:"1px solid #299fca"}} onClick={this.cancelNow}>Cancel</button>
             <button className="button-small" style={{backgroundColor: '#299fca', marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
@@ -75,7 +77,7 @@ export default class CurrentContent extends PureComponent {
                             )}
                             {...provided.dragHandleProps}
                           >
-                            <p style={{paddingLeft: 10}}>+</p>
+                            <img src={ReorderIcon} className="current-content__move" alt={c.type} />
                             <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
                             <span className="current-content__title">{titleFor(c)}</span>
                           </div>
@@ -134,10 +136,10 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
-    case 'text': return 'https://dummyimage.com/22x22/ffffff/4a4a4a.png&text=T'
+    case 'text': return TextIcon
     case 'web': return WebIcon
-    case 'survey': return TextIcon
-    default: return TextIcon
+    case 'survey': return PageIcon
+    default: return <div/>
   }
 }
 

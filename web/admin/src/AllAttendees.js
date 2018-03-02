@@ -29,7 +29,7 @@ export default class AllAttendees extends PureComponent {
   render() {
     const {search} = this.state
     return (
-      <div style={{width: "50%", marginRight: 50}}>
+      <div style={{width: 600, marginRight: 60}}>
         <span className="content-bar">
           <h2 className="contentTitle">Select Attendees</h2>
           <div className="searchBar">
@@ -40,10 +40,14 @@ export default class AllAttendees extends PureComponent {
           <table className="attendee-selector__table">
             <tbody>
               { [this.renderTableRows()] }
+              
             </tbody>
           </table>
+          
         </div>
+        { this.renderSelectRows()}
       </div>
+      
     )
   }
 
@@ -51,10 +55,24 @@ export default class AllAttendees extends PureComponent {
         if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
         return this.state.attendees.map(a => {
           return <tr key={a.id} className={'attendee-selector__attendee'}>
-            <td className="attendee-selector__name">{a.firstName} {a.lastName}</td>       
-            <button value={a.id} onClick={this.downloadUserData}>View</button>
+            <td><button className="attendee-selector__name" value={a.id} onClick={this.downloadUserData}>{a.firstName} {a.lastName}</button></td>       
+            {/* <button value={a.id} onClick={this.downloadUserData}>View</button> */}
           </tr>
         })
+  }
+
+  
+
+  renderSelectRows = () => {
+    if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
+    
+    return<label className="select-editor" style={{width: 500}}>
+    <select
+      size={6}
+    >
+      { this.state.attendees.map(o => <option className="select-editor__option" value={o.id} key={o.id}>{o.name}</option>) }
+    </select>
+  </label>
   }
 
   downloadUserData = (event) => {

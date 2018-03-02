@@ -4,8 +4,12 @@
 }
 
 body {
-  margin: 0;
+  margin: 0px;
   padding: 10px;
+}
+
+.app {
+  padding: 0px 10px 0px 10px;
 }
 
 .box {
@@ -47,7 +51,8 @@ body {
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #4A4A4A;
-  flex: 1
+  flex: 1;
+  display: flex;
 }
 
 .pageTitle {
@@ -61,7 +66,7 @@ body {
   color: white;
   border-radius: 5px;
   margin-top: 5px;
-  font: 300 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font: 400 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .textCellText {
@@ -127,7 +132,7 @@ body {
   margin: 20px;
   width: 318px;
   height: 350px;
-  background-color: lightgrey;
+  background-color: white;
 }
 
 .phoneScroll {
@@ -137,7 +142,7 @@ body {
   padding: 5px;
   height: 275px;
   overflow-y: auto;
-  background-color: lightgrey;
+  background-color: white;
 }
 
 .editorBox {
@@ -154,9 +159,8 @@ body {
 .textCell {
   display:flex;
   flex-flow: column wrap;
-  border: solid;
-  border-width: 1px;
-  border-color: darkgrey;
+  border: 1px solid #AEAEAE;
+  border-radius: 4px;
   background-color: white;
   padding: 5px;
   padding-left: 15px;
@@ -171,6 +175,7 @@ body {
   border-color: darkgrey;
   background-color: white;
   margin-top: 5px;
+  border-radius: 4px;
 }
 
 
@@ -205,7 +210,7 @@ body {
   border: 1px solid #979797;	
   border-radius: 4px;	
   margin: 5px;
-  font: 300 18px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font: 400 18px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #4A4A4A;
   text-align: left;
   padding-left: 10px;
@@ -324,6 +329,7 @@ button {
    font-size: 1.2em;
    overflow: hidden;
    flex: 1;
+   border: none;
    color: #4A4A4A;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
  }
@@ -464,12 +470,21 @@ button {
 
 .current-content__icon {
   margin: 0 20px;
+  height: 22px;
+  width: 22px;
+}
+
+.current-content__move {
+  margin: 0 20px;
+  height: 15px;
+  width: 15px;
 }
 
 .current-content__title {
   flex: 1;
   text-align: left;
   color: #4A4A4A;
+  font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -479,11 +494,23 @@ button {
   margin-top: 7px;
 }
 
+.content-preview {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-buttons__box {
+  margin-top: 20px;
+}
+
 .searchBar input {
-  height: 27px;
+  height: 32px;
   padding: 0px;
+  margin-bottom: 5px;
   padding-left: 10px;
   border-radius: 15px;
+  border: 1px solid #AEAEAE;
   font-size: 16px;
   width: 150px;
   color: #4A4A4A;
@@ -493,7 +520,9 @@ button {
 .current-content__view  {
   padding: 0 20px;
   text-decoration: none;
-  color: #828282;
+  color: #4A4A4A;
+  font-weight: 300;
+  font-size: 16px;
   line-height: 40px;
 }
 
