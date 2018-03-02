@@ -1,3 +1,13 @@
+:root {
+  font: 400 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #4A4A4A;
+}
+
+body {
+  margin: 0;
+  padding: 10px;
+}
+
 .box {
   width: 50%;
   height: 400px;
@@ -37,6 +47,7 @@
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #4A4A4A;
+  flex: 1
 }
 
 .pageTitle {
@@ -50,6 +61,7 @@
   color: white;
   border-radius: 5px;
   margin-top: 5px;
+  font: 300 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .textCellText {
@@ -193,11 +205,11 @@
   border: 1px solid #979797;	
   border-radius: 4px;	
   margin: 5px;
-  font-size: 18px;
+  font: 300 18px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #4A4A4A;
   text-align: left;
   padding-left: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  
 }
 
 .typeButton div {
@@ -383,11 +395,11 @@ button {
   text-decoration: none;
   margin: 1em 0;
   background-color: #299fca;
-  font-size: 1.2em;
   color: white;
   padding: 0.8em 1.2em;
   border-radius: 4px;
   border: 0;
+  font: 300 1.2em -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .content-bar {
@@ -401,7 +413,7 @@ button {
   text-decoration: none;
   margin-top: 7px;
   margin-bottom: 10px;
-  font-size: 14px;
+  font: 300 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 31px;
   color: white;
   padding-left: 10px;
@@ -551,9 +563,9 @@ button {
 
 .publish-content__box {
   flex: 1;
-  height: 80px;
-  background-color: rgba(76, 175, 80, 0.3);
-  border: 1px solid #299fca;
+  height: 60px;
+  background-color: rgba(41, 159, 202, 0.1);
+  border: 2px solid #299fca;
   border-radius: 4px;
   flex-flow: row wrap;
   display: flex;
@@ -564,8 +576,9 @@ button {
   height: 30px;
   background-Color: #299fca;
   color: white;
+  font: 300 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   border-radius: 5px;
-  margin-top: 25px;
+  margin-top: 15px;
   padding-left: 20px;
   padding-right: 20px;
   margin-left: 10px;
@@ -574,10 +587,10 @@ button {
 
 .publish-content__box p {
   flex: 1;
+  font-size: 14px;
   display: flex;
   margin-top: 20px;
-  background-color: red;
-
+  margin-left: 10px;
 }
 
 

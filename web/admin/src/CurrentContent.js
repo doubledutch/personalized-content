@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import TextIcon from './images/text-doc.svg'
+import WebIcon from './images/earth.svg'
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
@@ -132,10 +134,10 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
-    case 'text': return 'https://dummyimage.com/18x18/000/fff.png&text=T'
-    case 'web': return 'https://dummyimage.com/18x18/000/fff.png&text=W'
-    case 'survey': return 'https://dummyimage.com/18x18/000/fff.png&text=S'
-    default: return 'https://dummyimage.com/18x18/000/fff.png&text=?'
+    case 'text': return 'https://dummyimage.com/22x22/ffffff/4a4a4a.png&text=T'
+    case 'web': return WebIcon
+    case 'survey': return TextIcon
+    default: return TextIcon
   }
 }
 

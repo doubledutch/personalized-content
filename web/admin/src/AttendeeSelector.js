@@ -85,7 +85,7 @@ export default class AttendeeSelector extends PureComponent {
       const {attendeeIds} = this.props.content
         if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
         return this.state.attendees.map(a => {
-          const inTierOrGroup = tierIds.includes(a.tierId) || !!groupIds.find(g => a.userGroupIds.includes(g))
+          const inTierOrGroup = isAttendeeInTierOrGroup(a, tierIds, groupIds)
           return <tr key={a.id} className={'attendee-selector__attendee' + (inTierOrGroup ? '--disabled' : '')}>
             <td>
               {!inTierOrGroup && <input type="checkbox" checked={attendeeIds.includes(a.id)} onChange={this.onAttendeeChange(a.id)} /> }
@@ -161,4 +161,8 @@ export default class AttendeeSelector extends PureComponent {
   addGroupId = this.addFilter('groupIds')
   removeGroupId = this.removeFilter('groupIds')
   removeAllGroupIds = this.removeAllFilters('groupIds')
+}
+
+export function isAttendeeInTierOrGroup(attendee, tierIds, groupIds) {
+  return tierIds.includes(attendee.tierId) || !!groupIds.find(g => attendee.userGroupIds.includes(g))
 }
