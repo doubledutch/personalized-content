@@ -1,3 +1,12 @@
+:root {
+  font: 500 14px sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 10px;
+}
+
 .box {
   width: 50%;
   height: 400px;
