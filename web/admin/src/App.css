@@ -17,48 +17,19 @@ body {
   height: 400px;
 }
 
-.contentListItem {
-  width: 100%;
-  flex-direction: column wrap;
-  border-bottom-color: black;
-  border-bottom-width: 1px;
-  flex: 1;
-  display: flex;
-  
-  
-}
-
-.boxTitle{
-  font-size: 14px;
-  height: 50px;
-  margin-bottom: 5px;
-  color: #737373;
-  text-align: left;
-  padding-top: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .textCellTitle {
   font-size: 16px;
   padding: 0px;
   margin: 3px;
-  color: #4A4A4A;
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .contentTitle {
   font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: #4A4A4A;
   flex: 1;
   display: flex;
 }
 
-.pageTitle {
-    font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #4A4A4A;
-}
 
 .surveyButton {
   height: 30px;
@@ -73,8 +44,6 @@ body {
   font-size: 12px;
   padding: 0px;
   margin: 3px;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .iFrameBox {
@@ -88,11 +57,9 @@ body {
   height: 15px;
   margin-left: 0px;
   margin-right: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   display: flex;
   width: 15px;
-  /* flex-flow: row wrap; */
 }
 
 .contentIcon {
@@ -183,7 +150,6 @@ body {
   display: flex;
   flex-flow: row wrap;
   width: 60%;
-  /* margin-Top: 10px; */
   margin-Left: 21px;
   margin-bottom: 10px;
   background-Color:white;
@@ -191,7 +157,6 @@ body {
   border-width: 1px;
   border-color: lightgrey;
   overflow: scroll;
-  /* padding: 20px; */
 }
 
 .buttonsBox {
@@ -230,7 +195,6 @@ body {
   padding: 0;
   margin-right: 15px;
   margin-top: -2px;
-  color: #4A4A4A;
 }
 
 .typeButton img{
@@ -330,8 +294,6 @@ button {
    overflow: hidden;
    flex: 1;
    border: none;
-   color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
  }
  .attendee-selector__button
  {
@@ -390,11 +352,6 @@ button {
   color: #C1C1C1;
 }
 
-
-/* .attendee-selector__main-list {
-  flex: 1;
-  border-left: 1px solid #e2e2e2;
-} */
 
 .button-big {
   display: inline-block;
@@ -464,8 +421,6 @@ button {
   background-color: white;
   border: 1px solid #e2e2e2;
   vertical-align: middle;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .current-content__icon {
@@ -483,9 +438,7 @@ button {
 .current-content__title {
   flex: 1;
   text-align: left;
-  color: #4A4A4A;
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .searchBar {
@@ -513,14 +466,11 @@ button {
   border: 1px solid #AEAEAE;
   font-size: 16px;
   width: 150px;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .current-content__view  {
   padding: 0 20px;
   text-decoration: none;
-  color: #4A4A4A;
   font-weight: 300;
   font-size: 16px;
   line-height: 40px;
@@ -529,13 +479,9 @@ button {
 .select-editor__select {
   font-size: 1em;
   width: 30em;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .select-editor__select option {
   padding: 0.8em 1em;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-editor {
@@ -546,8 +492,6 @@ button {
 
 .text-editor__title, .select-editor__title {
   margin-bottom: 0.5em;
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-editor__error {
@@ -565,7 +509,6 @@ button {
   font-size: 1.25em;
   padding: 0 0.7em;
   color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-editor__inputBox {
@@ -574,7 +517,8 @@ button {
   flex: 1;
   margin: 0px;
   padding: 0px;
-  width: 100%;
+  width: 400px;
+  height: 50px;
   border: 1px solid #AEAEAE;
   height: 2.8em;
   border-radius: 4px;
@@ -582,9 +526,6 @@ button {
 }
 
 .text-editor__counter {
-  color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 14px;
   height: 20px;
   padding: 0px;
   margin: 10px 5px 0px 0px;
@@ -622,28 +563,13 @@ button {
   margin-left: 10px;
 }
 
-
-
 .multiline-editor__input {
   height: 5.8em;
-  width: 100%;
+  width: 380px;
   border: 1px solid #AEAEAE;
   border-radius: 4px;
   background-color: #FFFFFF;
   font-size: 1.25em;
-  padding: 0.7em 0.7em;
+  padding: 10px 10px 10px 10px;
   color: #4A4A4A;
-  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
-/* .select-editor__select {
-  font-size: 16px;
-  width: 502px;
-  border-radius: 4px;
-}
-
-.select-editor__option {
-  border-bottom: 1px solid #AEAEAE;
-  padding: 10px; 
-
-} */
