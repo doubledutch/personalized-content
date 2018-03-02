@@ -29,6 +29,7 @@
   padding: 0px;
   margin: 3px;
   color: #4A4A4A;
+  text-align: center;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -303,6 +304,7 @@ button {
   padding: 0 0.75em;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: #4A4A4A;
 }
 
 .attendee-selector__name
@@ -332,7 +334,7 @@ button {
   color: #7e7e7e;
 }
 .attendee-selector__main-menu-item--selected {
-  color: 'black';
+  color: #4A4A4A;
 }
 
 .pill {
@@ -356,6 +358,18 @@ button {
 .pill.blue {
   color: white;
   background-color: #299fca;
+}
+
+.counter {
+  justify-content: center;
+  width: 10%;
+  font-size: 14px;
+  height: 20;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: '#9B9B9B'; 
+  text-align: center;
+  color: #C1C1C1;
 }
 
 
@@ -501,13 +515,81 @@ button {
 }
 
 .text-editor__input {
+  display: flex;
+  flex: 1;
+  border: 0;
+  margin: 0;
+  padding: 0px 0px 0px 10px;
+  background-color: #FFFFFF;
+  font-size: 1.25em;
+  padding: 0 0.7em;
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.text-editor__inputBox {
+  flex-direction: row wrap;
+  display: flex;
+  flex: 1;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  border: 1px solid #AEAEAE;
   height: 2.8em;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+}
+
+.text-editor__counter {
+  color: #4A4A4A;
+  font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  height: 20px;
+  padding: 0px;
+  margin: 10px 5px 0px 0px;
+}
+
+.publish-content__box {
+  flex: 1;
+  height: 80px;
+  background-color: rgba(76, 175, 80, 0.3);
+  border: 1px solid #299fca;
+  border-radius: 4px;
+  flex-flow: row wrap;
+  display: flex;
+  
+}
+
+.publish-content__box button{
+  height: 30px;
+  background-Color: #299fca;
+  color: white;
+  border-radius: 5px;
+  margin-top: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.publish-content__box p {
+  flex: 1;
+  display: flex;
+  margin-top: 20px;
+  background-color: red;
+
+}
+
+
+
+.multiline-editor__input {
+  height: 5.8em;
   width: 100%;
   border: 1px solid #AEAEAE;
   border-radius: 4px;
   background-color: #FFFFFF;
   font-size: 1.25em;
-  padding: 0 0.7em;
+  padding: 0.7em 0.7em;
   color: #4A4A4A;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
 }

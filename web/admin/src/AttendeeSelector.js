@@ -45,7 +45,7 @@ export default class AttendeeSelector extends PureComponent {
     const {search, view} = this.state
     return (
       <div>
-        <h2>Select Attendees</h2>
+        <h2 className="contentTitle">Select Attendees</h2>
 
         <div className="attendee-selector">
           <div className="attendee-selector__menu">

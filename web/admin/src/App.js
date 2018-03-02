@@ -8,6 +8,7 @@ import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
+import Publisher from './Publisher'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
@@ -89,10 +90,8 @@ export default class App extends PureComponent {
                 <h1 className="pageTitle">Custom Content</h1>
                 <div>
                   {this.lastPublishedText()}
-                  { this.hasUnpublishedChanges() ? <span>
-                      <button onClick={this.publish}>Publish changes</button>
-                      <button onClick={this.discard}>Discard changes</button>
-                    </span> : null }
+                  { this.hasUnpublishedChanges() ? <Publisher publish={this.publish} discard={this.discard}/>
+                    : null }
                 </div>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
                 <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
