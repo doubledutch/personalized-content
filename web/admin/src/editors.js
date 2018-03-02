@@ -22,13 +22,64 @@ export class TextEditor extends PureComponent {
       <label className="text-editor">
         <div className="text-editor__title">{title}</div>
         { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
-        <input
-          className="text-editor__input"
+        <div className="text-editor__inputBox">
+          <input
+            className="text-editor__input"
+            type="text"
+            placeholder={placeholder}
+            value={this.state.value}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+          />
+          {this.isTitle()}
+        </div>
+      </label>
+    )
+  }
+
+  isTitle = () => {
+    console.log(this.props.isTitle)
+    if (this.props.isTitle && this.state.value) {
+      return (
+        <p className="text-editor__counter">{150 - this.state.value.length} </p>
+      )
+    }
+  }
+
+  onChange = e => this.setState({value: e.target.value})
+  
+  onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
+
+  isValid = () => {
+    const {regex} = this.props
+    const {value} = this.state
+    return !regex || value == null || value.match(regex)
+  }
+}
+
+export class MultiLineEditor extends PureComponent {
+  state = {}
+
+  componentWillMount() {
+    const {content, prop} = this.props
+    this.setState({value: content[prop]})
+  }
+
+  render() {
+    const {title, placeholder, validationMessage} = this.props
+
+    return (
+      <label className="text-editor">
+        <div className="text-editor__title">{title}</div>
+        { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
+        <textarea
+          className="multiline-editor__input"
           type="text"
           placeholder={placeholder}
           value={this.state.value}
           onChange={this.onChange}
           onBlur={this.onBlur}
+          maxLength={250}
         />
       </label>
     )
@@ -53,11 +104,10 @@ export class SelectEditor extends PureComponent {
   }
 
   render() {
-    const {content, options, prop, size, title} = this.props
+    const {content, options, prop, size} = this.props
 
     return (
       <label className="select-editor">
-        <div className="select-editor__title">{title}</div>
         <select
           size={size || 0}
           className="select-editor__select"
@@ -65,7 +115,7 @@ export class SelectEditor extends PureComponent {
           value={content[prop]}
           onChange={this.onChange}
         >
-          { options.map(o => <option value={o.id} key={o.id}>{o.name}</option>) }
+          { options.map(o => <option className="select-editor__option" value={o.id} key={o.id}>{o.name}</option>) }
         </select>
       </label>
     )
@@ -75,3 +125,4 @@ export class SelectEditor extends PureComponent {
     this.props.onUpdate(this.props.prop, +e.target.value)
   }
 }
+

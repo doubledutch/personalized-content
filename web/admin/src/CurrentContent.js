@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import TextIcon from './images/text-doc.svg'
+import WebIcon from './images/earth.svg'
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
@@ -16,6 +18,7 @@ padding: 0,
 border: "1px solid #e2e2e2",
 textAlign: "center",
 fontFamily: "-apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif",
+color: "#4A4A4A",
 // change background colour if dragging
 background: isDragging ? 'lightgray' : 'white',
 
@@ -46,7 +49,7 @@ export default class CurrentContent extends PureComponent {
       return (
         <div className="current-content">
           <span className="content-bar">
-            <h2>Current Content</h2>
+            <h2 className="contentTitle">Current Content</h2>
             <button className="button-small" style={{marginLeft: 100, color: '#299fca', border:"1px solid #299fca"}} onClick={this.cancelNow}>Cancel</button>
             <button className="button-small" style={{backgroundColor: '#299fca', marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
             <SearchBar updateList={this.props.updateList}/>
@@ -95,7 +98,7 @@ export default class CurrentContent extends PureComponent {
       return (
         <div className="current-content">
           <span className="content-bar">
-            <h2>Current Content</h2>
+            <h2 className="contentTitle">Current Content</h2>
             <button className="button-small" style={{marginLeft: 115, backgroundColor: '#299fca'}} onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
@@ -131,10 +134,10 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
-    case 'text': return 'https://dummyimage.com/18x18/000/fff.png&text=T'
-    case 'web': return 'https://dummyimage.com/18x18/000/fff.png&text=W'
-    case 'survey': return 'https://dummyimage.com/18x18/000/fff.png&text=S'
-    default: return 'https://dummyimage.com/18x18/000/fff.png&text=?'
+    case 'text': return 'https://dummyimage.com/22x22/ffffff/4a4a4a.png&text=T'
+    case 'web': return WebIcon
+    case 'survey': return TextIcon
+    default: return TextIcon
   }
 }
 
