@@ -55,6 +55,7 @@ body {
   height: 200px;
   width: 274px;
   border: none;
+  background-image: url(./iframe-fallback.png)
 }
 
 .checkBox {
@@ -371,7 +372,7 @@ button {
 }
 
 .content-editor__content {
-  margin: 1em 0;
+  margin: 1em 0 5em;
 }
 
 .current-content {
