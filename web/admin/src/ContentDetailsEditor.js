@@ -38,7 +38,7 @@ export default class ContentDetailsEditor extends PureComponent {
         </div>
       case 'survey': return <div>
           <h2 className="contentTitle">Choose Survey</h2>
-          <SelectEditor content={c} prop="surveyId" title="Survey" onUpdate={onUpdate} options={surveys} />
+          <SelectEditor size={6} content={c} prop="surveyId" title="Survey" onUpdate={onUpdate} options={surveys} />
         </div>
       default: return null
     }

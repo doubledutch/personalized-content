@@ -102,12 +102,11 @@ export class SelectEditor extends PureComponent {
     return (
       <label className="select-editor">
         <select
-          // size={size || 0}
+          size={size || 0}
           className="select-editor__select"
           ref={select => this.select = select}
           value={content[prop]}
           onChange={this.onChange}
-          size={6}
         >
           { options.map(o => <option className="select-editor__option" value={o.id} key={o.id}>{o.name}</option>) }
         </select>
