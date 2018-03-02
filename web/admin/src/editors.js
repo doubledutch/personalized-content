@@ -4,9 +4,16 @@ export class TextEditor extends PureComponent {
   state = {}
 
   componentWillMount() {
-    const {content, prop} = this.props
-    this.setState({value: content[prop]})
+    this.reset(this.props)
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.content !== this.props.content || nextProps.prop !== this.props.prop) {
+      this.reset(nextProps)
+    }
+  }
+
+  reset = ({content, prop}) => this.setState({value: content[prop]})
 
   render() {
     const {title, placeholder, validationMessage} = this.props
