@@ -29,9 +29,9 @@ export default class AllAttendees extends PureComponent {
   render() {
     const {search} = this.state
     return (
-      <div style={{width: "50%", marginRight: 50}}>
+      <div className="all-attendees__table">
         <span className="content-bar">
-          <h2>Select Attendees</h2>
+          <h2 className="contentTitle">Select Attendees</h2>
           <div className="searchBar">
           <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
           </div>
@@ -44,6 +44,7 @@ export default class AllAttendees extends PureComponent {
           </table>
         </div>
       </div>
+      
     )
   }
 
@@ -51,11 +52,11 @@ export default class AllAttendees extends PureComponent {
         if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
         return this.state.attendees.map(a => {
           return <tr key={a.id} className={'attendee-selector__attendee'}>
-            <td className="attendee-selector__name">{a.firstName} {a.lastName}</td>       
-            <button value={a.id} onClick={this.downloadUserData}>View</button>
+            <td><button className="attendee-selector__name" value={a.id} onClick={this.downloadUserData}>{a.firstName} {a.lastName}</button></td>       
           </tr>
         })
   }
+
 
   downloadUserData = (event) => {
     const id = event.target.value
