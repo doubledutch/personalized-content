@@ -8,10 +8,6 @@ body {
   padding: 10px;
 }
 
-button {
-  font: 400 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .app {
   padding: 0px 10px 0px 10px;
 }
@@ -393,6 +389,7 @@ button {
   padding-bottom: 5px;
   border-radius: 4px;
   border: 0;
+  font-size: 14px;
 }
 
 .button-small__color {
@@ -411,6 +408,7 @@ button {
   border: 0;
   margin-left: 115px;
   background-color: #299fca;
+  font-size: 14px;
 }
 
 .button-small__white {
@@ -427,6 +425,7 @@ button {
   border-radius: 4px;
   color: #299fca; 
   border:1px solid #299fca;
+  font-size: 14px;
   
 }
 
