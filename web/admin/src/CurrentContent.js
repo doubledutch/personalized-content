@@ -19,8 +19,6 @@ height: 40,
 padding: 0,
 border: "1px solid #e2e2e2",
 textAlign: "center",
-fontFamily: "-apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif",
-color: "#4A4A4A",
 // change background colour if dragging
 background: isDragging ? 'lightgray' : 'white',
 
