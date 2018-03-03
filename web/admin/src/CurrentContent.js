@@ -52,8 +52,8 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content">
           <span className="content-bar">
             <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small" style={{color: '#299fca', border:"1px solid #299fca"}} onClick={this.cancelNow}>Cancel</button>
-            <button className="button-small" style={{backgroundColor: '#299fca', marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
+            <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
+            <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
           <DragDropContext onDragEnd={this.props.onDragEnd}>
@@ -101,7 +101,7 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content">
           <span className="content-bar">
             <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small" style={{marginLeft: 115, backgroundColor: '#299fca'}} onClick={this.moveNow}>Reorder Content</button>
+            <button className="button-small__color" onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
           <ul className="current-content__list">

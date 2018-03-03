@@ -395,6 +395,41 @@ button {
   border: 0;
 }
 
+.button-small__color {
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  font-weight: 300;
+  height: 31px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  border: 0;
+  margin-left: 115px;
+  background-color: #299fca;
+}
+
+.button-small__white {
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  font-weight: 300;
+  height: 31px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  color: #299fca; 
+  border:1px solid #299fca;
+  
+}
+
 .button-big:last-of-type {
   margin-right: 1em;
 }
@@ -482,6 +517,7 @@ button {
   font-weight: 300;
   font-size: 16px;
   line-height: 40px;
+  color: #a4a4a4
 }
 
 .select-editor__select {
