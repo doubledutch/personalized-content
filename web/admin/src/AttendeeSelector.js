@@ -60,8 +60,8 @@ export default class AttendeeSelector extends PureComponent {
                 ? <tr>
                     <td>&nbsp;</td>
                     <td><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
-                    <td>Tiers</td> 
-                    <td>Groups</td> 
+                    <td className="attendee-selector__column">Tiers</td> 
+                    <td className="attendee-selector__column">Groups</td> 
                   </tr>
                 : <tr>
                     <td>&nbsp;</td>

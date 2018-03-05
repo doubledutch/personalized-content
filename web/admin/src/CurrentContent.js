@@ -99,7 +99,7 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content">
           <span className="content-bar">
             <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small__color" onClick={this.moveNow}>Reorder Content</button>
+            <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
           <ul className="current-content__list">
