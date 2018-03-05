@@ -23,7 +23,7 @@ export default class ContentButtons extends Component {
   renderButton = (type, i) => {
     var color = "#FFFFFF"
     if (type.type === this.props.content.type){
-      color = "#E2E2E2;"
+      color = "#E2E2E2"
     }
     return (
       <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>
