@@ -38,7 +38,7 @@ export default class ContentPreview extends PureComponent {
         <p className="textCellText" rows={5}>{c.text}</p>
       </div>
       case 'web': return <div className="webCell" key={i}>
-        <iframe className="iFrameBox" src={c.url} title="webview" ></iframe>
+        <iframe className="iFrameBox" src={c.url} title="webview"></iframe>
       </div>
       case 'api': return <div>
      
