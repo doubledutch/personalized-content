@@ -88,9 +88,8 @@ export default class App extends PureComponent {
             <Route exact path="/" render={({history}) => (
               <div>
                 <div>
-                  { this.hasUnpublishedChanges() ? <Publisher publish={this.publish} discard={this.discard}/>
-                    : null }
-                    {this.lastPublishedText()}
+                  { this.hasUnpublishedChanges() && <Publisher publish={this.publish} discard={this.discard} /> }
+                  { this.lastPublishedText() }
                 </div>
                 <h1 className="pageTitle">Custom Content</h1>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
