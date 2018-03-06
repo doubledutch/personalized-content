@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { TextContent, WebContent, SurveyContent } from './content'
+import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'
 
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
@@ -74,6 +74,7 @@ function renderContentItem(c) {
     case 'text': return <TextContent {...c} />
     case 'web': return <WebContent {...c} />
     case 'survey': return <SurveyContent {...c} />
+    case 'html': return <HTMLContent {...c} />
     default: return null
   }
 }

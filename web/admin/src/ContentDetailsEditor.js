@@ -12,7 +12,6 @@ export default class ContentDetailsEditor extends PureComponent {
     if (this.state.expand){
       return <MultiLineEditor content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate}/>
     }
-
     else {
       return <label className="text-editor">
         <div className="text-editor__title">{"Content"}</div>
@@ -25,7 +24,6 @@ export default class ContentDetailsEditor extends PureComponent {
           />
         </div>
       </label>
-
     }
   }
   
