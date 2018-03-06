@@ -5,7 +5,8 @@ export default class AllAttendees extends PureComponent {
 
   state = {
     search: '',
-    id: ""
+    id: "",
+    hidden: false
   }
 
   componentDidMount() {
@@ -27,26 +28,42 @@ export default class AllAttendees extends PureComponent {
     this.searchAttendees(search)
   }
 
+  hideTable = () => {
+    var current = this.state.hide
+    this.setState({hide: !current})
+
+  }
+
   render() {
     const {search} = this.state
-    return (
-      <div className="all-attendees__table">
-        <span className="content-bar">
-          <h2 className="contentTitle">Select Attendees</h2>
-          <div className="searchBar">
-          <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
+    if (this.state.hide) {
+      return (
+        <div className="all-attendees__table">
+          <span className="content-bar">
+            <button className='contentTitle__button' onClick={this.hideTable}>Hide Attendees</button>
+            <div className="searchBar">
+            <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
+            </div>
+          </span>
+          <div className="attendee-selector">
+            <table className="attendee-selector__table">
+              <tbody>
+                { [this.renderTableRows()] }
+              </tbody>
+            </table>
           </div>
-        </span>
-        <div className="attendee-selector">
-          <table className="attendee-selector__table">
-            <tbody>
-              { [this.renderTableRows()] }
-            </tbody>
-          </table>
         </div>
+      )
+    }
+    else {
+      return (
+        <div className="all-attendees__table">
+        <span className="content-bar">
+          <button className='contentTitle__button' onClick={this.hideTable}>Show Attendees</button>
+        </span>
       </div>
-      
-    )
+      )
+    }
   }
 
   renderTableRows = () => {

@@ -35,6 +35,15 @@ body {
   display: flex;
 }
 
+.contentTitle__button {
+  font-weight: 600;
+  flex: 1;
+  font-size: 18px;
+  border: none;
+  display: flex;
+  color: #4A4A4A;
+}
+
 
 .surveyButton {
   height: 30px;
