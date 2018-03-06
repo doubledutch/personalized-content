@@ -44,8 +44,7 @@ export default class CurrentContent extends PureComponent {
   }
 
   render(){
-    // const {content} = this.props
-    const content = []
+    const {content} = this.props
     if (content.length){
       if (this.state.move){
         return (
@@ -126,7 +125,7 @@ export default class CurrentContent extends PureComponent {
             <div className="current-content__list-text">
               <h1>Curate your attendees' experience with custom content</h1>
               <h2>Click below to build your first piece of content</h2>
-              <button className="button-big" onClick={() => this.props.addNewContent()}>Add New Content</button>
+              <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
             </div>
           </div>
         </div>
