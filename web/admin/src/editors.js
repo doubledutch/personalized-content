@@ -38,7 +38,6 @@ export class TextEditor extends PureComponent {
   }
 
   isTitle = () => {
-    console.log(this.props.isTitle)
     if (this.props.isTitle && this.state.value) {
       return (
         <p className="text-editor__counter">{150 - this.state.value.length} </p>
