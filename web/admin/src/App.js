@@ -30,7 +30,8 @@ export default class App extends PureComponent {
       allUsers: [],
       searchContent: [],
       search: false,
-      userContent : []
+      userContent : [],
+      hidden : false
     }
 
     this.signin = fbc.signinAdmin()
@@ -98,8 +99,10 @@ export default class App extends PureComponent {
                   <AllAttendees  content={this.state.content}
                     updateUserData={this.updateUserData}
                     getAttendees={this.getAttendees}
-                    allUsers={this.state.allUsers} />
-                  <ContentPreview content={this.state.userContent} surveys={surveys}/>
+                    allUsers={this.state.allUsers} 
+                    hidden={this.state.hidden}
+                    hideTable={this.hideTable}/>
+                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden}/>
                 </div>
               </div>
             )} />
@@ -197,6 +200,11 @@ export default class App extends PureComponent {
       if (value === undefined) value = null
       pendingContentRef().child(contentItem.key).update({[prop]: value})
     }
+  }
+
+  hideTable = () => {
+    var current = this.state.hidden
+    this.setState({hidden: !current})
   }
 
   publish = () => {

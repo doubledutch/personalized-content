@@ -119,6 +119,13 @@ body {
   background-color: white;
 }
 
+.staticText {
+  text-align: center;
+  font-weight: "normal";
+  margin-top: 35px;
+
+}
+
 .phoneScroll {
   margin-top:62px;
   margin-left: 16px;

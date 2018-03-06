@@ -4,19 +4,35 @@ import Background from './iPhone.png'
 export default class ContentPreview extends PureComponent {
 
   render() {
-    const {content} = this.props
+    const {content, hidden} = this.props
     const sectionStyle = {
       backgroundImage: `url(${Background})`
     }
-    return (
-      <div className="content-preview">
-        <div className="phoneBox" style={sectionStyle}>
-          <div className="phoneScroll">
-            { content.map(this.editorFor) }
+    if (hidden) {
+      if (content) {
+        return (
+          <div className="content-preview">
+            <div className="phoneBox" style={sectionStyle}>
+              <div className="phoneScroll">
+                { content.map(this.editorFor) }
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    )
+        )
+      }
+      else {
+        return (
+          <div className="content-preview">
+            <div className="phoneBox" style={sectionStyle}>
+              <div className="phoneScroll">
+                <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    }
+    else return null
   }
 
   getContent = (id) => {
