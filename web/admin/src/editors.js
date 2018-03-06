@@ -66,10 +66,6 @@ export class MultiLineEditorBox extends PureComponent {
   render() {
     return (
       <div className="multiline-editor__box">
-        <div className="editorBox__header">
-          {this.renderButton("text", "Text", 1)}
-          {this.renderButton("html", "HTML", 2)}
-        </div>
         <MultiLineEditor content={this.props.content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={this.props.onUpdate} onChange={this.onChange}/>
         <div className="editorBox__footer">
           <p className="multiline-editor__counter">{"Characters: " + this.renderCounter() + " (Limit: 15000)"} </p>
@@ -91,20 +87,6 @@ export class MultiLineEditorBox extends PureComponent {
 
   onChange = (e) => {
     this.setState({value: e.target.value})
-  }
-
-  renderButton = (type, title, i) => {
-    var color = "#D8D8D8"
-    var font = "#9B9B9B"
-    if (type === this.props.content.type){
-      color = "#9B9B9B"
-      font = "#ffffff"
-    }
-    return (
-      <button className="switch__button" key = {i} style={{backgroundColor: color, color: font}} value={type} onClick={this.onSelect}>  
-        {title}
-      </button>
-    )
   }
 }
 
@@ -139,7 +121,6 @@ export class MultiLineEditor extends PureComponent {
   }
   
   onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
-  
   isValid = () => {
     const {regex} = this.props
     const {value} = this.state

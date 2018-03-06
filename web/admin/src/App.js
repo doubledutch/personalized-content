@@ -93,7 +93,7 @@ export default class App extends PureComponent {
                 </div>
                 <h1 className="pageTitle">Custom Content</h1>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={searchContent} updateList={this.updateList} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
+                <CurrentContent content={searchContent} updateList={this.updateList} addNewContent={this.addNewContent} history={history} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees  content={this.state.content}
                     updateUserData={this.updateUserData}

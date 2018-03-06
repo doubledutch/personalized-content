@@ -5,7 +5,7 @@ import TextIcon from './images/TextIcon.png'
 
 export default class ContentButtons extends Component {
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}]
     return (
       <span className="content-buttons__box">
         <h2 className="contentTitle" >Select Content Type</h2>
@@ -23,9 +23,6 @@ export default class ContentButtons extends Component {
   renderButton = (type, i) => {
     var color = "#FFFFFF"
     if (type.type === this.props.content.type){
-      color = "#E2E2E2"
-    }
-    if (type.type === "text" && this.props.content.type === "html"){
       color = "#E2E2E2"
     }
     return (
@@ -50,6 +47,7 @@ export default class ContentButtons extends Component {
     switch (type) {
     case 'survey': return <img src={PageIcon} alt="survey"/>
     case 'text': return <img src={TextIcon} alt="text"/>
+    case 'html': return <img src={TextIcon} alt="text"/>
     case 'web': return <img src={WebIcon} alt="web"/>
     default: return <div/>
     }
