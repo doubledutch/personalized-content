@@ -57,41 +57,31 @@ export class TextEditor extends PureComponent {
   }
 }
 
-export class MultiLineEditor extends PureComponent {
+export class MultiLineEditorBox extends PureComponent {
   state = {}
-
   componentWillMount() {
-    const {content, prop} = this.props
+    const {content, prop, validationMessage} = this.props
     this.setState({value: content[prop]})
   }
-
   render() {
-    const {title, validationMessage} = this.props
-
     return (
       <div className="multiline-editor__box">
         <div className="editorBox__header">
           {this.renderButton("text", "Text", 1)}
           {this.renderButton("html", "HTML", 2)}
         </div>
-        <textarea
-          className="multiline-editor__input"
-          type="text"
-          value={this.state.value}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          maxLength={15000}
-        />
+        <MultiLineEditor content={this.props.content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={this.props.onUpdate} onChange={this.onChange}/>
         <div className="editorBox__footer">
-          <p className="multiline-editor__counter">{"Characters: " + this.state.value.length + " (Limit: 15000)"} </p>
-        </div>
+          <p className="multiline-editor__counter">{"Characters: " + this.renderCounter() + " (Limit: 15000)"} </p>
+        </div> 
       </div>
     )
   }
 
-  onChange = e => this.setState({value: e.target.value})
-  
-  onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
+  renderCounter = () => {
+    if (this.state.value) return this.state.value.length
+    else return "0"
+  }
 
   onSelect = (e) => {
     if (e.target.value !== this.props.content.type) {
@@ -99,10 +89,8 @@ export class MultiLineEditor extends PureComponent {
     }
   }
 
-  isValid = () => {
-    const {regex} = this.props
-    const {value} = this.state
-    return !regex || value == null || value.match(regex)
+  onChange = (e) => {
+    this.setState({value: e.target.value})
   }
 
   renderButton = (type, title, i) => {
@@ -118,7 +106,45 @@ export class MultiLineEditor extends PureComponent {
       </button>
     )
   }
+}
 
+
+
+export class MultiLineEditor extends PureComponent {
+  state = {}
+
+  componentWillMount() {
+    const {content, prop, validationMessage} = this.props
+    this.setState({value: content[prop]})
+  }
+
+  render() {
+    return (
+      <div>
+        <textarea
+          className="multiline-editor__input"
+          type="text"
+          value={this.state.value}
+          onChange={this.onChange}
+          onBlur={this.onBlur}
+          maxLength={15000}
+        />
+      </div>
+    )
+  }
+
+  onChange = (e) => {
+    this.props.onChange(e)
+    this.setState({value: e.target.value})
+  }
+  
+  onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
+  
+  isValid = () => {
+    const {regex} = this.props
+    const {value} = this.state
+    return !regex || value == null || value.match(regex)
+  }
 }
 
 export class SelectEditor extends PureComponent {
