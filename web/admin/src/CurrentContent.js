@@ -134,6 +134,7 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
+    case 'html':
     case 'text': return TextIcon
     case 'web': return WebIcon
     case 'survey': return PageIcon

@@ -2,10 +2,43 @@ import React, { PureComponent } from 'react'
 import { SelectEditor, TextEditor, MultiLineEditor } from './editors'
 
 export default class ContentDetailsEditor extends PureComponent {
+  constructor() {
+    super()
+
+    this.state = {expand: false}
+  }
+
+  renderTextEditor = (content, onUpdate) => {
+    if (this.state.expand){
+      return <MultiLineEditor content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate}/>
+    }
+
+    else {
+      return <label className="text-editor">
+        <div className="text-editor__title">{"Content"}</div>
+        <div className="text-editor__inputBox">
+          <input
+            className="text-editor__input"
+            type="text"
+            placeholder="Acme Co Details"
+            onFocus={this.onExpand}
+          />
+        </div>
+      </label>
+
+    }
+  }
+  
+  onExpand = () => {
+    const currentState = this.state.expand
+    this.setState({expand: !currentState})
+  }
+
   render() {
     const {content, onUpdate, surveys} = this.props
     
     switch (content.type) {
+      case "html":
       case 'text': return <div className="content-editor__box">
           <div>
             <h2 className="contentTitle">Add a Title</h2>
@@ -13,7 +46,7 @@ export default class ContentDetailsEditor extends PureComponent {
           </div>
           <div className="homeBox">
             <h2 className="contentTitle">Add Content</h2>
-            <MultiLineEditor content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate} />
+            {this.renderTextEditor(content, onUpdate)}
           </div>
         </div>
       case 'web': return <div className="content-editor__box">
@@ -33,4 +66,7 @@ export default class ContentDetailsEditor extends PureComponent {
       default: return <div />
     }
   }
+
+   
+
 }

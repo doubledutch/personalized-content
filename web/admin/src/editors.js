@@ -30,6 +30,7 @@ export class TextEditor extends PureComponent {
             value={this.state.value}
             onChange={this.onChange}
             onBlur={this.onBlur}
+            maxLength={150}
           />
           {this.isTitle()}
         </div>
@@ -65,22 +66,26 @@ export class MultiLineEditor extends PureComponent {
   }
 
   render() {
-    const {title, placeholder, validationMessage} = this.props
+    const {title, validationMessage} = this.props
 
     return (
-      <label className="text-editor">
-        <div className="text-editor__title">{title}</div>
-        { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
+      <div className="multiline-editor__box">
+        <div className="editorBox__header">
+          {this.renderButton("text", "Text", 1)}
+          {this.renderButton("html", "HTML", 2)}
+        </div>
         <textarea
           className="multiline-editor__input"
           type="text"
-          placeholder={placeholder}
           value={this.state.value}
           onChange={this.onChange}
           onBlur={this.onBlur}
-          maxLength={250}
+          maxLength={15000}
         />
-      </label>
+        <div className="editorBox__footer">
+          <p className="multiline-editor__counter">{"Characters: " + this.state.value.length + " (Limit: 15000)"} </p>
+        </div>
+      </div>
     )
   }
 
@@ -88,11 +93,32 @@ export class MultiLineEditor extends PureComponent {
   
   onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
 
+  onSelect = (e) => {
+    if (e.target.value !== this.props.content.type) {
+      this.props.onUpdate("type", e.target.value)
+    }
+  }
+
   isValid = () => {
     const {regex} = this.props
     const {value} = this.state
     return !regex || value == null || value.match(regex)
   }
+
+  renderButton = (type, title, i) => {
+    var color = "#D8D8D8"
+    var font = "#9B9B9B"
+    if (type === this.props.content.type){
+      color = "#9B9B9B"
+      font = "#ffffff"
+    }
+    return (
+      <button className="switch__button" key = {i} style={{backgroundColor: color, color: font}} value={type} onClick={this.onSelect}>  
+        {title}
+      </button>
+    )
+  }
+
 }
 
 export class SelectEditor extends PureComponent {

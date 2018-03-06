@@ -25,6 +25,9 @@ export default class ContentButtons extends Component {
     if (type.type === this.props.content.type){
       color = "#E2E2E2"
     }
+    if (type.type === "text" && this.props.content.type === "html"){
+      color = "#E2E2E2"
+    }
     return (
       <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>
         <div>
@@ -38,7 +41,9 @@ export default class ContentButtons extends Component {
   updateCell = (event) => {
     const {onUpdate} = this.props
     const name = event.target.name
-    onUpdate("type", name)
+    if (name !== this.props.content.type) {
+      onUpdate("type", name)
+    }
   }
 
   renderIcon = (type) => {

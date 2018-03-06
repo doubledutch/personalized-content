@@ -40,8 +40,9 @@ export default class ContentPreview extends PureComponent {
       case 'web': return <div className="webCell" key={i}>
         <iframe className="iFrameBox" src={c.url} title="webview"></iframe>
       </div>
-      case 'api': return <div>
-     
+      case 'html': return <div className="textCell" key={i}>
+        <h2 className="textCellTitle">{c.title}</h2>
+        <iframe className="htmlBox" srcdoc={c.text} title="webview"></iframe>
     </div>
       case 'survey': return <div className="textCell" key={i}>
       {this.getContent(c.surveyId)}

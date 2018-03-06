@@ -57,6 +57,10 @@ body {
   background-image: url(./iframe-fallback.png)
 }
 
+.htmlBox {
+  border: none;
+}
+
 .checkBox {
   margin-top: 15px;
   height: 15px;
@@ -121,6 +125,28 @@ body {
   flex-flow: row wrap;
 }
 
+.multiline-editor__box {
+  margin-top: 20px;
+  border: 1px solid #AEAEAE;
+}
+
+.editorBox__header {
+  border-bottom-width: 1px;
+  padding: 7px;
+  padding-right: 12px;
+  border-bottom: 1px solid #AEAEAE;
+  background: linear-gradient(#FCFCFC, #D8D8D8)
+}
+
+.editorBox__footer {
+  border-bottom-width: 1px;
+  height: 30px;
+  padding-left: 12px;
+  border-top: 1px solid #AEAEAE;
+  background: linear-gradient(#D8D8D8, #B6B6B6);
+ 
+}
+
 .AttendeeBox {
   display: flex;
   flex-flow: row wrap;
@@ -163,6 +189,13 @@ body {
   overflow: scroll;
 }
 
+.multiline-editor__counter {
+  font-weight: bold;
+  margin: 7px 20px 0px 7px;
+  padding: 0px;
+  text-align: right;
+}
+
 .buttonsBox {
   display: flex;
   flex-flow: column wrap;
@@ -183,7 +216,13 @@ body {
   color: #4A4A4A;
   text-align: left;
   padding-left: 10px;
-  
+}
+
+.switch__button {
+  height: 41px;
+  font-size: 20px;
+  padding: 0px 10px 0px 10px;
+  border: 1px solid #9B9B9B;
 }
 
 .typeButton div {
@@ -538,6 +577,11 @@ button {
   max-width: 400px;
 }
 
+.multiline-editor {
+  display: block;
+  background-color: "red"
+}
+
 .text-editor__title, .select-editor__title {
   margin-bottom: 0.5em;
 }
@@ -612,12 +656,11 @@ button {
 
 .multiline-editor__input {
   height: 5.8em;
-  width: 480px;
-  border: 1px solid #AEAEAE;
-  border-radius: 4px;
+  width: 100%;
   background-color: #FFFFFF;
   font-size: 1.25em;
-  padding: 10px 10px 10px 10px;
+  border: 0;
+  padding: 10px 0px 10px 0px;
 }
 
 
