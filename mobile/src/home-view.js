@@ -41,7 +41,6 @@ export default class HomeView extends Component {
   }
 
   render() {
-    console.log(client.currentUser)
     return (
       <View style={s.container}>
         <TitleBar title="My Content" client={client} signin={this.signin} />
@@ -71,7 +70,6 @@ export default class HomeView extends Component {
 }
 
 function renderContentItem(c) {
-  console.log(c)
   switch (c.type) {
     case 'text': return <TextContent {...c} />
     case 'web': return <WebContent {...c} />

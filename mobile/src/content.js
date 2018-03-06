@@ -49,27 +49,23 @@ export class SurveyContent extends PureComponent {
     const {surveyId, surveyName} = this.props
     const text = "This is sample text that needs to be replaced to a props for the survey description. This is to test the spacing among other design"
     return (
-      // <View style={s.container}>
-      //   <Text>Survey ID: {surveyId}</Text>
-      // </View>
        <View style={s.container}>
-       <View style={s.rowContainer}>
-       <Image style={s.icon} source={{uri: "https://dml2n2dpleynv.cloudfront.net/extensions/personalized-content/survey_icon@2x.png"}}/>
-       <View style={s.textContainer}>
-       <Text style={s.textTitleLeft}>{surveyId}</Text>
-       
-       <View style={s.desText}>
-         { text && text.length > showMoreTextLimit
-           ? <View>
-               <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
-               <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
-                 <Text style={s.textShowMore}>{showMore ? 'Show Less' : 'Show More'}</Text>
-               </TouchableOpacity>
-             </View>
-           : <Text style={s.desText}>{text}</Text>
-         }
-       </View>
-       </View>
+        <View style={s.rowContainer}>
+          <Image style={s.icon} source={{uri: "https://dml2n2dpleynv.cloudfront.net/extensions/personalized-content/survey_icon@2x.png"}}/>
+          <View style={s.textContainer}>
+            <Text style={s.textTitleLeft}>{surveyId}</Text>
+            <View style={s.desText}>
+              { text && text.length > showMoreTextLimit
+                ? <View>
+                    <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
+                    <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
+                      <Text style={s.textShowMore}>{showMore ? 'Show Less' : 'Show More'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                : <Text style={s.desText}>{text}</Text>
+              }
+            </View>
+          </View>
        </View>
        <TouchableOpacity style={s.surveyButton}>
           <Text style={s.surveyButtonText}>{"Take the Survey"}</Text>
