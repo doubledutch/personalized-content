@@ -633,11 +633,9 @@ button {
 }
 
 .text-editor__input {
-  display: flex;
   flex: 1;
-  border: 0;
-  margin: 0;
-  padding: 0px 0px 0px 10px;
+  border: 0px;
+  margin: 1px 1px;
   background-color: #FFFFFF;
   font-size: 1.25em;
   padding: 0 0.7em;
