@@ -277,6 +277,13 @@ button {
 .attendee-selector__attendee--disabled {
   background-color: #f2f2f2;
 }
+.attendee-selector__attendee {
+  height: 44px;
+}
+.attendee-selector__attendee--gray{
+  background-color: #E2E2E2;
+  height: 44px;
+}
 .attendee-selector__menu {
   white-space: nowrap;
   width: 10em;
@@ -335,12 +342,22 @@ button {
   font-size: 12px;
 }
 
+
+
 .attendee-selector__name
  {
    font-size: 1.2em;
    overflow: hidden;
    flex: 1;
    border: none;
+ }
+ .attendee-selector__name--gray
+ {
+   font-size: 1.2em;
+   overflow: hidden;
+   flex: 1;
+   border: none;
+   background-color: #E2E2E2;
  }
  .attendee-selector__button
  {
