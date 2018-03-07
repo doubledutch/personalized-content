@@ -85,12 +85,10 @@ export class MultiLineEditor extends PureComponent {
     )
   }
 
-  onChange = (e) => {
-    this.props.onChange(e)
-    this.setState({value: e.target.value})
-  }
+  onChange = e => this.setState({value: e.target.value})
   
   onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
+  
   isValid = () => {
     const {regex} = this.props
     const {value} = this.state

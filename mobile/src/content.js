@@ -50,7 +50,7 @@ export class HTMLContent extends PureComponent {
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
-        <View style={[s.textText, s.htmlContainer]}>
+        <View style={s.htmlContainer}>
         <WebView style={s.web} source={{html: text}} />
         </View>
       </View>
