@@ -15,7 +15,7 @@ display: "flex",
 flexFlow: "row wrap",
 alignItems: "center",
 margin: '-1px -1px 0px -1px',
-height: 40,
+minHeight: 40,
 padding: 0,
 border: "1px solid #e2e2e2",
 textAlign: "center",
@@ -45,55 +45,75 @@ export default class CurrentContent extends PureComponent {
 
   render(){
     const {content} = this.props
-    if (this.state.move){
-      return (
-        <div className="current-content">
-          <span className="content-bar">
-            <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
-            <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
-            <SearchBar updateList={this.props.updateList}/>
-          </span>
-          <DragDropContext onDragEnd={this.props.onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-              {
-                content.map((c, i) => 
-                (
-                  <Draggable key={i} draggableId={i}>
-                    {(provided, snapshot) => (
-                      <div>
-                        <div
-                          ref={provided.innerRef}
-                          style={getItemStyle(
-                            provided.draggableStyle,
-                            snapshot.isDragging
-                            )}
-                            {...provided.dragHandleProps}
-                          >
-                            <img src={ReorderIcon} className="current-content__move" alt={c.type} />
-                            <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                            <span className="current-content__title">{titleFor(c)}</span>
+    // const content = []
+    if (content.length){
+      if (this.state.move){
+        return (
+          <div className="current-content">
+            <span className="content-bar">
+              <h2 className="contentTitle">Current Content</h2>
+              <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
+              <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
+              <SearchBar updateList={this.props.updateList}/>
+            </span>
+            <DragDropContext onDragEnd={this.props.onDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                {
+                  content.map((c, i) => 
+                  (
+                    <Draggable key={i} draggableId={i}>
+                      {(provided, snapshot) => (
+                        <div>
+                          <div
+                            ref={provided.innerRef}
+                            style={getItemStyle(
+                              provided.draggableStyle,
+                              snapshot.isDragging
+                              )}
+                              {...provided.dragHandleProps}
+                            >
+                              <img src={ReorderIcon} className="current-content__move" alt={c.type} />
+                              <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                              <span className="current-content__title">{titleFor(c)}</span>
+                            </div>
+                            {provided.placeholder}
                           </div>
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Draggable>
-                ))
-              }
-              {provided.placeholder}
-              </div>
-              )}
-            </Droppable>
-          </DragDropContext>  
-        </div>
-      )
+                        )}
+                      </Draggable>
+                  ))
+                }
+                {provided.placeholder}
+                </div>
+                )}
+              </Droppable>
+            </DragDropContext>  
+          </div>
+        )
+      }
+      else {
+        return (
+          <div className="current-content">
+            <span className="content-bar">
+              <h2 className="contentTitle">Current Content</h2>
+              <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
+              <SearchBar updateList={this.props.updateList}/>
+            </span>
+            <ul className="current-content__list">
+              { content.map(c => <li key={c.key}>
+                <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                <span className="current-content__title">{titleFor(c)}</span>
+                <Link to={`/content/${c.key}`} className="current-content__view">View</Link>
+              </li>)}
+            </ul>
+          </div>
+        )
+      }
     }
-
     else {
       return (
         <div className="current-content">
@@ -102,17 +122,19 @@ export default class CurrentContent extends PureComponent {
             <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
-          <ul className="current-content__list">
-            { content.map(c => <li key={c.key}>
-              <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-              <span className="current-content__title">{titleFor(c)}</span>
-              <Link to={`/content/${c.key}`} className="current-content__view">View</Link>
-            </li>)}
-          </ul>
+          <div className="current-content__list">
+            <div className="current-content__list-text">
+              <h1>Curate your attendees' experience with custom content</h1>
+              <h2>Click below to build your first piece of content</h2>
+              <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
+            </div>
+          </div>
         </div>
       )
     }
   }
+
+  
 
   moveNow = () => {
     var state = this.state.move
@@ -134,6 +156,7 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
+    case 'html':
     case 'text': return TextIcon
     case 'web': return WebIcon
     case 'survey': return PageIcon

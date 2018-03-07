@@ -44,6 +44,20 @@ export class WebContent extends PureComponent {
   }
 }
 
+export class HTMLContent extends PureComponent {
+  render() {
+    const {title, text} = this.props
+    return (
+      <View style={s.container}>
+        <Text style={s.textTitle}>{title}</Text>
+        <View style={[s.textText, s.htmlContainer]}>
+        <WebView style={s.web} source={{html: text}} />
+        </View>
+      </View>
+    )
+  }
+}
+
 export class SurveyContent extends PureComponent {
   render() {
     const {surveyId, surveyName} = this.props
@@ -161,6 +175,9 @@ const s = StyleSheet.create({
     paddingTop: 5,
     color: '#2789c0',
     backgroundColor: 'rgba(255,255,255,0.8)'
+  },
+  htmlContainer: {
+    height: 200
   },
   webContainer: {
     height: 300

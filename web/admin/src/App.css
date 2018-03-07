@@ -35,6 +35,15 @@ body {
   display: flex;
 }
 
+.contentTitle__button {
+  font-weight: 600;
+  flex: 1;
+  font-size: 18px;
+  border: none;
+  display: flex;
+  color: #4A4A4A;
+}
+
 
 .surveyButton {
   height: 30px;
@@ -55,6 +64,10 @@ body {
   width: 274px;
   border: none;
   background-image: url(./iframe-fallback.png)
+}
+
+.htmlBox {
+  border: none;
 }
 
 .checkBox {
@@ -106,6 +119,13 @@ body {
   background-color: white;
 }
 
+.staticText {
+  text-align: center;
+  font-weight: "normal";
+  margin-top: 35px;
+
+}
+
 .phoneScroll {
   margin-top:62px;
   margin-left: 16px;
@@ -119,6 +139,29 @@ body {
 .editorBox {
   display: flex;
   flex-flow: row wrap;
+}
+
+.multiline-editor__box {
+  margin-top: 20px;
+  border: 0px;
+  padding: 10px;
+}
+
+.editorBox__header {
+  border-bottom-width: 1px;
+  padding: 7px;
+  padding-right: 12px;
+  border-bottom: 1px solid #AEAEAE;
+  background: linear-gradient(#FCFCFC, #D8D8D8)
+}
+
+.editorBox__footer {
+  border-bottom-width: 1px;
+  height: 30px;
+  padding-left: 12px;
+  border-top: 1px solid #AEAEAE;
+  background: linear-gradient(#D8D8D8, #B6B6B6);
+ 
 }
 
 .AttendeeBox {
@@ -163,6 +206,13 @@ body {
   overflow: scroll;
 }
 
+.multiline-editor__counter {
+  font-weight: bold;
+  margin: 7px 20px 0px 7px;
+  padding: 0px;
+  text-align: right;
+}
+
 .buttonsBox {
   display: flex;
   flex-flow: column wrap;
@@ -183,7 +233,13 @@ body {
   color: #4A4A4A;
   text-align: left;
   padding-left: 10px;
-  
+}
+
+.switch__button {
+  height: 41px;
+  font-size: 20px;
+  padding: 0px 10px;
+  border: 1px solid #9B9B9B;
 }
 
 .typeButton div {
@@ -237,6 +293,13 @@ button {
 
 .attendee-selector__attendee--disabled {
   background-color: #f2f2f2;
+}
+.attendee-selector__attendee {
+  height: 44px;
+}
+.attendee-selector__attendee--gray{
+  background-color: #E2E2E2;
+  height: 44px;
 }
 .attendee-selector__menu {
   white-space: nowrap;
@@ -296,12 +359,22 @@ button {
   font-size: 12px;
 }
 
+
+
 .attendee-selector__name
  {
    font-size: 1.2em;
    overflow: hidden;
    flex: 1;
    border: none;
+ }
+ .attendee-selector__name--gray
+ {
+   font-size: 1.2em;
+   overflow: hidden;
+   flex: 1;
+   border: none;
+   background-color: #E2E2E2;
  }
  .attendee-selector__button
  {
@@ -388,10 +461,7 @@ button {
   font-weight: 300;
   height: 31px;
   color: white;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
   border-radius: 4px;
   border: 0;
   font-size: 14px;
@@ -405,10 +475,7 @@ button {
   font-weight: 300;
   height: 31px;
   color: white;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
   border-radius: 4px;
   border: 0;
   margin-left: 115px;
@@ -423,10 +490,7 @@ button {
   margin-bottom: 10px;
   font-weight: 300;
   height: 31px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
   border-radius: 4px;
   color: #299fca; 
   border:1px solid #299fca;
@@ -458,13 +522,29 @@ button {
   border: 1px solid #e2e2e2;
   overflow-y: scroll;
   background-color: #fbfbfb;
+  overflow-x: hidden;
+}
+
+.current-content__list h1{
+ font-size: 18px;
+ color: #9B9B9B;
+}
+
+.current-content__list h2{
+  font-size: 16px;
+  color: #9B9B9B;
+ }
+
+.current-content__list-text{
+  text-align: center;
+  padding: 100px 10px;
 }
 
 .current-content__list li {
   display: flex;
   align-items: center;
   margin: -1px -1px 0 -1px;
-  height: 42px;
+  min-height: 42px;
   background-color: white;
   border: 1px solid #e2e2e2;
   vertical-align: middle;
@@ -486,6 +566,7 @@ button {
   flex: 1;
   text-align: left;
   font-size: 16px;
+  padding: 10px 0px;
 }
 
 .searchBar {
@@ -538,6 +619,10 @@ button {
   max-width: 400px;
 }
 
+.multiline-editor {
+  display: block;
+}
+
 .text-editor__title, .select-editor__title {
   margin-bottom: 0.5em;
 }
@@ -548,11 +633,9 @@ button {
 }
 
 .text-editor__input {
-  display: flex;
   flex: 1;
-  border: 0;
-  margin: 0;
-  padding: 0px 0px 0px 10px;
+  border: 0px;
+  margin: 1px 1px;
   background-color: #FFFFFF;
   font-size: 1.25em;
   padding: 0 0.7em;
@@ -611,13 +694,12 @@ button {
 }
 
 .multiline-editor__input {
-  height: 5.8em;
-  width: 480px;
-  border: 1px solid #AEAEAE;
-  border-radius: 4px;
+  height: 275px;
+  width: 95%;
   background-color: #FFFFFF;
   font-size: 1.25em;
-  padding: 10px 10px 10px 10px;
+  border: 1px solid #AEAEAE;
+  padding: 10px 10px
 }
 
 

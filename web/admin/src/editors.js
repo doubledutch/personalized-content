@@ -30,6 +30,7 @@ export class TextEditor extends PureComponent {
             value={this.state.value}
             onChange={this.onChange}
             onBlur={this.onBlur}
+            maxLength={150}
           />
           {this.isTitle()}
         </div>
@@ -68,7 +69,7 @@ export class MultiLineEditor extends PureComponent {
     const {title, placeholder, validationMessage} = this.props
 
     return (
-      <label className="text-editor">
+      <label className="multiline-editor__box">
         <div className="text-editor__title">{title}</div>
         { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
         <textarea
@@ -84,10 +85,12 @@ export class MultiLineEditor extends PureComponent {
     )
   }
 
-  onChange = e => this.setState({value: e.target.value})
+  onChange = (e) => {
+    this.props.onChange(e)
+    this.setState({value: e.target.value})
+  }
   
   onBlur = () => this.isValid() && this.props.onUpdate(this.props.prop, this.state.value)
-
   isValid = () => {
     const {regex} = this.props
     const {value} = this.state
