@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { SelectEditor, TextEditor, MultiLineEditorBox } from './editors'
+import { SelectEditor, TextEditor, MultiLineEditor } from './editors'
 
 export default class ContentDetailsEditor extends PureComponent {
   render() {
@@ -14,7 +14,7 @@ export default class ContentDetailsEditor extends PureComponent {
           </div>
           <div className="homeBox">
             <h2 className="contentTitle">Add Content</h2>
-            <MultiLineEditorBox content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate}/>
+            <MultiLineEditor content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate}/>
           </div>
         </div>
       case 'web': return <div className="content-editor__box">

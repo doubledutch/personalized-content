@@ -57,61 +57,31 @@ export class TextEditor extends PureComponent {
   }
 }
 
-export class MultiLineEditorBox extends PureComponent {
-  state = {}
-  componentWillMount() {
-    const {content, prop, validationMessage} = this.props
-    this.setState({value: content[prop]})
-  }
-  render() {
-    return (
-      <div className="multiline-editor__box">
-        <MultiLineEditor content={this.props.content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={this.props.onUpdate} onChange={this.onChange}/>
-        <div className="editorBox__footer">
-          <p className="multiline-editor__counter">{"Characters: " + this.renderCounter() + " (Limit: 15000)"} </p>
-        </div> 
-      </div>
-    )
-  }
-
-  renderCounter = () => {
-    if (this.state.value) return this.state.value.length
-    else return "0"
-  }
-
-  onSelect = (e) => {
-    if (e.target.value !== this.props.content.type) {
-      this.props.onUpdate("type", e.target.value)
-    }
-  }
-
-  onChange = (e) => {
-    this.setState({value: e.target.value})
-  }
-}
-
-
-
 export class MultiLineEditor extends PureComponent {
   state = {}
 
   componentWillMount() {
-    const {content, prop, validationMessage} = this.props
+    const {content, prop} = this.props
     this.setState({value: content[prop]})
   }
 
   render() {
+    const {title, placeholder, validationMessage} = this.props
+
     return (
-      <div>
+      <label className="multiline-editor__box">
+        <div className="text-editor__title">{title}</div>
+        { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
         <textarea
           className="multiline-editor__input"
           type="text"
+          placeholder={placeholder}
           value={this.state.value}
           onChange={this.onChange}
           onBlur={this.onBlur}
-          maxLength={15000}
+          maxLength={250}
         />
-      </div>
+      </label>
     )
   }
 

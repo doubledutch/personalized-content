@@ -8,6 +8,7 @@ import FirebaseConnector from '@doubledutch/firebase-connector'
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 
 fbc.initializeAppWithSimpleBackend()
+Text.defaultProps.allowFontScaling=false
 
 const publicContentRef = () => fbc.database.public.adminRef('content')
 const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
