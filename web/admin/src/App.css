@@ -191,6 +191,15 @@ body {
   margin-top: 5px;
   border-radius: 4px;
 }
+.htmlCell {
+  border: solid;
+  border-width: 1px;
+  padding-top: 5px;
+  border-color: darkgrey;
+  background-color: white;
+  margin-top: 5px;
+  border-radius: 4px;
+}
 
 
 .leftContainer {

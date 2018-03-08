@@ -28,7 +28,7 @@ export default class ContentEditor extends PureComponent {
         <div className="content-editor__content">
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentPreview content={[content]} surveys={surveys}/>
+            <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
           </div>
           <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
           <Link to="/" className="button-big">Submit Content</Link>
@@ -36,4 +36,5 @@ export default class ContentEditor extends PureComponent {
       </div>
     )
   }
+
 }

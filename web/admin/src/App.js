@@ -31,7 +31,7 @@ export default class App extends PureComponent {
       searchContent: [],
       search: false,
       userContent : [],
-      hidden : false
+      hidden : true
     }
 
     this.signin = fbc.signinAdmin()
