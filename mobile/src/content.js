@@ -11,7 +11,7 @@ export class TextContent extends PureComponent {
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
-        <View style={s.textText}>
+        <View>
           { text && text.length > showMoreTextLimit
             ? <View>
                 <Text style={[s.textText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
@@ -60,33 +60,35 @@ export class HTMLContent extends PureComponent {
 
 export class SurveyContent extends PureComponent {
   render() {
-    const {surveyId, surveyName} = this.props
+    const {description, title} = this.props
     const text = "This is sample text that needs to be replaced to a props for the survey description. This is to test the spacing among other design"
     return (
        <View style={s.container}>
         <View style={s.rowContainer}>
           <Image style={s.icon} source={{uri: "https://dml2n2dpleynv.cloudfront.net/extensions/personalized-content/survey_icon@2x.png"}}/>
           <View style={s.textContainer}>
-            <Text style={s.textTitleLeft}>{surveyId}</Text>
-            <View style={s.desText}>
-              { text && text.length > showMoreTextLimit
+            <Text style={s.textTitleLeft}>{title}</Text>
+            <View>
+              { description && description.length > showMoreTextLimit
                 ? <View>
-                    <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
+                    <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? description : description.substring(0,showMoreTextLimit) + '...'}</Text>
                     <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
                       <Text style={s.textShowMore}>{showMore ? 'Show Less' : 'Show More'}</Text>
                     </TouchableOpacity>
                   </View>
-                : <Text style={s.desText}>{text}</Text>
+                : <Text style={s.desText}>{description}</Text>
               }
             </View>
           </View>
        </View>
-       <TouchableOpacity style={s.surveyButton}>
+       <TouchableOpacity style={s.surveyButton} onPress={this.takeSurvey}>
           <Text style={s.surveyButtonText}>{"Take the Survey"}</Text>
        </TouchableOpacity>
      </View>
     )
   }
+
+  takeSurvey = () => client.openURL(`dd://survey/${this.props.surveyId}`)
 }
 
 const gray = '#4b4b4b'
@@ -127,9 +129,6 @@ const s = StyleSheet.create({
     padding: 12,
     marginLeft: 10,
     marginRight: 10,
-    textAlign: 'center',
-    fontSize: 14,
-    fontWeight: "bold",
     marginBottom: 14,
     marginTop: 14,
     borderRadius: 4,

@@ -10,23 +10,19 @@ export default class ContentButtons extends Component {
       <span className="content-buttons__box">
         <h2 className="contentTitle" >Select Content Type</h2>
         <span className="buttonsBox">
-          {
-            types.map((type, i) => (
-              this.renderButton(type, i)
-            ))
-          }
+          { types.map(this.renderButton) }
         </span>
       </span>
     )
   }
 
-  renderButton = (type, i) => {
+  renderButton = type => {
     var color = "#FFFFFF"
     if (type.type === this.props.content.type){
       color = "#E2E2E2"
     }
     return (
-      <button className="typeButton" key = {i} style={{backgroundColor: color}} name={type.type} onClick={this.updateCell}>
+      <button className="typeButton" key={type.type} style={{backgroundColor: color}} onClick={this.selectType(type.type)}>
         <div>
           {this.renderIcon(type.type)}
           {type.name}
@@ -35,12 +31,11 @@ export default class ContentButtons extends Component {
     )
   }
 
-  updateCell = (event) => {
+  selectType = type => event => {
     const {onUpdate} = this.props
-    const name = event.target.name
-    if (name !== this.props.content.type) {
-      onUpdate("type", name)
-    }
+    if (type !== this.props.content.type) {
+      onUpdate('type', type)
+    }    
   }
 
   renderIcon = (type) => {

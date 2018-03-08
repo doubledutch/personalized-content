@@ -29,12 +29,19 @@ export default class ContentDetailsEditor extends PureComponent {
         </div>
       case 'survey': return <div className="content-editor__box">
           <h2 className="contentTitle">Choose Survey</h2>
-          <SelectEditor size={6} content={content} prop="surveyId" title="Survey" onUpdate={onUpdate} options={surveys} />
+          <SelectEditor size={6} content={content} prop="surveyId" title="Survey" onUpdate={this.onUpdateSurvey} options={surveys} />
         </div>
       default: return <div />
     }
   }
 
-   
-
+  onUpdateSurvey = (prop, value) => {
+    const {onUpdate, surveys} = this.props
+    onUpdate(prop, value)
+    const survey = surveys.find(s => s.id === value)
+    if (survey) {
+      onUpdate('title', survey.name)
+      onUpdate('description', survey.description)
+    }
+  }
 }

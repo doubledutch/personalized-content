@@ -124,7 +124,7 @@ export default class CurrentContent extends PureComponent {
           </span>
           <div className="current-content__list">
             <div className="current-content__list-text">
-              <h1>Curate your attendees' experience with custom content</h1>
+              <h1>Curate your attendees&#39; experience with custom content</h1>
               <h2>Click below to build your first piece of content</h2>
               <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
             </div>
@@ -133,8 +133,6 @@ export default class CurrentContent extends PureComponent {
       )
     }
   }
-
-  
 
   moveNow = () => {
     var state = this.state.move
@@ -150,8 +148,6 @@ export default class CurrentContent extends PureComponent {
     this.moveNow()
     this.props.cancelUpdates()
   }
-
-
 }
 
 function iconFor(c) {
@@ -160,7 +156,7 @@ function iconFor(c) {
     case 'text': return TextIcon
     case 'web': return WebIcon
     case 'survey': return PageIcon
-    default: return <div/>
+    default: return null
   }
 }
 
