@@ -134,8 +134,6 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  
-
   moveNow = () => {
     var state = this.state.move
     this.setState({move: !state})
@@ -150,8 +148,6 @@ export default class CurrentContent extends PureComponent {
     this.moveNow()
     this.props.cancelUpdates()
   }
-
-
 }
 
 function iconFor(c) {
@@ -160,7 +156,7 @@ function iconFor(c) {
     case 'text': return TextIcon
     case 'web': return WebIcon
     case 'survey': return PageIcon
-    default: return <div/>
+    default: return null
   }
 }
 
