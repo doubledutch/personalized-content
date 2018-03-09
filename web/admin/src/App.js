@@ -31,10 +31,7 @@ export default class App extends PureComponent {
       searchContent: [],
       search: false,
       userContent : [],
-      hidden : true,
-      showModal: false,
-      selectedContent: '',
-      isPublished: true
+      hidden : true
     }
 
     this.signin = fbc.signinAdmin()
@@ -89,14 +86,6 @@ export default class App extends PureComponent {
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
-        <CustomModal
-        showModal = {this.state.showModal}
-        closeModal = {this.closeModal}
-        selectedContent={this.state.selectedContent}
-        publish={this.publish}
-        unpublish={this.unpublish}
-        isPublished={this.state.isPublished}
-        />
         <Router>
           <div>
             <Route exact path="/" render={({history}) => (
@@ -114,7 +103,9 @@ export default class App extends PureComponent {
                   openModal={this.openModal}
                   onDragEnd={this.onDragEnd}
                   checkOrder={this.checkOrder}
-                  cancelUpdates={this.cancelUpdates} />
+                  cancelUpdates={this.cancelUpdates} 
+                  publish={this.publish}
+                  unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
                     updateUserData={this.updateUserData}
@@ -169,14 +160,6 @@ export default class App extends PureComponent {
   updateUserData = (content) => {
     const userContent = content.sort(sortContent)
     this.setState({userContent})
-  }
-
-  openModal = (c, p) => {
-    this.setState({selectedContent: c, isPublished: p, showModal: true})
-  }
-
-  closeModal = () => {
-    this.setState({showModal: false});
   }
 
   onDragEnd = (result) =>{
@@ -276,7 +259,6 @@ export default class App extends PureComponent {
     
     // 4. Update published timestamp
     lastPublishedAtRef().set(moment().valueOf())
-    this.closeModal()
   }
 
 }

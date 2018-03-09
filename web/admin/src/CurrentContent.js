@@ -6,6 +6,7 @@ import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
 import TextIcon from './images/TextIcon.png'
 import ReorderIcon from './images/Reorder.png'
+import CustomModal from './Modal'
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
@@ -39,7 +40,10 @@ export default class CurrentContent extends PureComponent {
   constructor() {
     super()
     this.state = {
-      move: false
+      move: false,
+      showModal: false,
+      selectedContent: '',
+      isPublished: true
     }
   }
 
@@ -50,6 +54,7 @@ export default class CurrentContent extends PureComponent {
       if (this.state.move){
         return (
           <div className="current-content">
+            {this.renderModal()}
             <span className="content-bar">
               <h2 className="contentTitle">Current Content</h2>
               <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
@@ -98,6 +103,7 @@ export default class CurrentContent extends PureComponent {
       else {
         return (
           <div className="current-content">
+            {this.renderModal()}
             <span className="content-bar">
               <h2 className="contentTitle">Current Content</h2>
               <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
@@ -146,8 +152,8 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  publish = content => () => this.props.openModal(content, false)
-  unpublish = content => () => this.props.openModal(content, true)
+  publish = content => () => this.openModal(content, false)
+  unpublish = content => () => this.openModal(content, true)
 
   moveNow = () => this.setState({move: !this.state.move})
 
@@ -160,6 +166,29 @@ export default class CurrentContent extends PureComponent {
     this.moveNow()
     this.props.cancelUpdates()
   }
+
+  openModal = (c, p) => {
+    this.setState({selectedContent: c, isPublished: p, showModal: true})
+  }
+
+  closeModal = () => {
+    this.setState({showModal:false})
+  }
+
+  renderModal = () => {
+    return (
+      <CustomModal
+      showModal = {this.state.showModal}
+      closeModal = {this.closeModal}
+      selectedContent={this.state.selectedContent}
+      publish={this.props.publish}
+      unpublish={this.props.unpublish}
+      isPublished={this.state.isPublished}
+      />
+    )
+  }
+
+
 }
 
 function iconFor(c) {

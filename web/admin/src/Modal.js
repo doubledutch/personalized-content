@@ -3,7 +3,7 @@ import './App.css'
 import Modal  from 'react-modal'
 
 export class CustomModal extends Component {
-  
+
   render() {
     return(
       <Modal
@@ -51,8 +51,14 @@ export class CustomModal extends Component {
     ) 
   }
 
-  publish = content => () => this.props.publish(content)
-  unpublish = content => () => this.props.unpublish(content)
+  publish = content => () => {
+    this.props.publish(content)
+    this.props.closeModal()
+  }
+  unpublish = content => () => {
+    this.props.unpublish(content)
+    this.props.closeModal()
+  }
 
 }
 
