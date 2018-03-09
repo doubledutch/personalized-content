@@ -146,7 +146,6 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  // publish = content => () => this.props.publish(content)
   publish = content => () => this.props.openModal(content, false)
   unpublish = content => () => this.props.openModal(content, true)
 
