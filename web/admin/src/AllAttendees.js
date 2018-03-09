@@ -61,7 +61,6 @@ export default class AllAttendees extends PureComponent {
   }
 
   renderTableRows = () => {
-    
     if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
     return this.state.attendees.map(a => {
       return <tr key={a.id} className={'attendee-selector__attendee' + ((this.state.id === a.id) ? '--gray' : '')}> 

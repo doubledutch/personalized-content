@@ -110,7 +110,7 @@ export default class CurrentContent extends PureComponent {
                   <li key={c.key}>
                     <Link to={`/content/${c.key}`} className="current-content__link">
                       <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                      <span className="current-content__title">{titleFor(c)}</span>
+                      <p className="current-content__title">{titleFor(c)}</p>
                     </Link>
                     { isPublished
                       ? <span className="current-content__live">Live</span>
@@ -146,8 +146,9 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  publish = content => () => this.props.publish(content)
-  unpublish = content => () => this.props.unpublish(content)
+  // publish = content => () => this.props.publish(content)
+  publish = content => () => this.props.openModal(content, false)
+  unpublish = content => () => this.props.openModal(content, true)
 
   moveNow = () => this.setState({move: !this.state.move})
 
