@@ -8,7 +8,6 @@ import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
-import Publisher from './Publisher'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
@@ -23,7 +22,7 @@ export default class App extends PureComponent {
   constructor() {
     super()
     this.state = {
-      content: [],
+      publishedContent: {}, // Published content is stored by key
       pendingContent: [],
       homeView: true,
       currentContent: '',
@@ -38,9 +37,6 @@ export default class App extends PureComponent {
       .then(user => this.user = user)
       .catch(err => console.error(err))
   }
-
-  lastPublishedText = () => this.state.lastPublishedAt ? `Last published ${this.state.lastPublishedAt.fromNow()}` : 'Not yet published'
-  hasUnpublishedChanges = () => JSON.stringify(this.state.content) !== JSON.stringify(this.state.pendingContent) // Brute force easy way to check deep equality
 
   componentDidMount() {
     this.signin.then(() => {
@@ -58,14 +54,19 @@ export default class App extends PureComponent {
         {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
       const changeContent = stateKey => data => this.setState(state => (
         {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
+      
+      const setPublishedContent = data => this.setState(state => ({publishedContent: {...state.publishedContent, [data.key]: addDefaults(data.val())}}))
 
-      contentRef().on('child_added', addContent('content'))
+      publishedContentRef().on('child_added', setPublishedContent)
       pendingContentRef().on('child_added', addContent('pendingContent'))
 
-      contentRef().on('child_removed', removeContent('content'))
+      publishedContentRef().on('child_removed', data => this.setState(state => {
+        const { [data.key]: deletedItem, ...publishedContent } = state.publishedContent
+        return {publishedContent}
+      }))
       pendingContentRef().on('child_removed', removeContent('pendingContent'))
 
-      contentRef().on('child_changed', changeContent('content'))
+      publishedContentRef().on('child_changed', setPublishedContent)
       pendingContentRef().on('child_changed', changeContent('pendingContent'))
 
       lastPublishedAtRef().on('value', data => {
@@ -76,7 +77,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {groups, pendingContent, lastPublishedAt, surveys, tiers, search, newList} = this.state
+    const {groups, lastPublishedAt, pendingContent, publishedContent, surveys, tiers, search, newList} = this.state
     var searchContent = pendingContent
     if (search) {
       searchContent = newList
@@ -88,20 +89,26 @@ export default class App extends PureComponent {
           <div>
             <Route exact path="/" render={({history}) => (
               <div>
-                <div>
-                  { this.hasUnpublishedChanges() && <Publisher publish={this.publish} discard={this.discard} /> }
-                  { this.lastPublishedText() }
-                </div>
                 <h1 className="pageTitle">Custom Content</h1>
                 <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
-                <CurrentContent content={searchContent} updateList={this.updateList} addNewContent={this.addNewContent} history={{history}} onDragEnd = {this.onDragEnd} checkOrder={this.checkOrder} cancelUpdates={this.cancelUpdates}/>
+                <CurrentContent
+                  content={searchContent}
+                  publishedContent={publishedContent}
+                  updateList={this.updateList}
+                  addNewContent={this.addNewContent}
+                  history={{history}}
+                  publish={this.publish}
+                  unpublish={this.unpublish}
+                  onDragEnd={this.onDragEnd}
+                  checkOrder={this.checkOrder}
+                  cancelUpdates={this.cancelUpdates} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
-                  <AllAttendees  content={this.state.content}
+                  <AllAttendees content={this.state.publishedContent}
                     updateUserData={this.updateUserData}
                     getAttendees={this.getAttendees}
                     allUsers={this.state.allUsers} 
                     hidden={this.state.hidden}
-                    hideTable={this.hideTable}/>
+                    hideTable={this.hideTable} />
                   <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden}/>
                 </div>
               </div>
@@ -169,16 +176,21 @@ export default class App extends PureComponent {
   }
 
   checkOrder = () => {
-    this.state.pendingContent.map((c, index) => {
+    const updates = this.state.pendingContent.map((c, index) => {
       if (c.order !== index) {
-        this.onUpdate(c, "order", index)
+        this.onUpdate(c, "order", index) // update pending content
+        if (this.state.publishedContent[c.key]) {
+          return publishedContentRef().child(c.key).child('order').set(index) // update published content
+        }
       }
-      return c
+      return Promise.resolve()
     })
+
+    // Publish the order changes only
+    Promise.all(updates).then(() => this.doPublish({} /* no content updated */))
   }
 
   getAttendees = query => client.getAttendees(query)
-
 
   cancelUpdates = () => {
     var pendingContent = this.state.pendingContent
@@ -207,44 +219,45 @@ export default class App extends PureComponent {
     this.setState({hidden: !current})
   }
 
-  publish = () => {
-    if (window.confirm('Are you sure you want to push all pending changes live to attendees?')) {
-      // 1. Remove all derived copies
-      publicContentRef().remove()
-      usersRef().remove()
-      tiersRef().remove()
-
-      // 2. Create derived copies from `pendingContent`
-      
-      // 2a. Public bucket gets copies of global content and those with attendee group filters.
-      publicContentRef().set(
-        contentArrayToFirebaseObject(this.state.pendingContent
-          .filter(c =>
-            c.groupIds.length
-            || (!c.tierIds.length && !c.attendeeIds.length))
-          .map(c => ({...c, tierIds: null, attendeeIds: null}))
-        )
-      )
-
-      // 2b. Users bucket gets a copy for each attendee
-      usersRef().set(getDerivedCopiesGroupedBy(this.state.pendingContent, 'attendeeIds'))
-
-      // 2c. Tiers bucket gets a copy for each tier
-      tiersRef().set(getDerivedCopiesGroupedBy(this.state.pendingContent, 'tierIds'))
-      
-      // 3. Copy `pendingContent` to `content`
-      contentRef().set(contentArrayToFirebaseObject(this.state.pendingContent))
-
-      // 4. Update published timestamp
-      lastPublishedAtRef().set(moment().valueOf())
+  unpublish = content => this.doPublish({key: content.key}) // "Publish" with no values set, resulting in removal
+  publish = content => {
+    if (window.confirm(`Are you sure you want to publish the ${content.type}${content.title ? ' ' + content.title : ''} content to attendees?`)) {
+      this.doPublish(content)
     }
   }
 
-  discard = () => {
-    if (window.confirm('Are you sure you want to discard all pending changes and revert this editor to the currently published content?')) {
-      // Copy `content` to `pendingContent` (discarding the current pendingContent)
-      pendingContentRef().set(contentArrayToFirebaseObject(this.state.content))
-    }
+  doPublish = content => {
+    // 1. Remove all derived copies of all content
+    publicContentRef().remove()
+    usersRef().remove()
+    tiersRef().remove()
+
+    // 2. Create derived copies from `publishedContent`
+    const { key, ...contentToPublish } = content
+    const publishedContent = Object.keys(this.state.publishedContent)
+    .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
+    .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
+    
+    // 2a. Public bucket gets copies of global content and those with attendee group filters.
+    const publicContent = contentArrayToFirebaseObject(publishedContent
+      .filter(c =>
+        c.groupIds.length
+        || (!c.tierIds.length && !c.attendeeIds.length))
+      .map(c => ({...c, tierIds: null, attendeeIds: null}))
+    )
+    publicContentRef().set(publicContent)
+
+    // 2b. Users bucket gets a copy for each attendee
+    usersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'attendeeIds'))
+
+    // 2c. Tiers bucket gets a copy for each tier
+    tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
+    
+    // 3. Copy content to published location
+    if (key) publishedContentRef().child(key).set(contentToPublish)
+    
+    // 4. Update published timestamp
+    lastPublishedAtRef().set(moment().valueOf())
   }
 }
 
@@ -281,7 +294,7 @@ function addDefaults(content) {
 
 const sortContent = (a,b) => a.order < b.order ? -1 : 1
 
-const contentRef = () => fbc.database.private.adminRef('content')
+const publishedContentRef = () => fbc.database.private.adminRef('content')
 const pendingContentRef = () => fbc.database.private.adminRef('pendingContent')
 const lastPublishedAtRef = () => fbc.database.private.adminRef('lastPublishedAt')
 

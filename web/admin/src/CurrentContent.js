@@ -44,7 +44,7 @@ export default class CurrentContent extends PureComponent {
   }
 
   render(){
-    const {content} = this.props
+    const {content, publishedContent} = this.props
     // const content = []
     if (content.length){
       if (this.state.move){
@@ -104,11 +104,23 @@ export default class CurrentContent extends PureComponent {
               <SearchBar updateList={this.props.updateList}/>
             </span>
             <ul className="current-content__list">
-              { content.map(c => <li key={c.key}>
-                <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                <span className="current-content__title">{titleFor(c)}</span>
-                <Link to={`/content/${c.key}`} className="current-content__view">View</Link>
-              </li>)}
+              { content.map(c => {
+                const isPublished = areEqual(c, publishedContent[c.key])
+                return (
+                  <li key={c.key}>
+                    <Link to={`/content/${c.key}`} className="current-content__link">
+                      <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                      <span className="current-content__title">{titleFor(c)}</span>
+                    </Link>
+                    { isPublished
+                      ? <span className="current-content__live">Live</span>
+                      : <span className="current-content__draft">Draft</span> }
+                    { isPublished
+                      ? <button className="current-content__pub button-thin__borderless" onClick={this.unpublish(c)}>Unpublish</button>
+                      : <button className="current-content__pub button-thin__blue" onClick={this.publish(c)}>Publish</button> }
+                  </li>
+                )
+              })}
             </ul>
           </div>
         )
@@ -134,10 +146,10 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  moveNow = () => {
-    var state = this.state.move
-    this.setState({move: !state})
-  }
+  publish = content => () => this.props.publish(content)
+  unpublish = content => () => this.props.unpublish(content)
+
+  moveNow = () => this.setState({move: !this.state.move})
 
   saveNow = () => {
     this.moveNow()
@@ -161,3 +173,13 @@ function iconFor(c) {
 }
 
 const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : 'Unknown')
+
+const areEqual = (c1, c2) => {
+  if (!c1 || !c2) return false
+  const keyLess = c => {
+    const {key, ...rest} = c
+    return rest
+  }
+
+  return JSON.stringify(keyLess(c1)) === JSON.stringify(keyLess(c2))
+}
