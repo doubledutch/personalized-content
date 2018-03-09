@@ -498,13 +498,30 @@ button {
   margin-top: 9px;
   margin-bottom: 10px;
   font-weight: 300;
-  height: 31px;
   padding: 5px 10px;
   border-radius: 4px;
   color: #299fca; 
   border:1px solid #299fca;
   font-size: 14px;
-  
+}
+
+.button-thin__borderless {
+  display: inline-block;
+  font-weight: 300;
+  padding: 0.3em 0.1em;
+  border: 0;
+  color: #299fca; 
+  font-size: 1em;
+}
+.button-thin__blue {
+  display: inline-block;
+  font-weight: 300;
+  padding: 0.3em 0.1em;
+  border-radius: 4px;
+  border: 0;
+  background-color: #299fca;
+  color: #fff;
+  font-size: 1em;
 }
 
 .button-big:last-of-type {
@@ -523,6 +540,12 @@ button {
   width: 600px;
 }
 
+.current-content__link {
+  flex: 1;
+  text-decoration: none;
+  color: #333;
+}
+
 .current-content__list {
   list-style: none;
   margin: 0;
@@ -533,16 +556,6 @@ button {
   background-color: #fbfbfb;
   overflow-x: hidden;
 }
-
-.current-content__list h1{
- font-size: 18px;
- color: #9B9B9B;
-}
-
-.current-content__list h2{
-  font-size: 16px;
-  color: #9B9B9B;
- }
 
 .current-content__list-text{
   text-align: center;
@@ -578,6 +591,23 @@ button {
   padding: 10px 0px;
 }
 
+.current-content__draft {
+  color: #e96a7b;
+  text-align: center;
+  width: 4em;
+}
+
+.current-content__pub {
+  width: 5em;
+  margin: 0 1em;
+}
+
+.current-content__live {
+  color: #8eb06e;
+  text-align: center;
+  width: 4em;
+}
+
 .searchBar {
   margin: 5px;
   margin-left: 30px;
@@ -603,15 +633,6 @@ button {
   border: 1px solid #AEAEAE;
   font-size: 16px;
   width: 150px;
-}
-
-.current-content__view  {
-  padding: 0 20px;
-  text-decoration: none;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 40px;
-  color: #a4a4a4
 }
 
 .select-editor__select {
