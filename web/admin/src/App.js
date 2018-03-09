@@ -32,7 +32,7 @@ export default class App extends PureComponent {
       search: false,
       userContent : [],
       hidden : true,
-      openVar: false,
+      showModal: false,
       selectedContent: '',
       isPublished: true
     }
@@ -90,7 +90,7 @@ export default class App extends PureComponent {
     return (
       <div className="app">
         <CustomModal
-        openVar = {this.state.openVar}
+        showModal = {this.state.showModal}
         closeModal = {this.closeModal}
         selectedContent={this.state.selectedContent}
         publish={this.publish}
@@ -172,11 +172,11 @@ export default class App extends PureComponent {
   }
 
   openModal = (c, p) => {
-    this.setState({selectedContent: c, isPublished: p, openVar: true})
+    this.setState({selectedContent: c, isPublished: p, showModal: true})
   }
 
   closeModal = () => {
-    this.setState({openVar: false});
+    this.setState({showModal: false});
   }
 
   onDragEnd = (result) =>{
