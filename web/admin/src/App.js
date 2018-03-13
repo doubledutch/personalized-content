@@ -24,6 +24,7 @@ import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
+import CustomModal from './Modal'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
@@ -115,9 +116,12 @@ export default class App extends PureComponent {
                   history={{history}}
                   publish={this.publish}
                   unpublish={this.unpublish}
+                  openModal={this.openModal}
                   onDragEnd={this.onDragEnd}
                   checkOrder={this.checkOrder}
-                  cancelUpdates={this.cancelUpdates} />
+                  cancelUpdates={this.cancelUpdates} 
+                  publish={this.publish}
+                  unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
                     updateUserData={this.updateUserData}
@@ -172,7 +176,6 @@ export default class App extends PureComponent {
   updateUserData = (content) => {
     const userContent = content.sort(sortContent)
     this.setState({userContent})
-
   }
 
   onDragEnd = (result) =>{
@@ -237,9 +240,7 @@ export default class App extends PureComponent {
 
   unpublish = content => this.doPublish({key: content.key}) // "Publish" with no values set, resulting in removal
   publish = content => {
-    if (window.confirm(`Are you sure you want to publish the ${content.type}${content.title ? ' ' + content.title : ''} content to attendees?`)) {
       this.doPublish(content)
-    }
   }
 
   doPublish = content => {
@@ -275,6 +276,7 @@ export default class App extends PureComponent {
     // 4. Update published timestamp
     lastPublishedAtRef().set(moment().valueOf())
   }
+
 }
 
 function getDerivedCopiesGroupedBy(pendingContent, groupIdArrayKey) {
