@@ -46,7 +46,7 @@ export default class AttendeeSelector extends PureComponent {
     this.lastSearch = query
     this.props.getAttendees(query).then(attendees => {
       if (this.lastSearch === query) {
-        this.setState({attendees})
+        this.setState({attendees: attendees.sort(sortUsers)})
       }
     })
   }, 300)
@@ -177,6 +177,15 @@ export default class AttendeeSelector extends PureComponent {
   addGroupId = this.addFilter('groupIds')
   removeGroupId = this.removeFilter('groupIds')
   removeAllGroupIds = this.removeAllFilters('groupIds')
+}
+
+function sortUsers(a,b) {
+  const aFirst = a.firstName.toLowerCase()
+  const bFirst = b.firstName.toLowerCase()
+  const aLast = a.lastName.toLowerCase()
+  const bLast = b.firstName.toLowerCase()
+  if (aFirst !== bFirst) return aFirst < bFirst ? -1 : 1
+  return aLast < bLast ? -1 : 1
 }
 
 export function isAttendeeInTierOrGroup(attendee, tierIds, groupIds) {

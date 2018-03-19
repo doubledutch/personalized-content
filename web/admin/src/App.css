@@ -17,6 +17,7 @@
  :root {
   font: 400 14px -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #4A4A4A;
+  background-color: white;
 }
 
 body {
@@ -31,6 +32,7 @@ body {
 .all-attendees__table {
   width: 600px;
   margin-right: 60px;
+  background-color: white;
 }
 
 .box {
@@ -58,6 +60,7 @@ body {
   border: none;
   display: flex;
   color: #4A4A4A;
+  background-color: white;
 }
 
 
@@ -397,6 +400,7 @@ button {
   display: flex;
   border: 1px solid #e2e2e2;
   height: 30em;
+  background-color: white;
 }
 
 .attendee-selector__attendee--disabled {
@@ -404,7 +408,8 @@ button {
 }
 .attendee-selector__attendee {
   height: 44px;
-  width: 600px;
+  flex: 1;
+  background-color: white;
 }
 .attendee-selector__attendee--gray{
   background-color: #E2E2E2;
@@ -460,7 +465,6 @@ button {
 .attendee-selector td {
   line-height: 2.5em;
   height: 2.5em;
-  padding: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -479,6 +483,7 @@ button {
    width: 600px;
    text-align: left;
    border: none;
+   color: #4A4A4A;
  }
  .attendee-selector__name--gray
  {
@@ -609,6 +614,7 @@ button {
   border-radius: 4px;
   color: #299fca; 
   border:1px solid #299fca;
+  background-color: white;
   font-size: 14px;
 }
 
@@ -650,7 +656,7 @@ button {
 .current-content__link {
   flex: 1;
   text-decoration: none;
-  color: #333;
+  color: #4A4A4A;
   display: flex;
   flex-flow: nowrap;
 }
@@ -691,6 +697,12 @@ button {
   margin: 0 20px;
   height: 15px;
   width: 15px;
+}
+
+.reorder-content__move {
+  height: 10px;
+  width: 10px;
+  margin: 0px 5px 0px 0px;
 }
 
 .current-content__title {

@@ -47,7 +47,8 @@ export default class App extends PureComponent {
       searchContent: [],
       search: false,
       userContent : [],
-      hidden : true
+      hidden : false,
+      disable : false
     }
 
     this.signin = fbc.signinAdmin()
@@ -116,11 +117,11 @@ export default class App extends PureComponent {
                   history={{history}}
                   publish={this.publish}
                   unpublish={this.unpublish}
-                  openModal={this.openModal}
                   onDragEnd={this.onDragEnd}
                   checkOrder={this.checkOrder}
                   cancelUpdates={this.cancelUpdates} 
                   publish={this.publish}
+                  disableButtons={this.disableButtons}
                   unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
@@ -128,6 +129,7 @@ export default class App extends PureComponent {
                     getAttendees={this.getAttendees}
                     allUsers={this.state.allUsers} 
                     hidden={this.state.hidden}
+                    disable={this.state.disable}
                     hideTable={this.hideTable} />
                   <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden}/>
                 </div>
@@ -236,6 +238,11 @@ export default class App extends PureComponent {
   hideTable = () => {
     var current = this.state.hidden
     this.setState({hidden: !current})
+  }
+
+  disableButtons = () => {
+    var current = this.state.disable
+    this.setState({disable: !current})
   }
 
   unpublish = content => this.doPublish({key: content.key}) // "Publish" with no values set, resulting in removal
