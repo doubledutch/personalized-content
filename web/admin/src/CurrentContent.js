@@ -21,7 +21,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
 import TextIcon from './images/TextIcon.png'
-import ReorderIcon from './images/Reorder.png'
+import Reorder from './images/Reorder.png'
+import ReorderIcon from './images/ReorderIcon.png'
 import CustomModal from './Modal'
 
 // using some little inline style helpers to make the app look okay
@@ -65,7 +66,6 @@ export default class CurrentContent extends PureComponent {
 
   render(){
     const {content, publishedContent} = this.props
-    // const content = []
     if (content.length){
       if (this.state.move){
         return (
@@ -98,7 +98,7 @@ export default class CurrentContent extends PureComponent {
                               )}
                               {...provided.dragHandleProps}
                             >
-                              <img src={ReorderIcon} className="current-content__move" alt={c.type} />
+                              <img src={Reorder} className="current-content__move" alt={c.type} />
                               <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
                               <span className="current-content__title">{titleFor(c)}</span>
                             </div>
@@ -122,7 +122,7 @@ export default class CurrentContent extends PureComponent {
             {this.renderModal()}
             <span className="content-bar">
               <h2 className="contentTitle">Current Content</h2>
-              <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
+              <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>Reorder Content</button>
               <SearchBar updateList={this.props.updateList}/>
             </span>
             <ul className="current-content__list">
@@ -153,7 +153,7 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content">
           <span className="content-bar">
             <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small__white" onClick={this.moveNow}>Reorder Content</button>
+            <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}>Reorder Content</button>
             <SearchBar updateList={this.props.updateList}/>
           </span>
           <div className="current-content__list">
@@ -171,7 +171,10 @@ export default class CurrentContent extends PureComponent {
   publish = content => () => this.openModal(content, false)
   unpublish = content => () => this.openModal(content, true)
 
-  moveNow = () => this.setState({move: !this.state.move})
+  moveNow = () => { 
+    this.setState({move: !this.state.move})
+    this.props.disableButtons()
+  }
 
   saveNow = () => {
     this.moveNow()
@@ -194,12 +197,12 @@ export default class CurrentContent extends PureComponent {
   renderModal = () => {
     return (
       <CustomModal
-      showModal = {this.state.showModal}
-      closeModal = {this.closeModal}
-      selectedContent={this.state.selectedContent}
-      publish={this.props.publish}
-      unpublish={this.props.unpublish}
-      isPublished={this.state.isPublished}
+        showModal = {this.state.showModal}
+        closeModal = {this.closeModal}
+        selectedContent={this.state.selectedContent}
+        publish={this.props.publish}
+        unpublish={this.props.unpublish}
+        isPublished={this.state.isPublished}
       />
     )
   }

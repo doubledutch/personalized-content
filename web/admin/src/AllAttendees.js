@@ -32,7 +32,7 @@ export default class AllAttendees extends PureComponent {
     this.lastSearch = query
     this.props.getAttendees(query).then(attendees => {
       if (this.lastSearch === query) {
-        this.setState({attendees})
+        this.setState({attendees: attendees.sort(sortUsers)})
       }
     })
   }, 300)
@@ -50,7 +50,7 @@ export default class AllAttendees extends PureComponent {
       return (
         <div className="all-attendees__table">
           <span className="content-bar">
-            <button className='contentTitle__button' onClick={this.props.hideTable}>Hide Attendees</button>
+            <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>Hide Attendees</button>
             <div className="searchBar">
             <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
             </div>
@@ -69,7 +69,7 @@ export default class AllAttendees extends PureComponent {
       return (
         <div className="all-attendees__table">
         <span className="content-bar">
-          <button className='contentTitle__button' onClick={this.props.hideTable}>View Attendees</button>
+          <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>View Attendees</button>
         </span>
       </div>
       )
@@ -97,6 +97,15 @@ export default class AllAttendees extends PureComponent {
     this.props.updateUserData(userContent)
     this.setState({id})
   }
+}
+
+function sortUsers(a,b) {
+  const aFirst = a.firstName.toLowerCase()
+  const bFirst = b.firstName.toLowerCase()
+  const aLast = a.lastName.toLowerCase()
+  const bLast = b.firstName.toLowerCase()
+  if (aFirst !== bFirst) return aFirst < bFirst ? -1 : 1
+  return aLast < bLast ? -1 : 1
 }
 
 const doArraysIntersect = (a, b) => !!a.find(aItem => b.includes(aItem))
