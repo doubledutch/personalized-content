@@ -221,7 +221,7 @@ export default class App extends PureComponent {
 
   addNewContent = ({history}) => {
     const {pendingContent} = this.state
-    const ref = pendingContentRef().push({type: 'text', order: pendingContent.length})
+    const ref = pendingContentRef().push({order: pendingContent.length})
     history.push(`/content/${ref.key}`)
   }
 
@@ -314,6 +314,7 @@ function addDefaults(content) {
   if (!content.tierIds) content.tierIds = []
   if (!content.groupIds) content.groupIds = []
   if (!content.attendeeIds) content.attendeeIds = []
+  if (!content.type) content.type = ''
   return content
 }
 
