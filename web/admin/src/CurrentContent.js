@@ -66,7 +66,7 @@ export default class CurrentContent extends PureComponent {
 
   render(){
     const {content, publishedContent} = this.props
-    if (content.length){
+   
       if (this.state.move){
         return (
           <div className="current-content">
@@ -125,43 +125,44 @@ export default class CurrentContent extends PureComponent {
               <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>Reorder Content</button>
               <SearchBar updateList={this.props.updateList}/>
             </span>
-            <ul className="current-content__list">
-              { content.map(c => {
-                const isPublished = areEqual(c, publishedContent[c.key])
-                return (
-                  <li key={c.key}>
-                    <Link to={`/content/${c.key}`} className="current-content__link">
-                      <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                      <p className="current-content__title">{titleFor(c)}</p>
-                    </Link>
-                    { isPublished
-                      ? <span className="current-content__live">Live</span>
-                      : <span className="current-content__draft">Draft</span> }
-                    { isPublished
-                      ? <button className="current-content__pub button-thin__borderless" onClick={this.unpublish(c)}>Unpublish</button>
-                      : <button className="current-content__pub button-thin__blue" onClick={this.publish(c)}>Publish</button> }
-                  </li>
-                )
-              })}
-            </ul>
+            {this.renderBox(content, publishedContent)}
           </div>
         )
       }
+  }
+
+  renderBox = (content, publishedContent) => {
+    if (content.length){
+      return (
+        <ul className="current-content__list">
+          { content.map(c => {
+            const isPublished = areEqual(c, publishedContent[c.key])
+            return (
+              <li key={c.key}>
+                <Link to={`/content/${c.key}`} className="current-content__link">
+                  <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                  <p className="current-content__title">{titleFor(c)}</p>
+                </Link>
+                { isPublished
+                  ? <span className="current-content__live">Live</span>
+                  : <span className="current-content__draft">Draft</span> }
+                { isPublished
+                  ? <button className="current-content__pub button-thin__borderless" onClick={this.unpublish(c)}>Unpublish</button>
+                  : <button className="current-content__pub button-thin__blue" onClick={this.publish(c)}>Publish</button> }
+              </li>
+            )
+          })}
+        </ul>
+      )
     }
+
     else {
       return (
-        <div className="current-content">
-          <span className="content-bar">
-            <h2 className="contentTitle">Current Content</h2>
-            <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}>Reorder Content</button>
-            <SearchBar updateList={this.props.updateList}/>
-          </span>
-          <div className="current-content__list">
-            <div className="current-content__list-text">
-              <h1>Curate your attendees&#39; experience with custom content</h1>
-              <h2>Click below to build your first piece of content</h2>
-              <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
-            </div>
+        <div className="current-content__list">
+          <div className="current-content__list-text">
+            <h1>Curate your attendees&#39; experience with custom content</h1>
+            <h2>Click below to build your first piece of content</h2>
+            <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
           </div>
         </div>
       )

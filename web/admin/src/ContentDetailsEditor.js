@@ -26,17 +26,17 @@ export default class ContentDetailsEditor extends PureComponent {
       case 'text': return <div className="content-editor__box">
           <div>
             <h2 className="contentTitle">Add a Title</h2>
-            <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co Name" onUpdate={onUpdate} isTitle={true}/>
+            <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Name" onUpdate={onUpdate} isTitle={true}/>
           </div>
           <div className="homeBox">
             <h2 className="contentTitle">Add Content</h2>
-            <MultiLineEditor content={content} prop="text" title="Content" placeholder="Acme Co Details" onUpdate={onUpdate}/>
+            <MultiLineEditor content={content} prop="text" title="Content" onUpdate={onUpdate}/>
           </div>
         </div>
       case 'web': return <div className="content-editor__box">
           <div>
             <h2 className="contentTitle">Add a Title</h2>
-            <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co Website" onUpdate={onUpdate} />
+            <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Website" onUpdate={onUpdate} isTitle={true}/>
           </div>
           <div className="homeBox">
             <h2 className="contentTitle">Add Content</h2>

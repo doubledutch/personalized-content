@@ -133,7 +133,7 @@ export default class AttendeeSelector extends PureComponent {
 
   menuHeaderText = () => {
     const {attendeeIds, tierIds, groupIds} = this.props.content
-    if (groupIds.length) return 'Filters selected'
+    if (groupIds.length) return groupIds.length + ' Filters selected'
     if (tierIds.length) {
       const count = tierIds.reduce((count, tierId) => count + (this.tiers[tierId] ? this.tiers[tierId].attendeeCount : 0), 0)
       return (attendeeIds.length) ? `${count}+ selected` : `${count} selected`
