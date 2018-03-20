@@ -27,6 +27,7 @@ body {
 
 .app {
   padding: 0px 10px 0px 10px;
+  overflow: auto;
 }
 
 .all-attendees__table {
@@ -624,6 +625,7 @@ button {
   padding: 0.3em 0.1em;
   border: 0;
   color: #299fca; 
+  background-color: white;
   font-size: 1em;
 }
 .button-thin__blue {
@@ -809,7 +811,7 @@ button {
 .text-editor__counter {
   height: 20px;
   padding: 0px;
-  margin: 13px 10px 0px 0px;
+  margin: 12px 10px 0px 0px;
 }
 
 .publish-content__box {
