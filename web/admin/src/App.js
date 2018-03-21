@@ -24,9 +24,8 @@ import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
-import CustomModal from './Modal'
 
-const fbc = FirebaseConnector(client, 'personalizedcontent1')
+const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -227,7 +226,10 @@ export default class App extends PureComponent {
   }
 
   stopEditing = () => this.setState({editingContentId: null})
-  deleteContent = key => pendingContentRef().child(key).remove()
+  deleteContent = key => {
+   this.unpublish({key})
+   pendingContentRef().child(key).remove()
+  }
 
   onUpdate = (contentItem, prop, value) => {
     if (contentItem[prop] !== value) {
@@ -259,7 +261,7 @@ export default class App extends PureComponent {
 
     // 2. Create derived copies from `publishedContent`
     const { key, ...contentToPublish } = content
-    const publishedContent = Object.keys(this.state.publishedContent)
+    const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
     
