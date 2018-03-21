@@ -44,6 +44,7 @@ export default class AllAttendees extends PureComponent {
   }
 
   render() {
+    this.downloadUserData(this.state.id)
     const {search} = this.state
     const {hidden} = this.props
     if (hidden) {
@@ -80,22 +81,33 @@ export default class AllAttendees extends PureComponent {
     if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
     return this.state.attendees.map(a => {
       return <tr key={a.id} className={'attendee-selector__attendee' + ((this.state.id === a.id) ? '--gray' : '')}> 
-        <td><button className={'attendee-selector__name' + ((this.state.id === a.id) ? '--gray' : '')} value={a.id} onClick={this.downloadUserData}>{a.firstName} {a.lastName}</button></td>       
+        <td><button className={'attendee-selector__name' + ((this.state.id === a.id) ? '--gray' : '')} value={a.id} onClick={this.setId}>{a.firstName} {a.lastName}</button></td>       
       </tr>
     })
   }
 
-
-  downloadUserData = (event) => {
+  setId = (event) => {
     const id = event.target.value
-    const user = this.state.attendees.find(user => user.id === id)
-    const userContent = Object.values(this.props.content).filter(c =>
-      doArraysIntersect(user.userGroupIds, c.groupIds)  // Is attendee part of one of the selected attendee groups?
-      || c.attendeeIds.includes(user.id)                // ...or is he/she specifically selected?
-      || c.tierIds.includes(user.tierId)                // ...or is he/she in one of the selected tiers?
-    )
-    this.props.updateUserData(userContent)
     this.setState({id})
+  }
+
+
+  downloadUserData = () => {
+    if (this.state.id) {
+      const id = this.state.id
+      const user = this.state.attendees.find(user => user.id === id)
+      const userContent = Object.values(this.props.content).filter(c =>
+        doArraysIntersect(user.userGroupIds, c.groupIds)  // Is attendee part of one of the selected attendee groups?
+        || c.attendeeIds.includes(user.id)                // ...or is he/she specifically selected?
+        || c.tierIds.includes(user.tierId)                // ...or is he/she in one of the selected tiers?
+      )
+      this.props.updateUserData(userContent)
+      return
+    }
+    else {
+      this.props.updateUserData(Object.values(this.props.content))
+      return
+    }
   }
 }
 

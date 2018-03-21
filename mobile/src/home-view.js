@@ -60,7 +60,7 @@ export default class HomeView extends Component {
   render() {
     return (
       <View style={s.container}>
-        <TitleBar title="My Content" client={client} signin={this.signin} />
+        <TitleBar title="My Feed" client={client} signin={this.signin} />
         <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
           { this.renderContent() }
         </ScrollView>

@@ -26,7 +26,7 @@ import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
 import CustomModal from './Modal'
 
-const fbc = FirebaseConnector(client, 'personalizedcontent')
+const fbc = FirebaseConnector(client, 'personalizedcontent1')
 fbc.initializeAppWithSimpleBackend()
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -122,6 +122,7 @@ export default class App extends PureComponent {
                   cancelUpdates={this.cancelUpdates} 
                   publish={this.publish}
                   disableButtons={this.disableButtons}
+                  disable={this.state.disable}
                   unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}

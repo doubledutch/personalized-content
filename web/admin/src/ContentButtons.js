@@ -18,6 +18,7 @@ import React, { Component } from 'react'
 import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
 import TextIcon from './images/TextIcon.png'
+import HTMLIcon from './images/HTMLIcon.png'
 
 export default class ContentButtons extends Component {
   render() {
@@ -56,10 +57,10 @@ export default class ContentButtons extends Component {
 
   renderIcon = (type) => {
     switch (type) {
-    case 'survey': return <img src={PageIcon} alt="survey"/>
-    case 'text': return <img src={TextIcon} alt="text"/>
-    case 'html': return <img src={TextIcon} alt="text"/>
-    case 'web': return <img src={WebIcon} alt="web"/>
+    case 'survey': return <img className="standIcon" src={PageIcon} alt="survey"/>
+    case 'text': return <img className="standIcon" src={TextIcon} alt="text"/>
+    case 'html': return <img className="htmlIcon" src={HTMLIcon} alt="html"/>
+    case 'web': return <img className="standIcon" src={WebIcon} alt="web"/>
     default: return <div/>
     }
   }

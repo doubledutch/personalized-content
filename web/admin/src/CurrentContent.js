@@ -39,6 +39,7 @@ border: "1px solid #e2e2e2",
 textAlign: "center",
 // change background colour if dragging
 background: isDragging ? 'lightgray' : 'white',
+boxShadow: isDragging ?  '0 2px 4px 0 rgba(0,0,0,0.5)': '',
 
 // styles we need to apply on draggables
 ...draggableStyle,
@@ -75,7 +76,7 @@ export default class CurrentContent extends PureComponent {
               <h2 className="contentTitle">Current Content</h2>
               <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
               <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
-              <SearchBar updateList={this.props.updateList}/>
+              <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
             </span>
             <DragDropContext onDragEnd={this.props.onDragEnd}>
             <Droppable droppableId="droppable">
@@ -123,7 +124,7 @@ export default class CurrentContent extends PureComponent {
             <span className="content-bar">
               <h2 className="contentTitle">Current Content</h2>
               <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>Reorder Content</button>
-              <SearchBar updateList={this.props.updateList}/>
+              <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
             </span>
             {this.renderBox(content, publishedContent)}
           </div>
@@ -147,8 +148,8 @@ export default class CurrentContent extends PureComponent {
                   ? <span className="current-content__live">Live</span>
                   : <span className="current-content__draft">Draft</span> }
                 { isPublished
-                  ? <button className="current-content__pub button-thin__borderless" onClick={this.unpublish(c)}>Unpublish</button>
-                  : <button className="current-content__pub button-thin__blue" onClick={this.publish(c)}>Publish</button> }
+                  ? <button className="current-content__pub button-thin__borderless" onClick={this.confirmUnpublish(c)}>Unpublish</button>
+                  : <button className="current-content__pub button-thin__blue" onClick={this.confirmPublish(c)}>Publish</button> }
               </li>
             )
           })}
@@ -158,7 +159,7 @@ export default class CurrentContent extends PureComponent {
 
     else {
       return (
-        <div className="current-content__list">
+        <div className="current-content__list--gray">
           <div className="current-content__list-text">
             <h1>Curate your attendees&#39; experience with custom content</h1>
             <h2>Click below to build your first piece of content</h2>
@@ -169,8 +170,8 @@ export default class CurrentContent extends PureComponent {
     }
   }
 
-  publish = content => () => this.openModal(content, false)
-  unpublish = content => () => this.openModal(content, true)
+  confirmPublish = content => () => this.openModal(content, false)
+  confirmUnpublish = content => () => this.openModal(content, true)
 
   moveNow = () => { 
     this.setState({move: !this.state.move})
