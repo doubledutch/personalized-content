@@ -24,7 +24,6 @@ import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
-import CustomModal from './Modal'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
@@ -122,6 +121,7 @@ export default class App extends PureComponent {
                   cancelUpdates={this.cancelUpdates} 
                   publish={this.publish}
                   disableButtons={this.disableButtons}
+                  disable={this.state.disable}
                   unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
@@ -226,12 +226,20 @@ export default class App extends PureComponent {
   }
 
   stopEditing = () => this.setState({editingContentId: null})
-  deleteContent = key => pendingContentRef().child(key).remove()
+
+  deleteContent = key => {
+   this.unpublish({key})
+   pendingContentRef().child(key).remove()
+  }
 
   onUpdate = (contentItem, prop, value) => {
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
-      pendingContentRef().child(contentItem.key).update({[prop]: value})
+      if (prop === 'type') {
+        pendingContentRef().child(contentItem.key).set({[prop]: value})
+      } else {
+        pendingContentRef().child(contentItem.key).update({[prop]: value})
+      }
     }
   }
 
@@ -258,7 +266,7 @@ export default class App extends PureComponent {
 
     // 2. Create derived copies from `publishedContent`
     const { key, ...contentToPublish } = content
-    const publishedContent = Object.keys(this.state.publishedContent)
+    const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
     

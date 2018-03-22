@@ -25,7 +25,7 @@ export default class ContentPreview extends PureComponent {
       backgroundImage: `url(${Background})`
     }
     if (hidden) {
-      if (content) {
+      if (content.length) {
         return (
           <div className="content-preview">
             <div className="phoneBox" style={sectionStyle}>
