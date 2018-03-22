@@ -226,6 +226,7 @@ export default class App extends PureComponent {
   }
 
   stopEditing = () => this.setState({editingContentId: null})
+
   deleteContent = key => {
    this.unpublish({key})
    pendingContentRef().child(key).remove()
@@ -234,7 +235,11 @@ export default class App extends PureComponent {
   onUpdate = (contentItem, prop, value) => {
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
-      pendingContentRef().child(contentItem.key).update({[prop]: value})
+      if (prop === 'type') {
+        pendingContentRef().child(contentItem.key).set({[prop]: value})
+      } else {
+        pendingContentRef().child(contentItem.key).update({[prop]: value})
+      }
     }
   }
 

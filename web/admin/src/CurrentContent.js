@@ -24,13 +24,14 @@ import TextIcon from './images/TextIcon.png'
 import Reorder from './images/Reorder.png'
 import ReorderIcon from './images/ReorderIcon.png'
 import CustomModal from './Modal'
+import HTMLIcon from './images/HTMLIcon.png'
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
 // some basic styles to make the items look a bit nicer
 userSelect: 'none',
 display: "flex",
-flexFlow: "row wrap",
+flexFlow: "nowrap",
 alignItems: "center",
 margin: '-1px -1px 0px -1px',
 minHeight: 40,
@@ -38,8 +39,8 @@ padding: 0,
 border: "1px solid #e2e2e2",
 textAlign: "center",
 // change background colour if dragging
-background: isDragging ? 'lightgray' : 'white',
-boxShadow: isDragging ?  '0 2px 4px 0 rgba(0,0,0,0.5)': '',
+background: 'white',
+boxShadow: isDragging ?  '0 2px 10px 0 rgba(0,0,0,0.5)': '',
 
 // styles we need to apply on draggables
 ...draggableStyle,
@@ -100,8 +101,8 @@ export default class CurrentContent extends PureComponent {
                               {...provided.dragHandleProps}
                             >
                               <img src={Reorder} className="current-content__move" alt={c.type} />
-                              <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
-                              <span className="current-content__title">{titleFor(c)}</span>
+                              {iconFor(c)}
+                              <p className="current-content__title-drag">{titleFor(c)}</p>
                             </div>
                             {provided.placeholder}
                           </div>
@@ -141,7 +142,7 @@ export default class CurrentContent extends PureComponent {
             return (
               <li key={c.key}>
                 <Link to={`/content/${c.key}`} className="current-content__link">
-                  <img src={iconFor(c)} className="current-content__icon" alt={c.type} />
+                  {iconFor(c)}
                   <p className="current-content__title">{titleFor(c)}</p>
                 </Link>
                 { isPublished
@@ -214,11 +215,11 @@ export default class CurrentContent extends PureComponent {
 
 function iconFor(c) {
   switch (c.type) {
-    case 'html':
-    case 'text': return TextIcon
-    case 'web': return WebIcon
-    case 'survey': return PageIcon
-    default: return null
+    case 'survey': return <img className="current-content__icon" src={PageIcon} alt="survey"/>
+    case 'text': return <img className="current-content__icon" src={TextIcon} alt="text"/>
+    case 'html': return <img className="current-content__icon-html" src={HTMLIcon} alt="html"/>
+    case 'web': return <img className="current-content__icon" src={WebIcon} alt="web"/>
+    default: return <div/>
   }
 }
 

@@ -18,14 +18,21 @@ import React, { PureComponent } from 'react'
 import debounce from 'lodash.debounce'
 
 export default class AllAttendees extends PureComponent {
-
-  state = {
-    search: '',
-    id: ""
+  constructor() {
+    super()
+    this.state = {
+      search: '',
+      id: ""
+    }
+    
   }
 
   componentDidMount() {
     this.searchAttendees(this.state.search)
+  }
+
+  componentWillUpdate(){
+    this.downloadUserData()
   }
 
   searchAttendees = debounce(query => {
@@ -44,7 +51,6 @@ export default class AllAttendees extends PureComponent {
   }
 
   render() {
-    this.downloadUserData(this.state.id)
     const {search} = this.state
     const {hidden} = this.props
     if (hidden) {
@@ -81,14 +87,19 @@ export default class AllAttendees extends PureComponent {
     if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
     return this.state.attendees.map(a => {
       return <tr key={a.id} className={'attendee-selector__attendee' + ((this.state.id === a.id) ? '--gray' : '')}> 
-        <td><button className={'attendee-selector__name' + ((this.state.id === a.id) ? '--gray' : '')} value={a.id} onClick={this.setId}>{a.firstName} {a.lastName}</button></td>       
+        <td><button className={'attendee-selector__button' + ((this.state.id === a.id) ? '--gray' : '')} value={a.id} onClick={this.setId}>{a.firstName} {a.lastName}</button></td>       
       </tr>
     })
   }
 
   setId = (event) => {
-    const id = event.target.value
-    this.setState({id})
+    if (event.target.value === this.state.id) {
+      this.setState({id: ''})
+    }
+    else {
+      const id = event.target.value
+      this.setState({id})
+    }
   }
 
 
