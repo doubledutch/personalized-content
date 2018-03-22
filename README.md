@@ -131,6 +131,13 @@ according to the visibility rules.
 4. Set `private/admin/lastPublishedAt` to `moment().valueOf()` (Unix millisecond
 timestamp)
 
+## Component Lifecycle
+
+To control the content of the phone preview it is filtered via click and a function called 'downloadUserData' to filter the relevant content which via a prop and setstate on the root page updated on the phone.
+
+But to accurately display the correct content in the phone preview we need to somehow check if any content has been changed regardless of a click and require using componentWillReceiveProps(). Via this update we can check can compare the content and see if it has changed since its last update.
+
+
 ### Mobile client state
 
 A mobile client's state will mirror the Firebase data in these locations, for

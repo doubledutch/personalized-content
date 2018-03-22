@@ -103,7 +103,6 @@ export default class AllAttendees extends PureComponent {
     else {
       const id = event.target.value
       this.setState({id: id})
-      console.log(id)
       this.downloadUserData(id, this.state.content)
     }
   }
@@ -111,7 +110,6 @@ export default class AllAttendees extends PureComponent {
 
   downloadUserData = (id, content) => {
     if (id) {
-      // const id = this.state.id
       const user = this.state.attendees.find(user => user.id === id)
       const userContent = Object.values(content).filter(c =>
         doArraysIntersect(user.userGroupIds, c.groupIds)  // Is attendee part of one of the selected attendee groups?
