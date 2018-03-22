@@ -22,7 +22,8 @@ export default class AllAttendees extends PureComponent {
     super()
     this.state = {
       search: '',
-      id: ""
+      id: "",
+      content: {}
     }
     
   }
@@ -31,8 +32,11 @@ export default class AllAttendees extends PureComponent {
     this.searchAttendees(this.state.search)
   }
 
-  componentWillUpdate(){
-    this.downloadUserData()
+  componentWillReceiveProps(nextProps){
+    if (this.props.content !== nextProps.content){
+      this.downloadUserData(this.state.id, nextProps.content)
+      this.setState({content: nextProps.content})
+    }
   }
 
   searchAttendees = debounce(query => {
@@ -98,16 +102,18 @@ export default class AllAttendees extends PureComponent {
     }
     else {
       const id = event.target.value
-      this.setState({id})
+      this.setState({id: id})
+      console.log(id)
+      this.downloadUserData(id, this.state.content)
     }
   }
 
 
-  downloadUserData = () => {
-    if (this.state.id) {
-      const id = this.state.id
+  downloadUserData = (id, content) => {
+    if (id) {
+      // const id = this.state.id
       const user = this.state.attendees.find(user => user.id === id)
-      const userContent = Object.values(this.props.content).filter(c =>
+      const userContent = Object.values(content).filter(c =>
         doArraysIntersect(user.userGroupIds, c.groupIds)  // Is attendee part of one of the selected attendee groups?
         || c.attendeeIds.includes(user.id)                // ...or is he/she specifically selected?
         || c.tierIds.includes(user.tierId)                // ...or is he/she in one of the selected tiers?
@@ -116,7 +122,7 @@ export default class AllAttendees extends PureComponent {
       return
     }
     else {
-      this.props.updateUserData(Object.values(this.props.content))
+      this.props.updateUserData(Object.values(content))
       return
     }
   }
