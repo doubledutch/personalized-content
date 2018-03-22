@@ -47,7 +47,7 @@ export default class ContentEditor extends PureComponent {
             <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
           </div>
           <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
-          <Link to="/" className="button-big">Save Content</Link>
+          <Link to="/" className="button-big">Done</Link>
         </div>
       </div>
     )

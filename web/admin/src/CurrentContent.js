@@ -219,7 +219,7 @@ function iconFor(c) {
     case 'text': return <img className="current-content__icon" src={TextIcon} alt="text"/>
     case 'html': return <img className="current-content__icon-html" src={HTMLIcon} alt="html"/>
     case 'web': return <img className="current-content__icon" src={WebIcon} alt="web"/>
-    default: return <div/>
+    default: return null
   }
 }
 
