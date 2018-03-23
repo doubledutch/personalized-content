@@ -99,6 +99,10 @@ export default class App extends PureComponent {
     if (search) {
       searchContent = newList
     }
+    var allContent = false
+    if (this.state.pendingContent.length) {
+      allContent = true
+    }
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
@@ -120,6 +124,7 @@ export default class App extends PureComponent {
                   checkOrder={this.checkOrder}
                   cancelUpdates={this.cancelUpdates} 
                   publish={this.publish}
+                  hideTable={this.hideTable}
                   disableButtons={this.disableButtons}
                   disable={this.state.disable}
                   unpublish={this.unpublish} />
@@ -131,7 +136,7 @@ export default class App extends PureComponent {
                     hidden={this.state.hidden}
                     disable={this.state.disable}
                     hideTable={this.hideTable} />
-                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden}/>
+                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent}/>
                 </div>
               </div>
             )} />

@@ -20,7 +20,7 @@ import Background from './iPhone.png'
 export default class ContentPreview extends PureComponent {
 
   render() {
-    const {content, hidden} = this.props
+    const {content, hidden, allContent} = this.props
     const sectionStyle = {
       backgroundImage: `url(${Background})`
     }
@@ -41,7 +41,7 @@ export default class ContentPreview extends PureComponent {
           <div className="content-preview">
             <div className="phoneBox" style={sectionStyle}>
               <div className="phoneScroll">
-                <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
+                {this.renderText()}
               </div>
             </div>
           </div>
@@ -49,6 +49,19 @@ export default class ContentPreview extends PureComponent {
       }
     }
     else return null
+  }
+
+  renderText = () => {
+    if (this.props.allContent) {
+      return (
+        <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
+      )
+    }
+    else {
+      return (
+        <h1 className="staticText">Build the first piece of content to preview it here</h1>
+      )
+    }
   }
 
   getContent = (id) => {

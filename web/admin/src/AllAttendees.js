@@ -30,6 +30,7 @@ export default class AllAttendees extends PureComponent {
 
   componentDidMount() {
     this.searchAttendees(this.state.search)
+    this.downloadUserData(this.state.id, this.props.content)
   }
 
   componentWillReceiveProps(nextProps){
@@ -99,6 +100,7 @@ export default class AllAttendees extends PureComponent {
   setId = (event) => {
     if (event.target.value === this.state.id) {
       this.setState({id: ''})
+      this.downloadUserData('', this.props.content)
     }
     else {
       const id = event.target.value

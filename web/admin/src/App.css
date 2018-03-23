@@ -217,7 +217,7 @@ body {
 }
 
 .phoneBox {
-  margin: 30px 20px 20px 20px;
+  margin: 0px 20px 20px 20px;
   width: 318px;
   height: 350px;
   background-color: white;
@@ -495,6 +495,9 @@ button {
    border:rgb(74, 74, 74);
    color: #4A4A4A;
    margin-left: 10px;
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+   word-break: break-all;
  }
  .attendee-selector__name--gray
  {
@@ -506,6 +509,9 @@ button {
    border: none;
    background-color: #E2E2E2;
    margin-left: 10px;
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+   word-break: break-all;
  }
  .attendee-selector__button
  {
@@ -518,6 +524,9 @@ button {
   color: #4A4A4A;
   margin-left: 10px;
   background-color: white;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
  }
  .attendee-selector__button--gray
  {
@@ -530,6 +539,9 @@ button {
   color: #4A4A4A;
   margin-left: 10px;
   background-color: #E2E2E2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
  }
 .attendee-selector td:nth-child(1) { width: 0.5em; }
 .attendee-selector td:nth-child(2) { flex: 3; }
@@ -760,6 +772,7 @@ button {
   text-align: left;
   font-size: 16px;
   margin: auto 0px;
+  padding: 5px 0px;
 }
 
 .current-content__title-drag {
