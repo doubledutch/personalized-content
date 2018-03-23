@@ -15,7 +15,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, WebView, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking } from 'react-native'
 import client, { Color } from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
@@ -51,7 +51,7 @@ export class WebContent extends PureComponent {
     return (
       <View style={[s.container, s.webContainer]}>
         <WebView style={s.web} source={{uri: url}} />
-        <TouchableOpacity style={s.webFooter}>
+        <TouchableOpacity style={s.webFooter} onPress={()=>{Linking.openURL(url)}}>
           <Text style={s.webFooterTitle}>{title}</Text>
           <Text style={s.webFooterLink}>View Page</Text>
         </TouchableOpacity>
@@ -208,11 +208,16 @@ const s = StyleSheet.create({
     marginHorizontal: 15,
     fontSize: 18,
     fontWeight: 'bold',
-    color: gray
+    color: gray,
+    flex: 1,
+    height: 40
   },
   webFooterLink: {
     marginHorizontal: 15,
     fontSize: 18,
+    padding: 0,
+    margin: 5,
+    width: 90,
     color: gray
   },
   web: {

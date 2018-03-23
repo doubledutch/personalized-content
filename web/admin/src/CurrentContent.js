@@ -161,11 +161,27 @@ export default class CurrentContent extends PureComponent {
     else {
       return (
         <div className="current-content__list--gray">
-          <div className="current-content__list-text">
-            <h1>Curate your attendees&#39; experience with custom content</h1>
-            <h2>Click below to build your first piece of content</h2>
-            <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
-          </div>
+            {this.promptMessage()}
+        </div>
+      )
+    }
+  }
+
+  promptMessage = () => {
+    if (this.props.publishedContent){
+      return (
+        <div className="current-content__list-text">
+          <h1>Please try another search</h1>
+          <h2>No content matches that description</h2>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div className="current-content__list-text">
+          <h1>Curate your attendees&#39; experience with custom content</h1>
+          <h2>Click below to build your first piece of content</h2>
+          <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
         </div>
       )
     }
@@ -177,6 +193,7 @@ export default class CurrentContent extends PureComponent {
   moveNow = () => { 
     this.setState({move: !this.state.move})
     this.props.disableButtons()
+    this.props.hideTable()
   }
 
   saveNow = () => {

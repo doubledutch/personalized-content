@@ -32,11 +32,11 @@ export class TextEditor extends PureComponent {
   reset = ({content, prop}) => this.setState({value: content[prop]})
 
   render() {
-    const {title, placeholder, validationMessage} = this.props
+    const { title, placeholder, validationMessage, hideTitle } = this.props
 
     return (
       <label className="text-editor">
-        <div className="text-editor__title">{title}</div>
+        { hideTitle ? null : <div className="text-editor__title">{title}</div> }
         { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
         <div className="text-editor__inputBox">
           <input
@@ -83,11 +83,11 @@ export class MultiLineEditor extends PureComponent {
   }
 
   render() {
-    const {title, placeholder, validationMessage} = this.props
+    const { title, placeholder, validationMessage, hideTitle } = this.props
 
     return (
       <label className="multiline-editor__box">
-        <div className="text-editor__title">{title}</div>
+        { hideTitle ? null : <div className="text-editor__title">{title}</div> }
         { this.isValid() ? null : <div className="text-editor__error">{validationMessage}</div> }
         <textarea
           className="multiline-editor__input"
@@ -96,7 +96,7 @@ export class MultiLineEditor extends PureComponent {
           value={this.state.value}
           onChange={this.onChange}
           onBlur={this.onBlur}
-          maxLength={250}
+          maxLength={15000}
         />
       </label>
     )
