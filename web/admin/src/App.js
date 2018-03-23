@@ -99,10 +99,7 @@ export default class App extends PureComponent {
     if (search) {
       searchContent = newList
     }
-    var allContent = false
-    if (this.state.pendingContent.length) {
-      allContent = true
-    }
+    const allContent = this.state.pendingContent.length > 0
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
