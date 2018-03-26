@@ -24,6 +24,7 @@ export default class ContentPreview extends PureComponent {
     const sectionStyle = {
       backgroundImage: `url(${Background})`
     }
+
     if (hidden) {
       if (content.length) {
         return (
@@ -53,9 +54,16 @@ export default class ContentPreview extends PureComponent {
 
   renderText = () => {
     if (this.props.allContent) {
-      return (
-        <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
-      )
+      if (this.props.published) {
+        return (
+          <h1 className="staticText">Assign user content to see it previewed here</h1>
+        )
+      }
+      else {
+        return (
+          <h1 className="staticText">Publish content to see it previewed here</h1>
+        )
+      }
     }
     else {
       return (
