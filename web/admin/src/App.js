@@ -136,7 +136,7 @@ export default class App extends PureComponent {
                     hidden={this.state.hidden}
                     disable={this.state.disable}
                     hideTable={this.hideTable} />
-                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent} published={published}/>
+                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent} isPublished={published}/>
                 </div>
               </div>
             )} />

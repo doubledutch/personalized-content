@@ -74,7 +74,6 @@ export default class AttendeeSelector extends PureComponent {
             <thead>
               { view === 'attendees'
                 ? <tr>
-                    {/* <td>&nbsp;</td> */}
                     <td>{this.selectAll()}</td>
                     <td><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
                     <td className="attendee-selector__column">Tiers</td> 
@@ -183,7 +182,7 @@ export default class AttendeeSelector extends PureComponent {
           name="selectAll"
           type="checkbox"
           checked={this.props.content.checkAll}
-          onChange={this.addCheck} />
+          onChange={this.addSelectAll} />
            Select All
       </label>
     )
@@ -195,15 +194,14 @@ export default class AttendeeSelector extends PureComponent {
     onUpdate(filterKey, content[filterKey].filter(x => x !== id))
   }
 
-  addCheck = () => {
-    var check = this.props.content.checkAll
-    if (!check) {
+  addSelectAll = (e) => {
+    var check = e.target.checked
+    if (check) {
       this.removeAllAttendeeIds()
       this.removeAllTierIds()
       this.removeAllGroupIds()
     }
-    var check = this.state.isChecked
-    this.props.onUpdate("checkAll", !check)
+    this.props.onUpdate("checkAll", check)
   }
 
   addAttendeeId = this.addFilter('attendeeIds')
