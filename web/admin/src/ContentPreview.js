@@ -56,7 +56,7 @@ export default class ContentPreview extends PureComponent {
     if (this.props.allContent) {
       if (this.props.isPublished) {
         return (
-          <h1 className="staticText">Assign user content to see it previewed here</h1>
+          <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
         )
       }
       else {
@@ -72,18 +72,6 @@ export default class ContentPreview extends PureComponent {
     }
   }
 
-  getContent = (id) => {
-    const survey = this.props.surveys.find(s => s.id === id)
-    if (survey) {
-      return (
-        <div>
-          <h2 className="textCellTitle">{survey.name}</h2>
-          <p className="textCellText" style={{textAlign: "center"}}>{survey.description}</p>
-        </div>
-      )
-    }
-  }
-
   editorFor = (c, i) => {
     switch (c.type) {
       case 'text': return <div className="textCell" key={i}>
@@ -92,14 +80,20 @@ export default class ContentPreview extends PureComponent {
       </div>
       case 'web': return <div className="webCell" key={i}>
         <iframe className="iFrameBox" src={c.url} title="webview"></iframe>
+        <div className="webFooter">
+          <h2 className="webFooterTitle">{c.title}</h2>
+          <p className="webFooterLink">View Page</p>
+        </div>
       </div>
+      
       case 'html': return <div className="htmlCell" key={i}>
         <h2 className="textCellTitle">{c.title}</h2>
         <iframe className="htmlBox" srcDoc={c.text} title="webview"></iframe>
       </div>
       case 'survey': return <div className="textCell" key={i}>
-      {this.getContent(c.surveyId)}
-      <button className="surveyButton">Take the survey</button>
+        <h2 className="textCellTitle">{c.title}</h2>
+        <p className="surveyCellText" rows={5}>{c.description}</p>
+        <button className="surveyButton">Take the survey</button>
       </div>
       default: return <div key={i}/>
     }

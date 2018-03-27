@@ -31,7 +31,7 @@ export class CustomModal extends Component {
   }
 
   modalMessage = (letPublish) => {
-    if (this.props.selectedContent.type && letPublish === true) {
+    if (this.props.selectedContent.type && letPublish) {
       return (
         <div>
           { this.props.isPublished
@@ -44,7 +44,7 @@ export class CustomModal extends Component {
     else {
       return (
         <div>
-           <p className="modalHeadline">Please complete this piece of content before publishing</p>
+           <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
         </div>
       )
     }
