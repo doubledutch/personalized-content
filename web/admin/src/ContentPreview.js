@@ -24,6 +24,7 @@ export default class ContentPreview extends PureComponent {
     const sectionStyle = {
       backgroundImage: `url(${Background})`
     }
+
     if (hidden) {
       if (content.length) {
         return (
@@ -53,9 +54,16 @@ export default class ContentPreview extends PureComponent {
 
   renderText = () => {
     if (this.props.allContent) {
-      return (
-        <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
-      )
+      if (this.props.isPublished) {
+        return (
+          <h1 className="staticText">Assign user content to see it previewed here</h1>
+        )
+      }
+      else {
+        return (
+          <h1 className="staticText">Publish content to see it previewed here</h1>
+        )
+      }
     }
     else {
       return (
@@ -88,11 +96,11 @@ export default class ContentPreview extends PureComponent {
       case 'html': return <div className="htmlCell" key={i}>
         <h2 className="textCellTitle">{c.title}</h2>
         <iframe className="htmlBox" srcDoc={c.text} title="webview"></iframe>
-    </div>
+      </div>
       case 'survey': return <div className="textCell" key={i}>
       {this.getContent(c.surveyId)}
       <button className="surveyButton">Take the survey</button>
-    </div>
+      </div>
       default: return <div key={i}/>
     }
   }

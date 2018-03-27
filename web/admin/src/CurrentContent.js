@@ -62,7 +62,7 @@ export default class CurrentContent extends PureComponent {
       move: false,
       showModal: false,
       selectedContent: '',
-      isPublished: true
+      isPublished: true,
     }
   }
 
@@ -168,7 +168,7 @@ export default class CurrentContent extends PureComponent {
   }
 
   promptMessage = () => {
-    if (this.props.publishedContent){
+    if (this.props.search){
       return (
         <div className="current-content__list-text">
           <h1>Please try another search</h1>
@@ -193,7 +193,6 @@ export default class CurrentContent extends PureComponent {
   moveNow = () => { 
     this.setState({move: !this.state.move})
     this.props.disableButtons()
-    this.props.hideTable()
   }
 
   saveNow = () => {
@@ -236,11 +235,11 @@ function iconFor(c) {
     case 'text': return <img className="current-content__icon" src={TextIcon} alt="text"/>
     case 'html': return <img className="current-content__icon-html" src={HTMLIcon} alt="html"/>
     case 'web': return <img className="current-content__icon" src={WebIcon} alt="web"/>
-    default: return null
+    default: return <div className="current-content__icon" alt="blank"/>
   }
 }
 
-const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : 'Unknown')
+const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : '"No Title"')
 
 const areEqual = (c1, c2) => {
   if (!c1 || !c2) return false

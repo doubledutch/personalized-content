@@ -47,7 +47,7 @@ export default class App extends PureComponent {
       search: false,
       userContent : [],
       hidden : false,
-      disable : false
+      disable : false,
     }
 
     this.signin = fbc.signinAdmin()
@@ -100,6 +100,8 @@ export default class App extends PureComponent {
       searchContent = newList
     }
     const allContent = this.state.pendingContent.length > 0
+    const published = Object.values(this.state.publishedContent).length > 0
+    
     if (lastPublishedAt === undefined) return <div>Loading...</div>
     return (
       <div className="app">
@@ -124,6 +126,7 @@ export default class App extends PureComponent {
                   hideTable={this.hideTable}
                   disableButtons={this.disableButtons}
                   disable={this.state.disable}
+                  search={this.state.search}
                   unpublish={this.unpublish} />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
@@ -133,7 +136,7 @@ export default class App extends PureComponent {
                     hidden={this.state.hidden}
                     disable={this.state.disable}
                     hideTable={this.hideTable} />
-                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent}/>
+                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent} isPublished={published}/>
                 </div>
               </div>
             )} />
@@ -325,6 +328,7 @@ function addDefaults(content) {
   if (!content.groupIds) content.groupIds = []
   if (!content.attendeeIds) content.attendeeIds = []
   if (!content.type) content.type = ''
+  if (!content.checkAll) content.checkAll = false
   return content
 }
 

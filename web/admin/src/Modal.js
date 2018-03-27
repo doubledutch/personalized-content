@@ -5,6 +5,8 @@ import Modal  from 'react-modal'
 export class CustomModal extends Component {
 
   render() {
+    const letPublish = (this.props.selectedContent) ? (this.props.selectedContent.checkAll) || (this.props.selectedContent.attendeeIds.length > 0) || (this.props.selectedContent.groupIds.length > 0) || (this.props.selectedContent.tierIds.length > 0) : false
+    
     return(
       <Modal
       ariaHideApp={false}
@@ -18,37 +20,55 @@ export class CustomModal extends Component {
         <div>
           <button className="closeButton" onClick={this.props.closeModal}>X</button>
           <div className="modalTextBox">
-            {this.modalMessage()}
+            {this.modalMessage(letPublish)}
           </div>
           <div className="modalButtonBox">
-            {this.modalButtons()}
+            {this.modalButtons(letPublish)}
           </div >    
         </div>
       </Modal>
     )
   }
 
-  modalMessage = () => {
-    return (
-      <div>
-        { this.props.isPublished
-        ? <p className="modalHeadline">Are you sure you want to unpublish this content?</p>
-        : <p className="modalHeadline">Are you sure you want to publish this content?</p> }
-          <p className="modalText">{titleFor(this.props.selectedContent)}</p>
-      </div>
-    )
+  modalMessage = (letPublish) => {
+    if (this.props.selectedContent.type && letPublish === true) {
+      return (
+        <div>
+          { this.props.isPublished
+          ? <p className="modalHeadline">Are you sure you want to unpublish this content?</p>
+          : <p className="modalHeadline">Are you sure you want to publish this content?</p> }
+            <p className="modalText">{titleFor(this.props.selectedContent)}</p>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+           <p className="modalHeadline">Please complete this piece of content before publishing</p>
+        </div>
+      )
+    }
   }
 
-  modalButtons = () => {
+  modalButtons = (letPublish) => {
     const c = this.props.selectedContent
-    return (
-      <div>
-        <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
-        { this.props.isPublished
-        ? <button className="modalExport" onClick={this.unpublish(c)}>Unpublish Content</button>
-        : <button className="modalExport" onClick={this.publish(c)}>Publish Content</button> }
-      </div>
-    ) 
+    if (this.props.selectedContent.type && letPublish) {
+      return (
+        <div>
+          <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
+          { this.props.isPublished
+          ? <button className="modalExport" onClick={this.unpublish(c)}>Unpublish Content</button>
+          : <button className="modalExport" onClick={this.publish(c)}>Publish Content</button> }
+        </div>
+      ) 
+    }
+    else {
+      return (
+        <div>
+          <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
+        </div>
+      )
+    }
   }
 
   publish = content => () => {

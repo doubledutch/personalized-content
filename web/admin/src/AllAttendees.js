@@ -23,7 +23,8 @@ export default class AllAttendees extends PureComponent {
     this.state = {
       search: '',
       id: "",
-      content: {}
+      content: {},
+      attendees: []
     }
     
   }
@@ -31,6 +32,7 @@ export default class AllAttendees extends PureComponent {
   componentDidMount() {
     this.searchAttendees(this.state.search)
     this.downloadUserData(this.state.id, this.props.content)
+    this.setState({content: this.props.content})
   }
 
   componentWillReceiveProps(nextProps){
@@ -64,7 +66,7 @@ export default class AllAttendees extends PureComponent {
           <span className="content-bar">
             <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>Hide Attendees</button>
             <div className="searchBar">
-            <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange} />
+              <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange}/>
             </div>
           </span>
           <div className="attendee-selector">
@@ -89,7 +91,19 @@ export default class AllAttendees extends PureComponent {
   }
 
   renderTableRows = () => {
-    if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
+    if (!this.state.attendees.length){
+      if (this.state.search) {
+        return (
+          <div className="current-content__list-text">
+            <h1>Please try another search</h1>
+            <h2>No user matches that description</h2>
+          </div>
+        )
+      }
+      else {
+        return <tr key={0}><td></td><td>Loading...</td></tr>
+      }
+    }
     return this.state.attendees.map(a => {
       return <tr key={a.id} className={'attendee-selector__attendee' + ((this.state.id === a.id) ? '--gray' : '')}> 
         <td><button className={'attendee-selector__button' + ((this.state.id === a.id) ? '--gray' : '')} value={a.id} onClick={this.setId}>{a.firstName} {a.lastName}</button></td>       

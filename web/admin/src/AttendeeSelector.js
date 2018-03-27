@@ -25,7 +25,8 @@ export default class AttendeeSelector extends PureComponent {
 
   state = {
     search: '',
-    view: 'attendees'
+    view: 'attendees',
+    attendees: [],
   }
 
   componentWillReceiveProps(props) {
@@ -62,7 +63,6 @@ export default class AttendeeSelector extends PureComponent {
     return (
       <div>
         <h2 className="contentTitle">Select Attendees</h2>
-
         <div className="attendee-selector">
           <div className="attendee-selector__menu">
             <div className="attendee-selector__menu-header">{this.menuHeaderText()}</div>
@@ -74,7 +74,7 @@ export default class AttendeeSelector extends PureComponent {
             <thead>
               { view === 'attendees'
                 ? <tr>
-                    <td>&nbsp;</td>
+                    <td>{this.selectAll()}</td>
                     <td><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
                     <td className="attendee-selector__column">Tiers</td> 
                     <td className="attendee-selector__column">Groups</td> 
@@ -99,7 +99,19 @@ export default class AttendeeSelector extends PureComponent {
     switch (this.state.view) {
       case 'attendees':
       const {attendeeIds} = this.props.content
-        if (!this.state.attendees) return <tr key={0}><td></td><td>Loading...</td></tr>
+      if (!this.state.attendees.length){
+        if (this.state.search) {
+          return (
+            <div className="current-content__list-text">
+              <h1>Please try another search</h1>
+              <h2>No user matches that description</h2>
+            </div>
+          )
+        }
+        else {
+          return <tr key={0}><td></td><td>Loading...</td></tr>
+        }
+      }
         return this.state.attendees.map(a => {
           const inTierOrGroup = isAttendeeInTierOrGroup(a, tierIds, groupIds)
           return <tr key={a.id} className={'attendee-selector__attendee' + (inTierOrGroup ? '--disabled' : '')}>
@@ -157,13 +169,39 @@ export default class AttendeeSelector extends PureComponent {
     const {content, onUpdate} = this.props
     if (!content[filterKey].includes(id)) {
       onUpdate(filterKey, [...content[filterKey], id])
-    }      
+    }
+    if (this.props.content.checkAll) {
+      onUpdate("checkAll", false)
+    }    
+  }
+
+  selectAll = () => {
+    return (
+      <label className="attendee-selector__column">
+        <input
+          name="selectAll"
+          type="checkbox"
+          checked={this.props.content.checkAll}
+          onChange={this.addSelectAll} />
+           Select All
+      </label>
+    )
   }
 
   removeAllFilters = filterKey => () => this.props.onUpdate(filterKey, [])
   removeFilter = filterKey => id => {
     const {content, onUpdate} = this.props
     onUpdate(filterKey, content[filterKey].filter(x => x !== id))
+  }
+
+  addSelectAll = (e) => {
+    var check = e.target.checked
+    if (check) {
+      this.removeAllAttendeeIds()
+      this.removeAllTierIds()
+      this.removeAllGroupIds()
+    }
+    this.props.onUpdate("checkAll", check)
   }
 
   addAttendeeId = this.addFilter('attendeeIds')
