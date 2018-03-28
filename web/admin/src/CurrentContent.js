@@ -68,7 +68,6 @@ export default class CurrentContent extends PureComponent {
 
   render(){
     const {content, publishedContent} = this.props
-   
       if (this.state.move){
         return (
           <div className="current-content">

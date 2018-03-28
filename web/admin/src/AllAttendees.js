@@ -101,7 +101,8 @@ export default class AllAttendees extends PureComponent {
         )
       }
       else {
-        return <tr key={0}><td></td><td>Loading...</td></tr>
+        if (this.props.allUsers)
+        return <tr key={0}><td></td><td></td></tr>
       }
     }
     return this.state.attendees.map(a => {
