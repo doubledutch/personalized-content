@@ -68,7 +68,7 @@ export default class ContentPreview extends PureComponent {
       }
       else {
         return (
-          <h1 className="staticText">Build the first piece of content to preview it here</h1>
+          <h1 className="staticText">Select an attendee to see his or her assigned content</h1>
         )
       }
     }
