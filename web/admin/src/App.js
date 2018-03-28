@@ -68,7 +68,7 @@ export default class App extends PureComponent {
       const addContent = stateKey => data => this.setState(state => (
         {[stateKey]: [...state[stateKey], {...addDefaults(data.val()), key: data.key}].sort(sortContent)}))
       const removeContent = stateKey => data => this.setState(state => (
-        {[stateKey]: state[stateKey].filter(x => x.key !== data.key)}))
+        {[stateKey]: state[stateKey].filter(x => x.key !== data.key).map((x, i) => ({...x, order: i}) )}))
       const changeContent = stateKey => data => this.setState(state => (
         {[stateKey]: state[stateKey].map(x => x.key === data.key ? {...addDefaults(data.val()), key: data.key} : x).sort(sortContent)}))
       
@@ -136,7 +136,7 @@ export default class App extends PureComponent {
                     hidden={this.state.hidden}
                     disable={this.state.disable}
                     hideTable={this.hideTable} />
-                  <ContentPreview content={this.state.userContent} surveys={surveys} hidden={this.state.hidden} allContent={allContent} isPublished={published}/>
+                  <ContentPreview content={this.state.userContent} allUsers={this.state.allUsers}  surveys={surveys} hidden={this.state.hidden} allContent={allContent} isPublished={published}/>
                 </div>
               </div>
             )} />
@@ -238,12 +238,12 @@ export default class App extends PureComponent {
   }
 
   onUpdate = (contentItem, prop, value) => {
-    const { attendeeIds, tierIds, groupIds } = contentItem
+    const { attendeeIds, tierIds, groupIds, order } = contentItem
     const checkAll = contentItem.checkAll ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
-          pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll})
+          pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll, order})
       } else {
         pendingContentRef().child(contentItem.key).update({[prop]: value})
       }
