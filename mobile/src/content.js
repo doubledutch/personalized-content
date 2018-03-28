@@ -52,7 +52,7 @@ export class WebContent extends PureComponent {
       <View style={[s.container, s.webContainer]}>
         <WebView style={s.web} source={{uri: url}} />
         <TouchableOpacity style={s.webFooter} onPress={()=>{Linking.openURL(url)}}>
-          <Text style={s.webFooterTitle}>{title}</Text>
+          <Text style={s.webFooterTitle} ellipsizeMode='tail' numberOfLines={2}>{title}</Text>
           <Text style={s.webFooterLink}>View Page</Text>
         </TouchableOpacity>
       </View>
@@ -210,7 +210,7 @@ const s = StyleSheet.create({
     fontWeight: 'bold',
     color: gray,
     flex: 1,
-    height: 40
+    height: 40,
   },
   webFooterLink: {
     marginHorizontal: 15,

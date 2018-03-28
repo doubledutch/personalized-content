@@ -238,10 +238,12 @@ export default class App extends PureComponent {
   }
 
   onUpdate = (contentItem, prop, value) => {
+    const { attendeeIds, tierIds, groupIds } = contentItem
+    const checkAll = contentItem.checkAll ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
-        pendingContentRef().child(contentItem.key).set({[prop]: value})
+          pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll})
       } else {
         pendingContentRef().child(contentItem.key).update({[prop]: value})
       }
@@ -260,7 +262,7 @@ export default class App extends PureComponent {
 
   unpublish = content => this.doPublish({key: content.key}) // "Publish" with no values set, resulting in removal
   publish = content => {
-      this.doPublish(content)
+    this.doPublish(content)
   }
 
   doPublish = content => {
@@ -282,6 +284,7 @@ export default class App extends PureComponent {
         || (!c.tierIds.length && !c.attendeeIds.length))
       .map(c => ({...c, tierIds: null, attendeeIds: null}))
     )
+    
     publicContentRef().set(publicContent)
 
     // 2b. Users bucket gets a copy for each attendee
@@ -328,7 +331,6 @@ function addDefaults(content) {
   if (!content.groupIds) content.groupIds = []
   if (!content.attendeeIds) content.attendeeIds = []
   if (!content.type) content.type = ''
-  if (!content.checkAll) content.checkAll = false
   return content
 }
 
