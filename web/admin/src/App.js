@@ -238,15 +238,15 @@ export default class App extends PureComponent {
   }
 
   onUpdate = (contentItem, prop, value) => {
+    console.log(contentItem)
+    var attendeeIds = contentItem.attendeeIds
+    var tierIds = contentItem.tierIds
+    var groupIds = contentItem.groupIds
+    var checkAll = contentItem.checkAll ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
-        if (contentItem[prop]) {
-          pendingContentRef().child(contentItem.key).set({[prop]: value})
-        }
-        else {
-          pendingContentRef().child(contentItem.key).update({[prop]: value})
-        }
+          pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll})
       } else {
         pendingContentRef().child(contentItem.key).update({[prop]: value})
       }
