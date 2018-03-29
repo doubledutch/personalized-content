@@ -109,7 +109,7 @@ export default class AttendeeSelector extends PureComponent {
           )
         }
         else {
-          return <tr key={0}><td></td><td>Loading...</td></tr>
+          return <tr key={0}><td></td><td></td></tr>
         }
       }
         return this.state.attendees.map(a => {
@@ -131,7 +131,7 @@ export default class AttendeeSelector extends PureComponent {
         return this.props.tiers.map(t => <tr key={t.id}>
           <td><input type="checkbox" checked={tierIds.includes(t.id)} onChange={this.onTierChange(t.id)} /></td>
           <td className="attendee-selector__name">{t.name}</td>
-          <td className="attendee-selector__name">{t.attendeeCount} attendees</td>
+          <td className="attendee-selector__name">{t.attendeeCount} attendee{(t.attendeeCount > 1) ? "s" : ""}</td>
         </tr>)
       case 'groups':
       return this.props.groups.map(g => <tr key={g.id}>

@@ -40,7 +40,7 @@ export default class ContentDetailsEditor extends PureComponent {
           </div>
           <div className="homeBox">
             <h2 className="contentTitle">Add Content</h2>
-            <TextEditor content={content} prop="url" title="URL" regex={/^https?:\/\/[^/]/} validationMessage="The URL must begin with 'https://' or'http://'" placeholder="http://www.acme.com" onUpdate={onUpdate} hideTitle={true}/>
+            <TextEditor content={content} prop="url" title="URL" regex={/^https?:\/\/[^/]/} validationMessage="The URL must begin with 'https://' or 'http://'" placeholder="http://www.acme.com" onUpdate={onUpdate} hideTitle={true}/>
           </div>
         </div>
       case 'survey': return <div className="content-editor__box" key={`${content.type}Fields`}>

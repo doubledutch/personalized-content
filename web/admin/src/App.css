@@ -46,12 +46,18 @@ body {
   padding: 0px;
   margin: 3px;
   text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .contentTitle {
   font-weight: 600;
   flex: 1;
   display: flex;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .contentTitle__button {
@@ -73,11 +79,14 @@ body {
   margin-top: 5px;
 }
 
-.CellText {
+.textCellText {
   font-size: 12px;
   padding: 0px;
   margin: 3px;
   text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .surveyCellText {
@@ -102,10 +111,11 @@ body {
 
 .htmlCover {
   height: 200px;
-  width: 274px;
+  width: 259px;
   position: absolute;
   margin-top: -200px;
   background-color: transparent;
+  overflow: auto;
 }
 
 .checkBox {
@@ -140,7 +150,8 @@ body {
   margin: 0px;
   height: 300px;
   background-color: lightgrey;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .itemTitle {
@@ -363,7 +374,7 @@ body {
   border: solid;
   border-width: 1px;
   border-color: lightgrey;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .multiline-editor__counter {
@@ -519,7 +530,8 @@ button {
 }
 
 .attendee-selector tbody {
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .attendee-selector tr {
@@ -744,6 +756,8 @@ button {
 
 .current-content {
   width: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .current-content__link {

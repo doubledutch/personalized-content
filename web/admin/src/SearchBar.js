@@ -25,7 +25,8 @@ export default class SearchBar extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({value: event.target.value});
+    var string = event.target.value
+    this.setState({value: string.trim()});
     this.props.updateList(event.target.value)
   }
 
