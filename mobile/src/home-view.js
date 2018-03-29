@@ -24,11 +24,10 @@ import FirebaseConnector from '@doubledutch/firebase-connector'
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 
 fbc.initializeAppWithSimpleBackend()
-Text.defaultProps.allowFontScaling=false
 
 const publicContentRef = () => fbc.database.public.adminRef('content')
 const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
-const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
+const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId.toString())
 
 export default class HomeView extends Component {
   constructor() {
@@ -53,7 +52,14 @@ export default class HomeView extends Component {
       
       publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || client.currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
       userRef().on('value', setContent('attendeeContent'))
-      tierRef().on('value', setContent('tierContent'))
+      tierRef().on('value', setContent('tierContent', c => { 
+        !c.tierIds || c.tierIds.includes(client.currentUser.tierId) 
+        
+      }
+    
+    ))
+
+     
       
     })
   }
@@ -82,6 +88,7 @@ export default class HomeView extends Component {
   renderContent() {
     const content = this.content()
     if (!content) return <Text>Loading...</Text>
+    if (content.length === 0) return <Text style={s.helpText}>No Assigned Content</Text>
     return content.map(c => <View style={s.contentWrapper} key={c.key}>{renderContentItem(c)}</View>)
     return <Text>{content.length}</Text>    
   }
@@ -109,5 +116,10 @@ const s = StyleSheet.create({
   },
   contentWrapper: {
     marginBottom: 10
+  },
+  helpText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10
   }
 })

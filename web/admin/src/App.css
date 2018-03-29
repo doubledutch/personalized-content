@@ -849,7 +849,13 @@ button {
 .current-content__draft {
   color: #e96a7b;
   text-align: center;
-  width: 4em;
+  width: 6em;
+}
+
+.current-content__changes {
+  color: #e96a7b;
+  text-align: center;
+  width: 6em;
 }
 
 .current-content__pub {
@@ -860,7 +866,7 @@ button {
 .current-content__live {
   color: #8eb06e;
   text-align: center;
-  width: 4em;
+  width: 6em;
 }
 
 .searchBar {
