@@ -4,7 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@doubledutch/admin-client": "^1.2.7",
+    "@doubledutch/admin-client": "^1.4.1",
     "@doubledutch/firebase-connector": "^3.3.1",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.20.1",
