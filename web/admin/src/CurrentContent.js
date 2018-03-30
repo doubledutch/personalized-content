@@ -138,15 +138,14 @@ export default class CurrentContent extends PureComponent {
         <ul className="current-content__list">
           { content.map(c => {
             const isPublished = areEqual(c, publishedContent[c.key])
+            const previousPublish = publishedContent[c.key]
             return (
               <li key={c.key}>
                 <Link to={`/content/${c.key}`} className="current-content__link">
                   {iconFor(c)}
                   <p className="current-content__title">{titleFor(c)}</p>
                 </Link>
-                { isPublished
-                  ? <span className="current-content__live">Live</span>
-                  : <span className="current-content__draft">Draft</span> }
+                {this.renderStatus(isPublished, previousPublish)}
                 { isPublished
                   ? <button className="current-content__pub button-thin__borderless" onClick={this.confirmUnpublish(c)}>Unpublish</button>
                   : <button className="current-content__pub button-thin__blue" onClick={this.confirmPublish(c)}>Publish</button> }
@@ -163,6 +162,14 @@ export default class CurrentContent extends PureComponent {
             {this.promptMessage()}
         </div>
       )
+    }
+  }
+
+  renderStatus = (isPublished, previousPublish) => {
+    if (isPublished) return <span className="current-content__live">Live</span>
+    else {
+      if (previousPublish) return <span className="current-content__changes">Unpublished Changes</span>
+      else return <span className="current-content__draft">Draft</span>
     }
   }
 

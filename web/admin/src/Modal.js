@@ -82,7 +82,7 @@ export class CustomModal extends Component {
 
 }
 
-  const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : 'Unknown')
+  const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : '"No Title"')
 
 
 export default CustomModal
