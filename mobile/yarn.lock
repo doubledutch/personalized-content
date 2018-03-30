@@ -3,8 +3,8 @@
 
 
 "@doubledutch/base-client@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-3.0.3.tgz#d9ebd692c65ec5b4d72df24b71e0081e953a6de4"
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-3.0.4.tgz#a106be082f93f692da7f7f2bc69e6a91557cf544"
 
 "@doubledutch/firebase-connector@^3.3.1":
   version "3.3.1"
