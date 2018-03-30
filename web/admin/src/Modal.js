@@ -42,11 +42,20 @@ export class CustomModal extends Component {
       )
     }
     else {
-      return (
-        <div>
-           <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
-        </div>
-      )
+      if (this.props.selectedContent.type) {
+        return (
+          <div>
+            <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
+          </div>
+        )
+      }
+      else {
+        return (
+          <div>
+            <p className="modalHeadline">Content must be completed in order to publish.</p>
+          </div>
+        )
+      }
     }
   }
 
