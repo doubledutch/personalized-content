@@ -57,7 +57,7 @@ export default class ContentPreview extends PureComponent {
       if (this.props.allContent) {
         if (this.props.isPublished) {
           return (
-            <h1 className="staticText">Assign content to this attendee to see it previewed here</h1>
+            <h1 className="staticText">No content is available</h1>
           )
         }
         else {
@@ -68,11 +68,11 @@ export default class ContentPreview extends PureComponent {
       }
       else {
         return (
-          <h1 className="staticText">Build the first piece of content to preview it here</h1>
+          <h1 className="staticText">No content is available</h1>
         )
       }
     }
-    else return null
+    else return <h1 className="staticText"></h1>
   }
 
   editorFor = (c, i) => {
@@ -88,13 +88,9 @@ export default class ContentPreview extends PureComponent {
           <p className="webFooterLink">View Page</p>
         </div>
       </div>
-      
       case 'html': return <div className="htmlCell" key={i}>
         <h2 className="textCellTitle">{c.title}</h2>
-        <iframe className="htmlBox" srcDoc={c.text} title="webview"></iframe>
-        <div className="htmlCover">
-          
-        </div>
+        <iframe className="htmlBox" srcDoc={c.text} title="webview" onClick="return false"></iframe>
       </div>
       case 'survey': return <div className="textCell" key={i}>
         <h2 className="textCellTitle">{c.title}</h2>

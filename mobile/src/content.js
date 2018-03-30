@@ -218,7 +218,8 @@ const s = StyleSheet.create({
     padding: 0,
     margin: 5,
     width: 90,
-    color: gray
+    color: gray,
+    height: 40,
   },
   web: {
     flex: 1
