@@ -50,13 +50,10 @@ export default class HomeView extends Component {
         this.setState({[stateKey]: filteredContentArray})
       }
       
-      console.log(tierRef)
       publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || client.currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
       userRef().on('value', setContent('attendeeContent'))
       tierRef().on('value', setContent('tierContent'))
 
-     
-      
     })
   }
 
