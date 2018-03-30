@@ -243,7 +243,7 @@ export default class App extends PureComponent {
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
-          pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll, order})
+        pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll, order})
       } else {
         pendingContentRef().child(contentItem.key).update({[prop]: value})
       }
