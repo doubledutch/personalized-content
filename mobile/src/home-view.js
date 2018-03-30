@@ -27,7 +27,7 @@ fbc.initializeAppWithSimpleBackend()
 
 const publicContentRef = () => fbc.database.public.adminRef('content')
 const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
-const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId.toString())
+const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
 
 export default class HomeView extends Component {
   constructor() {
@@ -50,14 +50,10 @@ export default class HomeView extends Component {
         this.setState({[stateKey]: filteredContentArray})
       }
       
+      console.log(tierRef)
       publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || client.currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
       userRef().on('value', setContent('attendeeContent'))
-      tierRef().on('value', setContent('tierContent', c => { 
-        !c.tierIds || c.tierIds.includes(client.currentUser.tierId) 
-        
-      }
-    
-    ))
+      tierRef().on('value', setContent('tierContent'))
 
      
       
