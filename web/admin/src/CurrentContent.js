@@ -249,10 +249,10 @@ const titleFor = c => c.title || (c.type==='survey' ? 'Survey' : '"No Title"')
 
 const areEqual = (c1, c2) => {
   if (!c1 || !c2) return false
-  const keyLess = c => {
-    const {key, ...rest} = c
+  const actualContent = c => {
+    const {key, order, ...rest} = c
     return rest
   }
 
-  return JSON.stringify(keyLess(c1)) === JSON.stringify(keyLess(c2))
+  return JSON.stringify(actualContent(c1)) === JSON.stringify(actualContent(c2))
 }
