@@ -44,11 +44,13 @@ export default class AllAttendees extends PureComponent {
 
   searchAttendees = debounce(query => {
     this.lastSearch = query
-    this.props.getAttendees(query).then(attendees => {
-      if (this.lastSearch === query) {
-        this.setState({attendees: attendees.sort(sortUsers)})
-      }
-    })
+    if (!/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
+      this.props.getAttendees(query).then(attendees => {
+        if (this.lastSearch === query) {
+          this.setState({attendees: attendees.sort(sortUsers)})
+        }
+      })
+    }
   }, 300)
 
   onSearchChange = event => {

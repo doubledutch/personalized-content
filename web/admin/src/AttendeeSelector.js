@@ -45,11 +45,13 @@ export default class AttendeeSelector extends PureComponent {
 
   searchAttendees = debounce(query => {
     this.lastSearch = query
-    this.props.getAttendees(query).then(attendees => {
-      if (this.lastSearch === query) {
-        this.setState({attendees: attendees.sort(sortUsers)})
-      }
-    })
+    if (!/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
+      this.props.getAttendees(query).then(attendees => {
+        if (this.lastSearch === query) {
+          this.setState({attendees: attendees.sort(sortUsers)})
+        }
+      })
+    }
   }, 300)
 
   onSearchChange = event => {
@@ -150,6 +152,7 @@ export default class AttendeeSelector extends PureComponent {
       const count = tierIds.reduce((count, tierId) => count + (this.tiers[tierId] ? this.tiers[tierId].attendeeCount : 0), 0)
       return (attendeeIds.length) ? `${count}+ selected` : `${count} selected`
     }
+    if (this.props.content.checkAll) return "All selected"
     if (attendeeIds.length) return `${attendeeIds.length} selected`
     return 'No filters selected'
   }
