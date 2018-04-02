@@ -37,13 +37,12 @@ export default class HomeView extends Component {
 
     this.signin = fbc.signin()
       .then(user => this.user = user)
-      .then(() => client.getUser(client.currentUser.id))
 
     this.signin.catch(err => console.error(err))
   }
 
   componentDidMount() {
-    this.signin.then(currentUser => {
+    this.signin.then(() => {
       const setContent = (stateKey, filter) => data => {
         const content = data.val() || {}
         const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
@@ -51,7 +50,7 @@ export default class HomeView extends Component {
         this.setState({[stateKey]: filteredContentArray})
       }
       
-      publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
+      publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || client.currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
       userRef().on('value', setContent('attendeeContent'))
       tierRef().on('value', setContent('tierContent'))
 
