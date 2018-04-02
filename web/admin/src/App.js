@@ -198,7 +198,7 @@ export default class App extends PureComponent {
         result.destination.index
       )
     }   
-    this.setState({ pendingContent });  
+    this.setState({ pendingContent })
   }
 
   checkOrder = () => {
