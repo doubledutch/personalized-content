@@ -45,7 +45,7 @@ export default class AttendeeSelector extends PureComponent {
 
   searchAttendees = debounce(query => {
     this.lastSearch = query
-    if (!/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
+    if (!/[~`!#$%\^&*+=\()-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
       this.props.getAttendees(query).then(attendees => {
         if (this.lastSearch === query) {
           this.setState({attendees: attendees.sort(sortUsers)})

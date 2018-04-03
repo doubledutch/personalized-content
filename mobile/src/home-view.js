@@ -22,12 +22,7 @@ import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 const fbc = FirebaseConnector(client, 'personalizedcontent')
-
 fbc.initializeAppWithSimpleBackend()
-
-const publicContentRef = () => fbc.database.public.adminRef('content')
-const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
-const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
 
 export default class HomeView extends Component {
   constructor() {
@@ -39,11 +34,18 @@ export default class HomeView extends Component {
       .then(user => this.user = user)
       .then(() => client.getUser(client.currentUser.id))
 
-    this.signin.catch(err => console.error(err))
+    this.signin.catch(err => console.log(err))
+   
   }
 
   componentDidMount() {
-    this.signin.then(currentUser => {
+    this.signin.then((currentUser) => {
+      const publicContentRef = () => fbc.database.public.adminRef('content')
+      const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
+      const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
+
+      console.log(client.currentUser.tierId)
+      
       const setContent = (stateKey, filter) => data => {
         const content = data.val() || {}
         const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
