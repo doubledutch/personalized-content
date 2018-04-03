@@ -24,6 +24,10 @@ import FirebaseConnector from '@doubledutch/firebase-connector'
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
 
+const publicContentRef = () => fbc.database.public.adminRef('content')
+const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
+const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
+
 export default class HomeView extends Component {
   constructor() {
     super()
@@ -39,13 +43,8 @@ export default class HomeView extends Component {
   }
 
   componentDidMount() {
-    this.signin.then((currentUser) => {
-      const publicContentRef = () => fbc.database.public.adminRef('content')
-      const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
-      const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
-
-      console.log(client.currentUser.tierId)
-      
+    this.signin.then(currentUser => {
+      client.currentUser = currentUser
       const setContent = (stateKey, filter) => data => {
         const content = data.val() || {}
         const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
