@@ -44,6 +44,7 @@ export default class HomeView extends Component {
 
   componentDidMount() {
     this.signin.then(currentUser => {
+      client.currentUser = currentUser
       const setContent = (stateKey, filter) => data => {
         const content = data.val() || {}
         const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
