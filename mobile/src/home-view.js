@@ -22,7 +22,6 @@ import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 const fbc = FirebaseConnector(client, 'personalizedcontent')
-
 fbc.initializeAppWithSimpleBackend()
 
 const publicContentRef = () => fbc.database.public.adminRef('content')
@@ -39,7 +38,8 @@ export default class HomeView extends Component {
       .then(user => this.user = user)
       .then(() => client.getUser(client.currentUser.id))
 
-    this.signin.catch(err => console.error(err))
+    this.signin.catch(err => console.log(err))
+   
   }
 
   componentDidMount() {

@@ -110,7 +110,7 @@ export default class App extends PureComponent {
             <Route exact path="/" render={({history}) => (
               <div>
                 <h1 className="pageTitle">Custom Content</h1>
-                <button className="button-big" onClick={() => this.addNewContent({history})}>Add New Content</button>
+                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Content</button>
                 <CurrentContent
                   content={searchContent}
                   publishedContent={publishedContent}
@@ -228,6 +228,7 @@ export default class App extends PureComponent {
     const {pendingContent} = this.state
     const ref = pendingContentRef().push({order: pendingContent.length})
     history.push(`/content/${ref.key}`)
+    this.setState({search: false})
   }
 
   stopEditing = () => this.setState({editingContentId: null})
