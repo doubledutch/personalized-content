@@ -55,7 +55,7 @@ export class WebContent extends PureComponent {
           <View  style={{flex: 1}}>
             <Text style={s.webFooterTitle} ellipsizeMode='tail' numberOfLines={2}>{title}</Text>
           </View>
-          <TouchableOpacity style={{fustifyContent: 'center'}} onPress={()=>{Linking.openURL(url)}}>
+          <TouchableOpacity style={{justifyContent: 'center'}} onPress={()=>{Linking.openURL(url)}}>
             <Text style={s.webFooterLink}>View Page</Text>
           </TouchableOpacity>
         </View>
