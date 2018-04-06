@@ -6,6 +6,8 @@ export class CustomModal extends Component {
 
   render() {
     const letPublish = (this.props.selectedContent) ? (this.props.selectedContent.checkAll) || (this.props.selectedContent.attendeeIds.length > 0) || (this.props.selectedContent.groupIds.length > 0) || (this.props.selectedContent.tierIds.length > 0) : false
+    var ifURL = true
+    if (this.props.selectedContent.type === 'web') ((this.props.selectedContent.url) ? ifURL = true : ifURL = false)
     
     return(
       <Modal
@@ -20,18 +22,18 @@ export class CustomModal extends Component {
         <div>
           <button className="closeButton" onClick={this.props.closeModal}>X</button>
           <div className="modalTextBox">
-            {this.modalMessage(letPublish)}
+            {this.modalMessage(letPublish, ifURL)}
           </div>
           <div className="modalButtonBox">
-            {this.modalButtons(letPublish)}
+            {this.modalButtons(letPublish, ifURL)}
           </div >    
         </div>
       </Modal>
     )
   }
 
-  modalMessage = (letPublish) => {
-    if (this.props.selectedContent.type && letPublish) {
+  modalMessage = (letPublish, ifURL) => {
+    if (this.props.selectedContent.type && letPublish && ifURL) {
       return (
         <div>
           { this.props.isPublished
@@ -42,7 +44,7 @@ export class CustomModal extends Component {
       )
     }
     else {
-      if (this.props.selectedContent.type) {
+      if (this.props.selectedContent.type && letPublish === false) {
         return (
           <div>
             <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
@@ -59,9 +61,9 @@ export class CustomModal extends Component {
     }
   }
 
-  modalButtons = (letPublish) => {
+  modalButtons = (letPublish, ifURL) => {
     const c = this.props.selectedContent
-    if (this.props.selectedContent.type && letPublish) {
+    if (this.props.selectedContent.type && letPublish && ifURL) {
       return (
         <div>
           <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
