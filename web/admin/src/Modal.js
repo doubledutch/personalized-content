@@ -5,8 +5,10 @@ import Modal  from 'react-modal'
 export class CustomModal extends Component {
 
   render() {
-    const letPublish = (this.props.selectedContent) ? (this.props.selectedContent.checkAll) || (this.props.selectedContent.attendeeIds.length > 0) || (this.props.selectedContent.groupIds.length > 0) || (this.props.selectedContent.tierIds.length > 0) : false
-    const ifURL = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
+    const areUrlsOkay = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
+    const letPublish = (this.props.selectedContent)
+      ? areUrlsOkay && (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
+      : false
     
     return(
       <Modal
@@ -21,18 +23,18 @@ export class CustomModal extends Component {
         <div>
           <button className="closeButton" onClick={this.props.closeModal}>X</button>
           <div className="modalTextBox">
-            {this.modalMessage(letPublish, ifURL)}
+            {this.modalMessage(letPublish)}
           </div>
           <div className="modalButtonBox">
-            {this.modalButtons(letPublish, ifURL)}
+            {this.modalButtons(letPublish)}
           </div >    
         </div>
       </Modal>
     )
   }
 
-  modalMessage = (letPublish, ifURL) => {
-    if (this.props.selectedContent.type && letPublish && ifURL) {
+  modalMessage = (letPublish) => {
+    if (this.props.selectedContent.type && letPublish) {
       return (
         <div>
           { this.props.isPublished
@@ -60,9 +62,9 @@ export class CustomModal extends Component {
     }
   }
 
-  modalButtons = (letPublish, ifURL) => {
+  modalButtons = (letPublish) => {
     const c = this.props.selectedContent
-    if (this.props.selectedContent.type && letPublish && ifURL) {
+    if (this.props.selectedContent.type && letPublish) {
       return (
         <div>
           <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
