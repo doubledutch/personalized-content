@@ -6,8 +6,7 @@ export class CustomModal extends Component {
 
   render() {
     const letPublish = (this.props.selectedContent) ? (this.props.selectedContent.checkAll) || (this.props.selectedContent.attendeeIds.length > 0) || (this.props.selectedContent.groupIds.length > 0) || (this.props.selectedContent.tierIds.length > 0) : false
-    var ifURL = true
-    if (this.props.selectedContent.type === 'web') ((this.props.selectedContent.url) ? ifURL = true : ifURL = false)
+    const ifURL = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
     
     return(
       <Modal
