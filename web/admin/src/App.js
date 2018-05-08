@@ -48,6 +48,7 @@ export default class App extends PureComponent {
       userContent : [],
       hidden : false,
       disable : false,
+      surveys: []
     }
 
     this.signin = fbc.signinAdmin()
