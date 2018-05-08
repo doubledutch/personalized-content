@@ -16,7 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking } from 'react-native'
-import client, { Color } from '@doubledutch/rn-client'
+import client from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
 export class TextContent extends PureComponent {
