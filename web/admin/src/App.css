@@ -73,7 +73,7 @@ body {
 
 .surveyButton {
   height: 30px;
-  background-Color: #299fca;
+  background-Color: #5193dd;
   color: white;
   border-radius: 5px;
   margin-top: 5px;
@@ -549,16 +549,34 @@ button {
 
 .attendee-selector__column {
   font-size: 12px;
+  flex-flow: nowrap;
+  align-items: center;
 }
+
+.attendee-selector__column__checkBox {
+  font-size: 12px;
+  flex-flow: nowrap;
+  align-items: center;
+  width: 9px;
+}
+
+.attendee-selector__column__checkBox__input {
+  margin-right: 14px;
+  margin-top: 1px;
+}
+
+.attendee-selector__column__space{
+  margin-right: 20px;
+}
+
 
 .attendee-selector__name
  {
    font-size: 1.2em;
-   padding-left: 20px;
    text-align: left;
    border:rgb(74, 74, 74);
    color: #4A4A4A;
-   margin-left: 10px;
+   margin-left: 20px;
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
@@ -567,10 +585,9 @@ button {
  {
    font-size: 1.2em;
    text-align: left;
-   padding-left: 20px;
    border: none;
    background-color: #E2E2E2;
-   margin-left: 10px; 
+   margin-left: 20px; 
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
@@ -636,14 +653,14 @@ button {
 }
 
 .pill.white {
-  color: #299fca;
+  color: #5193dd;
   background-color: white;
-  border: 1px solid #299fca;
+  border: 1px solid #5193dd;
 }
 
 .pill.blue {
   color: white;
-  background-color: #299fca;
+  background-color: #5193dd;
 }
 
 .counter {
@@ -663,7 +680,7 @@ button {
   display: inline-block;
   text-decoration: none;
   margin: 1em 0;
-  background-color: #299fca;
+  background-color: #5193dd;
   color: white;
   padding: 0.8em 1.2em;
   border-radius: 4px;
@@ -704,7 +721,7 @@ button {
   border-radius: 4px;
   border: 0;
   margin-left: 115px;
-  background-color: #299fca;
+  background-color: #5193dd;
   font-size: 14px;
 }
 
@@ -716,8 +733,8 @@ button {
   font-weight: 300;
   padding: 5px 10px;
   border-radius: 4px;
-  color: #299fca; 
-  border:1px solid #299fca;
+  color: #5193dd; 
+  border:1px solid #5193dd;
   background-color: white;
   font-size: 14px;
 }
@@ -727,7 +744,7 @@ button {
   font-weight: 300;
   padding: 0.3em 0.1em;
   border: 0;
-  color: #299fca; 
+  color: #5193dd; 
   background-color: white;
   font-size: 1em;
 }
@@ -737,7 +754,7 @@ button {
   padding: 0.3em 0.1em;
   border-radius: 4px;
   border: 0;
-  background-color: #299fca;
+  background-color: #5193dd;
   color: #fff;
   font-size: 1em;
 }
@@ -747,7 +764,7 @@ button {
 }
 
 .button-big.red {
-  background-color: #be0000;
+  background-color: #b5111b;
 }
 
 .content-editor__content {
@@ -758,6 +775,17 @@ button {
   width: 600px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.container {
+  box-sizing: border-box;
+  font-size: 14; 
+  margin-left: 0px;
+  margin-right: 0px;
+  border-radius: 5px;
+  border: 1px solid #E3ECF8;
+  background-color: #FFFFFF;
+  padding: 20px 0px 0px 20px;
 }
 
 .current-content__link {
@@ -957,7 +985,7 @@ button {
 .text-editor__input {
   flex: 1;
   border: 0px;
-  margin: 1px 1px;
+  margin: 0px 1px 5px 1px;
   background-color: #FFFFFF;
   font-size: 1.25em;
   padding: 0 0.7em;
@@ -987,7 +1015,7 @@ button {
   flex: 1;
   height: 60px;
   background-color: rgba(41, 159, 202, 0.1);
-  border: 2px solid #299fca;
+  border: 2px solid #5193dd;
   border-radius: 4px;
   flex-flow: row wrap;
   display: flex;
@@ -996,7 +1024,7 @@ button {
 
 .publish-content__box button{
   height: 30px;
-  background-Color: #299fca;
+  background-Color: #5193dd;
   color: white;
   font-weight: 300;
   border-radius: 5px;
