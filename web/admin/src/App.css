@@ -102,6 +102,13 @@ body {
   background-image: url(./iframe-fallback.png);
 }
 
+.videoBox {
+  height: 154px;
+  width: 274px;
+  border: none;
+  background-image: url(./iframe-fallback.png);
+}
+
 .htmlBox {
   border: none;
   height: 200px;
