@@ -104,6 +104,10 @@ export default class ContentPreview extends PureComponent {
           <h2 className="webFooterTitle">{c.title}</h2>
         </div>
       </div>
+      case 'csv': return <div className="textCell" key={i}>
+        <h2 className="textCellTitle">{c.title}</h2>
+        <p className="textCellText" rows={5}>{"User Specific Description Here"}</p>
+      </div>
       default: return <div key={i}/>
     }
   }

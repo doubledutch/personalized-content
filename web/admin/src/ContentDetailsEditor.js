@@ -16,10 +16,13 @@
 
 import React, { PureComponent } from 'react'
 import { SelectEditor, TextEditor, MultiLineEditor } from './editors'
+import CsvParse from '@vtex/react-csv-parse'
+import { CSVLink } from 'react-csv'
 
 export default class ContentDetailsEditor extends PureComponent {
   render() {
     const {content, onUpdate, surveys} = this.props
+    const csvKeys = ["email", "Title", "Description"]
     
     switch (content.type) {
       case "html":
@@ -53,12 +56,51 @@ export default class ContentDetailsEditor extends PureComponent {
            <TextEditor content={content} prop="url" title="URL" regex={/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/} validationMessage="Your video must follow the placeholder format" placeholder="https://www.youtube.com/watch?v=Ycd-C85AdCk" onUpdate={onUpdate} hideTitle={true}/>
          </div>
         </div>
+        case 'csv': return <div className="content-editor__box" key={`${content.type}Fields`}>
+          <div>
+            <h2 className="contentTitle">Add a Title</h2>
+            <TextEditor content={content} prop="title" title="Title" placeholder="Your Travel Details" onUpdate={onUpdate} isTitle={true} hideTitle={true}/>
+          </div>
+          <h2 className="contentTitle">Download a CSV Template</h2>
+          <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>Download</CSVLink>
+        <h2 className="contentTitle">Choose file for import</h2>
+        <CsvParse
+          className="csv-input"
+          keys={csvKeys}
+          onDataUploaded={this.handleImport}
+          onError={this.props.handleError}
+          render={onChange => <input type="file" onChange={onChange} />}
+        />
+        </div>
       case 'survey': return <div className="content-editor__box" key={`${content.type}Fields`}>
           <h2 className="contentTitle">Choose Survey</h2>
           <SelectEditor size={6} content={content} prop="surveyId" title="Survey" onUpdate={this.onUpdateSurvey} options={surveys} />
         </div>
       default: return <div />
     }
+  }
+
+  handleImport = (data) => {
+    const {content, allUsers} = this.props
+    let newData = []
+    data.forEach(userInfo => {
+      const currentUser = allUsers.find(user => user.email === userInfo.email)
+      if (currentUser) {
+        const newUserData = {"checkAll": false, "order": content.order, "title": content.title, "type": "text", "text": userInfo.Description, attendeeIds: [currentUser.id]}
+        newData.push(newUserData)
+      }
+    })
+    this.props.onUpdate("rawData", newData)
+  }
+
+  makeCSVTemplate = () => {
+    const {content, allUsers} = this.props
+    let csvTemplate = []
+    allUsers.forEach(user => {
+      const blankInfo = {"email": user.email, "firstName": user.firstName, "lastName": user.lastName, "description": ""}
+      csvTemplate.push(blankInfo)
+    })
+    return csvTemplate
   }
 
   onUpdateSurvey = (prop, value) => {

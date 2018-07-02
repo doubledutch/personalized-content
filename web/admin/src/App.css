@@ -70,6 +70,14 @@ body {
   background-color: white;
 }
 
+.csv-input {
+  padding: 10px;
+  /* display: block; */
+  margin: 15px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 
 .surveyButton {
   height: 30px;
@@ -569,11 +577,10 @@ button {
 
 .attendee-selector__column__checkBox__input {
   margin-right: 14px;
-  margin-top: 1px;
 }
 
 .attendee-selector__column__space{
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 

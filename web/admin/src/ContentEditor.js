@@ -27,7 +27,8 @@ export default class ContentEditor extends PureComponent {
     super()
   }
   render() {
-    const {content, getAttendees, groups, onDelete, onUpdate, surveys, tiers} = this.props
+    const {content, getAttendees, groups, onDelete, onUpdate, surveys, tiers, handleImport} = this.props
+    console.log(this.props.allUsers)
     return (
       <div>
         <div>
@@ -46,7 +47,7 @@ export default class ContentEditor extends PureComponent {
             <ContentButtons content={content} onUpdate={onUpdate}/>
             <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
           </div>
-          <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
+          <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} handleImport={handleImport} allUsers={this.props.allUsers}/>
           <Link to="/" className="button-big">Done</Link>
         </div>
       </div>

@@ -63,10 +63,12 @@ export default class AttendeeSelector extends PureComponent {
 
   render() {
     const {search, view} = this.state
+    const type = this.props.content.type
+    if (type === "csv") this.csvSelectAll()
     return (
       <div>
         <h2 className="contentTitle">Select Attendees</h2>
-        <div className="attendee-selector">
+        {type === "csv" ? <p>Unavailable for CSV import</p> : <div className="attendee-selector">
           <div className="attendee-selector__menu">
             <div className="attendee-selector__menu-header">{this.menuHeaderText()}</div>
             <div className={this.classNameForMenuItem('attendees')} onClick={this.viewAllAttendees}>All attendees</div>
@@ -92,7 +94,7 @@ export default class AttendeeSelector extends PureComponent {
               { [this.renderTableRows()] }
             </tbody>
           </table>
-        </div>
+        </div>}
       </div>
     )
   }
@@ -207,6 +209,12 @@ export default class AttendeeSelector extends PureComponent {
       this.removeAllGroupIds()
     }
     this.props.onUpdate("checkAll", check)
+  }
+
+  csvSelectAll = () => {
+    this.removeAllAttendeeIds()
+    this.removeAllTierIds()
+    this.removeAllGroupIds()
   }
 
   addAttendeeId = this.addFilter('attendeeIds')

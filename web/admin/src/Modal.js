@@ -7,7 +7,7 @@ export class CustomModal extends Component {
   render() {
     const areUrlsOkay = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
     const letPublish = (this.props.selectedContent)
-      ? areUrlsOkay && (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
+      ? areUrlsOkay && (this.props.selectedContent.type === "csv" && this.props.selectedContent.rawData) || (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
       : false
     
     return(

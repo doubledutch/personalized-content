@@ -23,7 +23,7 @@ import HTMLIcon from './images/HTMLIcon.png'
 
 export default class ContentButtons extends Component {
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}, {name: "CSV", type:"csv"}]
     return (
       <span className="content-buttons__box">
         <h2 className="contentTitle" >Select Content Type</h2>
@@ -63,6 +63,7 @@ export default class ContentButtons extends Component {
     case 'html': return <img className="htmlIcon" src={HTMLIcon} alt="html"/>
     case 'web': return <img className="standIcon" src={WebIcon} alt="web"/>
     case 'video': return <img className="standIcon" src={VideoIcon} alt="video"/>
+    case 'csv': return <img className="standIcon" src={PageIcon} alt="csv"/>
     default: return <div/>
     }
   }

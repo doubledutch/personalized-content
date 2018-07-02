@@ -150,6 +150,8 @@ export default class App extends PureComponent {
                 <ContentEditor
                   content={editingContent}
                   getAttendees={this.getAttendees}
+                  allUsers={this.state.allUsers}
+                  handleImport={this.handleImport}
                   groups={groups}
                   tiers={tiers}
                   surveys={surveys}
@@ -213,7 +215,6 @@ export default class App extends PureComponent {
       }
       return Promise.resolve()
     })
-
     // Publish the order changes only
     Promise.all(updates).then(() => this.doPublish({} /* no content updated */))
   }
@@ -269,6 +270,7 @@ export default class App extends PureComponent {
   }
 
   doPublish = content => {
+
     // 1. Remove all derived copies of all content
     publicContentRef().remove()
     usersRef().remove()
@@ -276,32 +278,66 @@ export default class App extends PureComponent {
 
     // 2. Create derived copies from `publishedContent`
     const { key, ...contentToPublish } = content
+    let csvData = []
+
+    //check if new object is for csv
+    if (content.rawData) {
+      const publishData = content.rawData.slice()
+
+      //add key to data then remove so not published publically
+      csvData = this.publishCSVData(publishData, key)
+      delete content.rawData
+    }
+   
+
     const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
-    
-    // 2a. Public bucket gets copies of global content and those with attendee group filters.
-    const publicContent = contentArrayToFirebaseObject(publishedContent
-      .filter(c =>
-        c.groupIds.length
-        || (!c.tierIds.length && !c.attendeeIds.length))
-      .map(c => ({...c, tierIds: null, attendeeIds: null}))
-    )
-    
-    publicContentRef().set(publicContent)
 
-    // 2b. Users bucket gets a copy for each attendee
-    usersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'attendeeIds'))
+    //check for reordering thus content blank
+    if (Object.keys(content).length === 0) {
+      publishedContent.forEach(item => {
+        if (item.type === "csv") {
+          let newOrderData = item.rawData.slice()
+          newOrderData.forEach(newItem => {
+            newItem.order = item.order
+          })
+          csvData = csvData.concat(newOrderData)
+        }
+      })
+    }
 
-    // 2c. Tiers bucket gets a copy for each tier
-    tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
-    
-    // 3. Copy content to published location
-    if (key) publishedContentRef().child(key).set(contentToPublish)
-    
-    // 4. Update published timestamp
-    lastPublishedAtRef().set(moment().valueOf())
+      // 2a. Public bucket gets copies of global content and those with attendee group filters.
+      const publicContent = contentArrayToFirebaseObject(publishedContent
+        .filter(c =>
+          c.groupIds.length
+          || (!c.tierIds.length && !c.attendeeIds.length && c.type !== "csv"))
+        .map(c => ({...c, tierIds: null, attendeeIds: null}))
+      )
+      publicContentRef().set(publicContent)
+
+      // 2b. Users bucket gets a copy for each attendee
+      //add back user CSV data
+        const newContent = publishedContent.concat(csvData)
+        usersRef().set(getDerivedCopiesGroupedBy(newContent, 'attendeeIds'))
+
+      // 2c. Tiers bucket gets a copy for each tier
+      tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
+      
+      // 3. Copy content to published location
+      if (key) publishedContentRef().child(key).set(contentToPublish)
+      
+      // 4. Update published timestamp
+      lastPublishedAtRef().set(moment().valueOf())
   }
+
+  publishCSVData = (data, key) => {
+    data.forEach(item => {
+      item.key = key
+    })
+    return data
+  }
+  
 
 }
 

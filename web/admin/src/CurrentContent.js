@@ -138,7 +138,8 @@ export default class CurrentContent extends PureComponent {
       return (
         <ul className="current-content__list">
           { content.map(c => {
-            const isPublished = areEqual(c, publishedContent[c.key])
+         
+            const isPublished = areEqual(c, publishedContent[c.key]) || this.csvIsPublished(c, publishedContent)
             const previousPublish = publishedContent[c.key]
             return (
               <li key={c.key}>
@@ -164,6 +165,26 @@ export default class CurrentContent extends PureComponent {
         </div>
       )
     }
+  }
+
+  csvIsPublished = (c, publishedContent) => {
+    if (c.type === "csv" && publishedContent[c.key]){
+      if (c.rawData && publishedContent[c.key].rawData) {
+        if (c.rawData.length !== publishedContent[c.key].rawData.length){
+          return false
+        }
+      }
+      let areSameArray = true
+      for (var i in c.rawData) {
+        if (publishedContent[c.key].rawData){
+          if (c.rawData[i].text !== publishedContent[c.key].rawData[i].text) {
+            areSameArray = false
+          }
+        }
+      }
+      return areSameArray
+    }
+    else return false
   }
 
   renderStatus = (isPublished, previousPublish) => {
