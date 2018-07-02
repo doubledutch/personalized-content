@@ -51,14 +51,14 @@ export default class VideoContent extends Component {
         })
         }}>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-              source={{ uri: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` }}
-              resizeMode='cover'
-              style={ s.video }
-              />
-              <View style={ s.playButton }>
-                  <Text style={ s.playButtonText }>▶</Text>
-              </View>
+            <Image
+            source={{ uri: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` }}
+            resizeMode='cover'
+            style={ s.video }
+            />
+            <View style={ s.playButton }>
+              <Text style={ s.playButtonText }>▶</Text>
+            </View>
           </View>
         </TouchableHighlight>
       )
@@ -93,11 +93,9 @@ export default class VideoContent extends Component {
     return (
       <TouchableHighlight
       ref={(ref) => {
-        console.log(ref)
       }} style={{ flex: 1 }} onPress={() => this.videoRef.presentFullscreenPlayer()}>
         <Video
           ref={(ref) => {
-            console.log(ref)
           }}
           source={{ uri: url }}
           style={s.video}
