@@ -17,12 +17,13 @@
 import React, { Component } from 'react'
 import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
+import VideoIcon from "./images/video.svg"
 import TextIcon from './images/TextIcon.png'
 import HTMLIcon from './images/HTMLIcon.png'
 
 export default class ContentButtons extends Component {
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}]
     return (
       <span className="content-buttons__box">
         <h2 className="contentTitle" >Select Content Type</h2>
@@ -61,6 +62,7 @@ export default class ContentButtons extends Component {
     case 'text': return <img className="standIcon" src={TextIcon} alt="text"/>
     case 'html': return <img className="htmlIcon" src={HTMLIcon} alt="html"/>
     case 'web': return <img className="standIcon" src={WebIcon} alt="web"/>
+    case 'video': return <img className="standIcon" src={VideoIcon} alt="video"/>
     default: return <div/>
     }
   }

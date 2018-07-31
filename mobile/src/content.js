@@ -107,6 +107,7 @@ export class SurveyContent extends PureComponent {
      </View>
     )
   }
+  
 
   takeSurvey = () => client.openURL(`dd://survey/${this.props.surveyId}`)
 }
@@ -227,5 +228,5 @@ const s = StyleSheet.create({
   },
   web: {
     flex: 1
-  }
+  },
 })

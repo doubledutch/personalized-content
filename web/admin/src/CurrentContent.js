@@ -25,6 +25,7 @@ import Reorder from './images/Reorder.png'
 import ReorderIcon from './images/ReorderIcon.png'
 import CustomModal from './Modal'
 import HTMLIcon from './images/HTMLIcon.png'
+import VideoIcon from "./images/video.svg"
 
 // using some little inline style helpers to make the app look okay
 const getItemStyle = (draggableStyle, isDragging) => ({
@@ -241,6 +242,7 @@ function iconFor(c) {
     case 'text': return <img className="current-content__icon" src={TextIcon} alt="text"/>
     case 'html': return <img className="current-content__icon-html" src={HTMLIcon} alt="html"/>
     case 'web': return <img className="current-content__icon" src={WebIcon} alt="web"/>
+    case 'video': return <img className="current-content__icon" src={VideoIcon} alt="video"/>
     default: return <div className="current-content__icon" alt="blank"/>
   }
 }
