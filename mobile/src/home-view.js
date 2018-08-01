@@ -15,7 +15,7 @@
  */
 
 import React, { Component } from 'react'
-import ReactNative, { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
 import VideoContent from "./video-content"
@@ -63,7 +63,7 @@ export default class HomeView extends Component {
   render() {
     return (
       <View style={s.container}>
-        <TitleBar title="My Feed" client={client} signin={this.signin} />
+        <TitleBar title="My Info" client={client} signin={this.signin} />
         <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
           { this.renderContent() }
         </ScrollView>
