@@ -78,7 +78,7 @@ export default class AttendeeSelector extends PureComponent {
               { view === 'attendees'
                 ? <tr>
                     <td>{this.selectAll()}</td>
-                    <td><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
+                    <td className="attendee-selector__column__space"><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
                     <td className="attendee-selector__column">Tiers</td> 
                     <td className="attendee-selector__column">Groups</td> 
                   </tr>
@@ -181,8 +181,9 @@ export default class AttendeeSelector extends PureComponent {
 
   selectAll = () => {
     return (
-      <label className="attendee-selector__column">
+      <label className="attendee-selector__column__checkBox">
         <input
+          className="attendee-selector__column__checkBox__input"
           name="selectAll"
           type="checkbox"
           checked={this.props.content.checkAll}

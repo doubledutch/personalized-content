@@ -17,7 +17,8 @@
 import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'
+import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
+import VideoContent from "./video-content"
 
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
@@ -95,6 +96,7 @@ function renderContentItem(c) {
     case 'web': return <WebContent {...c} />
     case 'survey': return <SurveyContent {...c} />
     case 'html': return <HTMLContent {...c} />
+    case 'video': return <VideoContent {...c} />
     default: return null
   }
 }

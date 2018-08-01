@@ -16,6 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import Background from './iPhone.png'
+import VideoPlaceholder from "./images/videoplaceholder.png"
 
 export default class ContentPreview extends PureComponent {
 
@@ -96,6 +97,12 @@ export default class ContentPreview extends PureComponent {
         <h2 className="textCellTitle">{c.title}</h2>
         <p className="surveyCellText" rows={5}>{c.description}</p>
         <button className="surveyButton">Take the survey</button>
+      </div>
+      case 'video': return <div className="webCell" key={i}>
+        <img className="videoBox" src={VideoPlaceholder}title="videoview"></img>
+        <div className="webFooter">
+          <h2 className="webFooterTitle">{c.title}</h2>
+        </div>
       </div>
       default: return <div key={i}/>
     }
