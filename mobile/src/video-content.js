@@ -4,6 +4,7 @@ import ReactNative, { StyleSheet, Text, TouchableHighlight, View, WebView, Image
 import client, { Color } from '@doubledutch/rn-client'
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube'
 import Video from 'react-native-video'
+import secrets from './secrets'
 
 export default class VideoContent extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class VideoContent extends Component {
         style={{ flex: 1 }}
         onPress={() => {
         YouTubeStandaloneAndroid.playVideo({
-            apiKey: 'AIzaSyDO5L4KzrzG_2aiX6HWpTAR23xk5UcKTf8',
+            apiKey: secrets.youTube.apiKey,
             videoId: videoId,
             autoplay: true
         })
