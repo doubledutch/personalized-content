@@ -23,17 +23,17 @@ export class CustomModal extends Component {
         <div>
           <button className="closeButton" onClick={this.props.closeModal}>X</button>
           <div className="modalTextBox">
-            {this.modalMessage(letPublish)}
+            {this.modalMessage(letPublish, areUrlsOkay)}
           </div>
           <div className="modalButtonBox">
-            {this.modalButtons(letPublish)}
+            {this.modalButtons(letPublish, areUrlsOkay)}
           </div >    
         </div>
       </Modal>
     )
   }
 
-  modalMessage = (letPublish) => {
+  modalMessage = (letPublish, areUrlsOkay) => {
     if (this.props.selectedContent.type && letPublish) {
       return (
         <div>
@@ -45,7 +45,7 @@ export class CustomModal extends Component {
       )
     }
     else {
-      if (this.props.selectedContent.type && letPublish === false) {
+      if (this.props.selectedContent.type && letPublish === false && areUrlsOkay) {
         return (
           <div>
             <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
