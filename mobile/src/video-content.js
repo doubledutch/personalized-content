@@ -48,7 +48,7 @@ export default class VideoContent extends Component {
         YouTubeStandaloneAndroid.playVideo({
             apiKey: secrets.youTube.apiKey,
             videoId: videoId,
-            autoplay: true
+            autoplay: false
         })
         }}>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -68,7 +68,7 @@ export default class VideoContent extends Component {
       return (
         <YouTube
           videoId={videoId}        // The YouTube video ID
-          play={true}             // control playback of video with true/false
+          play={false}             // control playback of video with true/false
           fullscreen={false}       // control whether the video should play in fullscreen or inline
           loop={false}             // control whether the video should loop when ended
           onReady={e => this.setState({ isReady: true })}
