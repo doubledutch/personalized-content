@@ -77,9 +77,9 @@ export class CustomModal extends Component {
     }
   }
 
-  modalButtons = (letPublish) => {
+  modalButtons = (letPublish, isContentComplete) => {
     const c = this.props.selectedContent
-    if (this.props.selectedContent.type && letPublish) {
+    if (this.props.selectedContent.type && letPublish && isContentComplete) {
       return (
         <div>
           <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
