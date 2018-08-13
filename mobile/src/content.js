@@ -72,19 +72,19 @@ export class HTMLContent extends PureComponent {
         <Text style={s.textTitle}>{title}</Text>
         <View style={s.htmlContainer}>
           <WebView style={s.web}
-          ref={(ref) => { this.webview = ref; }} 
-          source={{html: text}}
-          onNavigationStateChange={(event) => {
-          let info = event.title
-          if (info) {
-            info = info.replace('data:text/html; charset=utf-8,', '')
-          }
-          if (event.title !== name) {
-            this.webview.stopLoading();
-            Linking.openURL(event.url);
-          }
-        }}
-        />
+            ref={(ref) => { this.webview = ref; }} 
+            source={{html: text}}
+            onNavigationStateChange={(event) => {
+            let info = event.title
+            if (info) {
+              info = info.replace('data:text/html; charset=utf-8,', '')
+            }
+            if (event.title !== name) {
+              this.webview.stopLoading();
+              Linking.openURL(event.url);
+            }
+            }}
+          />
         </View>
       </View>
     )
