@@ -79,7 +79,7 @@ export class HTMLContent extends PureComponent {
               if (info) {
                 info = info.replace('data:text/html; charset=utf-8,', '')
               }
-              if (event.title !== name) {
+              if (event.title !== info) {
                 this.webview.stopLoading();
                 Linking.openURL(event.url);
               }

@@ -37,7 +37,7 @@ export default class HomeView extends Component {
 
     this.signin = fbc.signin()
       .then(user => this.user = user)
-      .then(() => client.getUser(client.currentUser.id))
+      .then(() => client.getAttendee(client.currentUser.id))
 
     this.signin.catch(err => console.log(err))
    
