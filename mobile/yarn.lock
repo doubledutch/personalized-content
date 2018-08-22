@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@doubledutch/base-client@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-3.2.0.tgz#38fdff0d7f12fd1b91b2c479aeab2b79be6b9c69"
+"@doubledutch/base-client@^3.3.6":
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-3.3.6.tgz#76cce5cb21538bbd76ede466eac182f16d960586"
 
 "@doubledutch/firebase-connector@^3.4.3":
   version "3.4.3"
@@ -28,13 +28,14 @@
     firebase "^4.10.0"
     jest "^22.4.3"
 
-"@doubledutch/rn-client@^3.2.1":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@doubledutch/rn-client/-/rn-client-3.2.3.tgz#b80b9d990017484507aca6259bd25bc39167e9c6"
+"@doubledutch/rn-client@^3.3.6":
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/@doubledutch/rn-client/-/rn-client-3.3.6.tgz#6415836132b87efdfacb791439eb9feb5296b05c"
   dependencies:
-    "@doubledutch/base-client" "^3.2.0"
+    "@doubledutch/base-client" "^3.3.6"
     react "16.0.0-alpha.12"
     react-native "0.46.4"
+    react-native-fetch-blob "0.10.8"
 
 "@firebase/app-types@0.2.0":
   version "0.2.0"
