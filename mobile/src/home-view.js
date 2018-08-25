@@ -73,12 +73,12 @@ export default class HomeView extends Component {
 
   content = () => {
     let {attendeeContent, groupContent, tierContent} = this.state
-    if (!attendeeContent && !groupContent && !tierContent) return null
-    const sorted = (attendeeContent || [])
+    if (!attendeeContent && !groupContent && !tierContent) return null    
+    return unique(x => x.key,
+      (attendeeContent || [])
       .concat(tierContent || [])
       .concat(groupContent || [])
-      .sort((a,b) => a.order - b.order)
-    return sorted
+    ).sort((a,b) => a.order - b.order)
   }
 
   renderContent() {
@@ -88,6 +88,16 @@ export default class HomeView extends Component {
     return content.map(c => <View style={s.contentWrapper} key={c.key}>{renderContentItem(c)}</View>)
     return <Text>{content.length}</Text>    
   }
+}
+
+function unique(identityFn, array) {
+  const alreadySeenKeys = {}
+  return array.filter(x => {
+    const key = identityFn(x)
+    if (alreadySeenKeys[key]) return false
+    alreadySeenKeys[key] = true
+    return true
+  })
 }
 
 function renderContentItem(c) {
