@@ -46,7 +46,7 @@ export default class AttendeeSelector extends PureComponent {
   searchAttendees = debounce(query => {
     this.lastSearch = query
     //The purpose of this line of code is to prevent queries with any special characters which will in any case return no results but also cause the search results to error out
-    if (!/[~`!#$%\^&\*\+=\(\)\-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
+    if (/^[a-zA-Z0-9 _]*$/.test(query)) {
       this.props.getAttendees(query).then(attendees => {
         if (this.lastSearch === query) {
           this.setState({attendees: attendees.sort(sortUsers)})
