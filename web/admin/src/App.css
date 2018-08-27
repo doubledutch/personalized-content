@@ -515,7 +515,7 @@ button {
   border-radius: 0.75em;
   height: 1.5em;
   padding: 0 0.75em;
-  margin-left: 100px;
+  margin-left: 3em;
 }
 
 .attendee-selector td input:focus::-webkit-input-placeholder {
@@ -564,7 +564,6 @@ button {
   font-size: 12px;
   flex-flow: nowrap;
   align-items: center;
-  width: 9px;
 }
 
 .attendee-selector__column__checkBox__input {
@@ -629,7 +628,6 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
  }
-.attendee-selector td:nth-child(1) { width: 0.5em; }
 .attendee-selector td:nth-child(2) { flex: 3; }
 .attendee-selector td:nth-child(3) { flex: 1; }
 .attendee-selector td:nth-child(4) { flex: 3; }
