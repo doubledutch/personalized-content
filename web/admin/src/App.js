@@ -17,7 +17,8 @@
 import React, { PureComponent } from 'react'
 import './App.css'
 import moment from 'moment'
-import client from '@doubledutch/admin-client'
+import i18n from './i18n'
+import client, {translate as t, useStrings} from '@doubledutch/admin-client'
 import FirebaseConnector from '@doubledutch/firebase-connector'
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
@@ -28,6 +29,9 @@ import '@doubledutch/react-components/lib/base.css'
 
 const fbc = FirebaseConnector(client, 'personalizedcontent')
 fbc.initializeAppWithSimpleBackend()
+
+useStrings(i18n)
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -59,7 +63,7 @@ export default class App extends PureComponent {
 
   componentDidMount() {
     this.signin.then(() => {
-      client.getUsers().then(users => {
+      client.getAttendees().then(users => {
         this.setState({allUsers: users})
       })
 
