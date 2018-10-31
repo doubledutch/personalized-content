@@ -50,7 +50,7 @@ export default class ContentDetailsEditor extends PureComponent {
          </div>
          <div className="homeBox">
            <h2 className="contentTitle">Add a Youtube Link</h2>
-           <TextEditor content={content} prop="url" title="URL" regex={/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/} validationMessage="Your video must follow the placeholder format" placeholder="https://www.youtube.com/watch?v=Ycd-C85AdCk" onUpdate={onUpdate} hideTitle={true}/>
+           <TextEditor content={content} prop="url" title="URL" regex={/^(https?:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/} validationMessage="Your video must follow the placeholder format" placeholder="https://www.youtube.com/watch?v=Ycd-C85AdCk" onUpdate={onUpdate} hideTitle={true}/>
          </div>
         </div>
       case 'survey': return <div className="content-editor__box" key={`${content.type}Fields`}>

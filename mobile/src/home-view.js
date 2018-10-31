@@ -14,53 +14,59 @@
  * limitations under the License.
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
 import VideoContent from "./video-content"
 
 import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
-import FirebaseConnector from '@doubledutch/firebase-connector'
-const fbc = FirebaseConnector(client, 'personalizedcontent')
-fbc.initializeAppWithSimpleBackend()
+import {provideFirebaseConnectorToReactComponent} from '@doubledutch/firebase-connector'
 
-const publicContentRef = () => fbc.database.public.adminRef('content')
-const userRef = () => fbc.database.private.adminableUsersRef(client.currentUser.id)
-const tierRef = () => fbc.database.private.tiersRef(client.currentUser.tierId)
+class HomeView extends PureComponent {
+  publicContentRef = () => this.props.fbc.database.public.adminRef('content')
+  userRef = () => this.props.fbc.database.private.adminableUsersRef(this.state.currentUser.id)
+  tierRef = () => this.props.fbc.database.private.tiersRef(this.state.currentUser.tierId)
 
-export default class HomeView extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = { }
 
-    this.signin = fbc.signin()
+    this.signin = props.fbc.signin()
       .then(user => this.user = user)
-      .then(() => client.getAttendee(client.currentUser.id))
+      // .then(() => client.getAttendee(client.currentUser.id))
 
-    this.signin.catch(err => console.log(err))
+    this.signin.catch(err => console.error(err))
    
   }
 
   componentDidMount() {
-    this.signin.then(currentUser => {
-      client.currentUser = currentUser
-      const setContent = (stateKey, filter) => data => {
-        const content = data.val() || {}
-        const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
-        const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
-        this.setState({[stateKey]: filteredContentArray})
-      }
-      
-      publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
-      userRef().on('value', setContent('attendeeContent'))
-      tierRef().on('value', setContent('tierContent'))
+    const {fbc} = this.props
+    client.getPrimaryColor().then(primaryColor => this.setState({primaryColor}))
+    client.getCurrentUser().then(currentUser => {
+      this.setState({currentUser})
+      this.signin.then(() => {
+        const setContent = (stateKey, filter) => data => {
+          const content = data.val() || {}
+          const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
+          const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
+          this.setState({[stateKey]: filteredContentArray})
+        }
+        
+        this.publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
+        this.userRef().on('value', setContent('attendeeContent'))
+        this.tierRef().on('value', setContent('tierContent'))
 
+      })
     })
+
   }
 
   render() {
+    const {currentUser, primaryColor} = this.state
+    if (!currentUser || !primaryColor) return null
+
     return (
       <View style={s.container}>
         <TitleBar title="My Info" client={client} signin={this.signin} />
@@ -85,8 +91,19 @@ export default class HomeView extends Component {
     const content = this.content()
     if (!content) return <Text>Loading...</Text>
     if (content.length === 0) return <Text style={s.helpText}>No Assigned Content</Text>
-    return content.map(c => <View style={s.contentWrapper} key={c.key}>{renderContentItem(c)}</View>)
+    return content.map(c => <View style={s.contentWrapper} key={c.key}>{this.renderContentItem(c)}</View>)
     return <Text>{content.length}</Text>    
+  }
+
+  renderContentItem(c) {
+    switch (c.type) {
+      case 'text': return <TextContent {...c} />
+      case 'web': return <WebContent {...c} />
+      case 'survey': return <SurveyContent {...c} primaryColor={this.state.primaryColor} />
+      case 'html': return <HTMLContent {...c} />
+      case 'video': return <VideoContent {...c} />
+      default: return null
+    }
   }
 }
 
@@ -100,16 +117,7 @@ function unique(identityFn, array) {
   })
 }
 
-function renderContentItem(c) {
-  switch (c.type) {
-    case 'text': return <TextContent {...c} />
-    case 'web': return <WebContent {...c} />
-    case 'survey': return <SurveyContent {...c} />
-    case 'html': return <HTMLContent {...c} />
-    case 'video': return <VideoContent {...c} />
-    default: return null
-  }
-}
+export default provideFirebaseConnectorToReactComponent(client, 'personalizedcontent', (props, fbc) => <HomeView {...props} fbc={fbc} />, PureComponent)
 
 const s = StyleSheet.create({
   container: {
