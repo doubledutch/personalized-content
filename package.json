@@ -9,6 +9,7 @@
   "license": "apache-2.0",
   "dependencies": {
     "react": "15.6.1",
+    "react-csv": "^1.0.18",
     "react-native": "0.46.4",
     "react-native-cli": "^2.0.1"
   },
