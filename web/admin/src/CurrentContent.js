@@ -56,7 +56,7 @@ export default class CurrentContent extends PureComponent {
           <div className="current-content">
             {this.renderModal()}
             <span className="content-bar">
-              <h2 className="contentTitle">Current Content</h2>
+              <h2 className="contentTitle">Current Cards</h2>
               <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
               <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
               <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
@@ -90,7 +90,7 @@ export default class CurrentContent extends PureComponent {
           <div className="current-content">
             {this.renderModal()}
             <span className="content-bar">
-              <h2 className="contentTitle">Current Content</h2>
+              <h2 className="contentTitle">Current Cards</h2>
               <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>Reorder Content</button>
               <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
             </span>
@@ -215,7 +215,7 @@ export default class CurrentContent extends PureComponent {
         <div className="current-content__list-text">
           <h1>Curate your attendees&#39; experience with custom content</h1>
           <h2>Click below to build your first piece of content</h2>
-          <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Content</button>
+          <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Card</button>
         </div>
       )
     }

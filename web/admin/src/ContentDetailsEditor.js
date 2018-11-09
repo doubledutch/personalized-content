@@ -16,6 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { SelectEditor, TextEditor, MultiLineEditor } from './editors'
+import client, {translate as t} from '@doubledutch/admin-client'
 import CsvParse from '@vtex/react-csv-parse'
 import RadioIcon from "./RadioIcon"
 import { CSVLink } from 'react-csv'
@@ -143,60 +144,48 @@ export default class ContentDetailsEditor extends PureComponent {
 
   onCSV = () => {
     const {onUpdate} = this.props
-    switch (this.props.content.type){
-      case "text" :
-       onUpdate('type', "textCSV") 
-       break
-      case "web" : 
-        onUpdate('type', "webCSV")
-        break
-      case "video" : 
-        onUpdate('type', "videoCSV")
-        break
-    }
+    onUpdate('type', `${this.props.content.type}CSV`)
   }
 
   offCSV = () => {
     const {onUpdate} = this.props
-    switch (this.props.content.type){
-      case "textCSV" :
-       onUpdate('type', "text") 
-       break
-      case "webCSV" : 
-        onUpdate('type', "web")
-        break
-      case "videoCSV" : 
-        onUpdate('type', "video")
-        break
-    }
+    onUpdate('type', this.props.content.type.replace('CSV', ''))
   }
 
   handleImport = (data) => {
-    const {content, allUsers} = this.props
+    const {content} = this.props
     let newData = []
-    data.forEach(userInfo => {
-      const currentUser = allUsers.find(user => user.email === userInfo.email)
-      if (currentUser) {
-        let newUserData = {}
-        if (content.type === "textCSV") newUserData = {"checkAll": false, "order": content.order, "title": content.title, "type": "text", "text": userInfo.Description, attendeeIds: [currentUser.id]}
-        if (content.type === "webCSV") newUserData = {"checkAll": false, "order": content.order, "title": content.title, "type": "web", "url": userInfo.url, attendeeIds: [currentUser.id]}
-        if (content.type === "videoCSV") newUserData = {"checkAll": false, "order": content.order, "title": content.title, "type": "video", "url": userInfo.url, attendeeIds: [currentUser.id]}
-        newData.push(newUserData)
-      }
-    })
-    this.setState({succesfulImport: newData.length, totalImport: data.length})
-    this.props.onUpdate("rawData", newData)
+    const attendeeImportPromises = data.map(cell => client.getAttendees(cell.email)
+    .then(attendees => ({...attendees[0]}))
+    .catch(err => "error"))
+    Promise.all(attendeeImportPromises).then(attendees =>{
+      data.forEach(userInfo => {
+        const currentUser = attendees.find(user => user.email === userInfo.email)
+        if (currentUser) {
+          let newUserData = {}
+          const underlyingType = content.type.replace('CSV', '')
+          if (underlyingType === 'text' ? userInfo.description.length : userInfo.url.length) {
+            newUserData = {checkAll: false, order: content.order, title: content.title, type: underlyingType, attendeeIds: [currentUser.id]}
+            if (underlyingType === 'text') {
+              newUserData.text = userInfo.description
+            } else {
+              newUserData.url = userInfo.url
+            }
+            newData.push(newUserData)
+          }
+        }
+      })
+      this.setState({succesfulImport: newData.length, totalImport: data.length})
+      this.props.onUpdate("rawData", newData)
+    }
+    )
   }
 
   makeCSVTemplate = () => {
-    const {content, allUsers} = this.props
-    let csvTemplate = []
-    allUsers.forEach(user => {
-      let blankInfo = {}
-      if (content.type === "textCSV") blankInfo = {"email": user.email, "firstName": user.firstName, "lastName": user.lastName, "description": ""}
-      if (content.type === "webCSV" || content.type === "videoCSV") blankInfo = {"email": user.email, "firstName": user.firstName, "lastName": user.lastName, "url": ""}
-      csvTemplate.push(blankInfo)
-    })
+    const {content} = this.props
+    let csvTemplate = [{}]
+    if (content.type === "textCSV") csvTemplate = [{"email": "test@doubledutch.me", "description": "test info"}]
+    if (content.type === "webCSV" || content.type === "videoCSV") csvTemplate = [{"email": "test@doubledutch.me", "url": "https://test.youtube.com"}]
     return csvTemplate
   }
 

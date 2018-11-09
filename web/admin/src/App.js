@@ -109,8 +109,8 @@ class App extends PureComponent {
           <div>
             <Route exact path="/" render={({history}) => (
               <div>
-                <h1 className="pageTitle">Custom Content</h1>
-                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Content</button>
+                <h1 className="pageTitle">My Info</h1>
+                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Card</button>
                 <CurrentContent
                   content={searchContent}
                   publishedContent={publishedContent}
@@ -241,8 +241,6 @@ class App extends PureComponent {
   onUpdate = (contentItem, prop, value) => {
     const { attendeeIds, tierIds, groupIds, order } = contentItem
     const checkAll = contentItem.checkAll ? contentItem.checkAll : false
-    console.log(prop)
-    console.log(value)
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
