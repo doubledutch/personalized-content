@@ -28,24 +28,6 @@ import HTMLIcon from './images/HTMLIcon.png'
 import VideoIcon from "./images/video.svg"
 
 // using some little inline style helpers to make the app look okay
-const getItemStyle = (draggableStyle, isDragging) => ({
-// some basic styles to make the items look a bit nicer
-userSelect: 'none',
-display: "flex",
-flexFlow: "nowrap",
-alignItems: "center",
-margin: '-1px -1px 0px -1px',
-minHeight: 40,
-padding: 0,
-border: "1px solid #e2e2e2",
-textAlign: "center",
-// change background colour if dragging
-background: 'white',
-boxShadow: isDragging ?  '0 2px 10px 0 rgba(0,0,0,0.5)': '',
-
-// styles we need to apply on draggables
-...draggableStyle,
-});
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'white' : 'white',
   margin: 0,
@@ -85,29 +67,14 @@ export default class CurrentContent extends PureComponent {
                 <div
                   ref={provided.innerRef}
                   style={getListStyle(snapshot.isDraggingOver)}
+                  {...provided.droppableProps}
                 >
                 {
                   content.map((c, i) => 
                   (
-                    <Draggable key={i} draggableId={i}>
-                      {(provided, snapshot) => (
-                        <div>
-                          <div
-                            ref={provided.innerRef}
-                            style={getItemStyle(
-                              provided.draggableStyle,
-                              snapshot.isDragging
-                              )}
-                              {...provided.dragHandleProps}
-                            >
-                              <img src={Reorder} className="current-content__move" alt={c.type} />
-                              {iconFor(c)}
-                              <p className="current-content__title-drag">{titleFor(c)}</p>
-                            </div>
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Draggable>
+                    <div>
+                      {this.renderCell(c, i)}
+                    </div>
                   ))
                 }
                 {provided.placeholder}
@@ -131,6 +98,44 @@ export default class CurrentContent extends PureComponent {
           </div>
         )
       }
+  }
+
+  renderCell = (item, i) => {
+    return (
+    <Draggable draggableId={i} index={i}>
+      {(provided, snapshot) => {
+        const style = {
+          userSelect: 'none',
+          display: "flex",
+          flexFlow: "nowrap",
+          alignItems: "center",
+          margin: '-1px -1px 0px -1px',
+          minHeight: 40,
+          padding: 0,
+          border: "1px solid #e2e2e2",
+          textAlign: "center",
+          background: 'white',
+          boxShadow: snapshot.isDragging ?  '0 2px 10px 0 rgba(0,0,0,0.5)': '',
+          ...provided.draggableProps.style,
+        }
+        return (
+          <div>
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={style}
+            >
+              <img src={Reorder} className="current-content__move" alt={item.type} />
+              {iconFor(item)}
+              <p className="current-content__title-drag">{titleFor(item)}</p>
+            </div>
+            {provided.placeholder}
+          </div>
+        )}
+      }
+    </Draggable>
+    )
   }
 
   renderBox = (content, publishedContent) => {

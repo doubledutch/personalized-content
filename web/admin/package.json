@@ -11,7 +11,7 @@
     "lodash.debounce": "^4.0.8",
     "moment": "^2.20.1",
     "react": "^16.6.0",
-    "react-beautiful-dnd": "^3.0.0",
+    "react-beautiful-dnd": "5.0.0",
     "react-csv": "^1.0.14",
     "react-dom": "^16.6.0",
     "react-modal": "^3.3.1",
