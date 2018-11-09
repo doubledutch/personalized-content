@@ -15,6 +15,7 @@
  */
 
 import React, { Component } from 'react'
+import {translate as t} from '@doubledutch/admin-client'
 
 export default class RadioIcon extends Component {
   render() {
@@ -22,12 +23,12 @@ export default class RadioIcon extends Component {
       <form style={{marginTop: 20}}>
         <label className="radioContainer">
             <input type="radio" name="radio" value="anom" checked={this.props.checked} onChange={this.props.onApprove}/>
-            Yes
+            {t("yes")}
             <span className="checkmark"/>
           </label>        
           <label className="radioContainer">
             <input type="radio" name="radio" value="anom" checked={!this.props.checked} onChange={this.props.offApprove}/>
-            No
+            {t("no")}
             <span className="checkmark"/>
           </label>
       </form>

@@ -18,8 +18,10 @@ import React, { PureComponent } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
 import VideoContent from "./video-content"
-import client, { Avatar, TitleBar } from '@doubledutch/rn-client'
+import client, { Avatar, TitleBar, translate as t, useStrings } from '@doubledutch/rn-client'
 import {provideFirebaseConnectorToReactComponent} from '@doubledutch/firebase-connector'
+
+useStrings(i18n)
 
 class HomeView extends PureComponent {
   publicContentRef = () => this.props.fbc.database.public.adminRef('content')
@@ -88,7 +90,7 @@ class HomeView extends PureComponent {
   renderContent() {
     const content = this.content()
     if (!content) return <Text>Loading...</Text>
-    if (content.length === 0) return <Text style={s.helpText}>No Assigned Content</Text>
+    if (content.length === 0) return <Text style={s.helpText}>{t("noAssign")}</Text>
     return content.map(c => <View style={s.contentWrapper} key={c.key}>{this.renderContentItem(c)}</View>)
     return <Text>{content.length}</Text>    
   }

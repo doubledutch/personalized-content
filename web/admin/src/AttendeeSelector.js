@@ -15,6 +15,7 @@
  */
 
 import React, { PureComponent } from 'react'
+import {translate as t} from '@doubledutch/admin-client'
 import debounce from 'lodash.debounce'
 
 export default class AttendeeSelector extends PureComponent {
@@ -67,13 +68,13 @@ export default class AttendeeSelector extends PureComponent {
     if (type === "textCSV" || type === "webCSV" || type === "videoCSV") this.csvSelectAll()
     return (
       <div>
-        <h2 className="contentTitle">Select Attendees</h2>
-        {type === "textCSV" || type === "webCSV" || type === "videoCSV"? <p>Unavailable for CSV import</p> : <div className="attendee-selector">
+        <h2 className="contentTitle">{t("selectAttendees")}</h2>
+        {type === "textCSV" || type === "webCSV" || type === "videoCSV"? <p>{t("unavailableCSV")}</p> : <div className="attendee-selector">
           <div className="attendee-selector__menu">
             <div className="attendee-selector__menu-header">{this.menuHeaderText()}</div>
-            <div className={this.classNameForMenuItem('attendees')} onClick={this.viewAllAttendees}>All attendees</div>
-            <div className={this.classNameForMenuItem('tiers')} onClick={this.viewTiers}>Tiers</div>
-            <div className={this.classNameForMenuItem('groups')} onClick={this.viewGroups}>Groups</div>
+            <div className={this.classNameForMenuItem('attendees')} onClick={this.viewAllAttendees}>{t("allAttendees")}</div>
+            <div className={this.classNameForMenuItem('tiers')} onClick={this.viewTiers}>{t("tiers")}</div>
+            <div className={this.classNameForMenuItem('groups')} onClick={this.viewGroups}>{t("groups")}</div>
           </div>
           <table className="attendee-selector__table">
             <thead>
@@ -81,8 +82,8 @@ export default class AttendeeSelector extends PureComponent {
                 ? <tr>
                     <td>{this.selectAll()}</td>
                     <td className="attendee-selector__column__space"><input className="attendee-selector__search" type="text" placeholder="Search" value={search} onChange={this.onSearchChange} /></td>
-                    <td className="attendee-selector__column">Tiers</td> 
-                    <td className="attendee-selector__column">Groups</td> 
+                    <td className="attendee-selector__column">{t("tiers")}</td> 
+                    <td className="attendee-selector__column">{t("groups")}</td> 
                   </tr>
                 : <tr>
                     <td>&nbsp;</td>
@@ -108,8 +109,8 @@ export default class AttendeeSelector extends PureComponent {
         if (this.state.search) {
           return (
             <div className="current-content__list-text">
-              <h1>Please try another search</h1>
-              <h2>No user matches that description</h2>
+              <h1>{t("searchHelp")}</h1>
+              <h2>{t("searchHelpDes")}</h2>
             </div>
           )
         }
@@ -190,7 +191,7 @@ export default class AttendeeSelector extends PureComponent {
           type="checkbox"
           checked={this.props.content.checkAll}
           onChange={this.addSelectAll} />
-           Select All
+           {t("selectAll")}
       </label>
     )
   }

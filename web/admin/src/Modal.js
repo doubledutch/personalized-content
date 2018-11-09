@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import {translate as t} from '@doubledutch/admin-client'
 import Modal  from 'react-modal'
 
 export class CustomModal extends Component {
@@ -54,8 +55,8 @@ export class CustomModal extends Component {
       return (
         <div>
           { this.props.isPublished
-          ? <p className="modalHeadline">Are you sure you want to unpublish this content?</p>
-          : <p className="modalHeadline">Are you sure you want to publish this content?</p> }
+          ? <p className="modalHeadline">{t("unpublishConfirm")}</p>
+          : <p className="modalHeadline">{t("publishConfirm")}</p> }
             <p className="modalText">{titleFor(this.props.selectedContent)}</p>
         </div>
       )
@@ -64,14 +65,14 @@ export class CustomModal extends Component {
       if (this.props.selectedContent.type && letPublish === false && areUrlsOkay && isContentComplete) {
         return (
           <div>
-            <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
+            <p className="modalHeadline">{t("assign")}</p>
           </div>
         )
       }
       else {
         return (
           <div>
-            <p className="modalHeadline">Content must be completed in order to publish.</p>
+            <p className="modalHeadline">{t("contentComplete")}</p>
           </div>
         )
       }
@@ -83,17 +84,17 @@ export class CustomModal extends Component {
     if (this.props.selectedContent.type && letPublish && isContentComplete && areUrlsOkay) {
       return (
         <div>
-          <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
+          <button className="modalDone" onClick={this.props.closeModal}>{t("cancel")}</button>
           { this.props.isPublished
-          ? <button className="modalExport" onClick={this.unpublish(c)}>Unpublish Content</button>
-          : <button className="modalExport" onClick={this.publish(c)}>Publish Content</button> }
+          ? <button className="modalExport" onClick={this.unpublish(c)}>{t("unpublishContent")}</button>
+          : <button className="modalExport" onClick={this.publish(c)}>{t("publishContent")}</button> }
         </div>
       ) 
     }
     else {
       return (
         <div>
-          <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>
+          <button className="modalDone" onClick={this.props.closeModal}>{t("cancel")}</button>
         </div>
       )
     }

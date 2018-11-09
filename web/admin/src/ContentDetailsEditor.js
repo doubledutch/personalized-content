@@ -35,27 +35,27 @@ export default class ContentDetailsEditor extends PureComponent {
     switch (content.type) {
       case "html": return <div className="content-editor__box" key={`${content.type}Fields`}>
         <div>
-          <h2 className="contentTitle">Add a Title</h2>
+          <h2 className="contentTitle">{t("title")}</h2>
           <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Name" onUpdate={onUpdate} isTitle={true} hideTitle={true}/>
         </div>
         <div className="homeBox">
-          <h2 className="contentTitle">Add Content</h2>
+          <h2 className="contentTitle">{t("content")}</h2>
           <MultiLineEditor content={content} prop="text" title="Content" onUpdate={onUpdate} hideTitle={true}/>
         </div>
       </div>
       case "textCSV":
       case 'text': return <div className="content-editor__box" key={`${content.type}Fields`}>
           <div>
-            <h2 className="contentTitle">Would you like to import individualized content from a CSV?</h2>
+            <h2 className="contentTitle">{t("csvQuestion")}</h2>
             <RadioIcon checked = {this.isCSV()} offApprove = {this.offCSV} onApprove = {this.onCSV}/>
-            <h2 className="contentTitle">Add a Title</h2>
+            <h2 className="contentTitle">{t("title")}</h2>
             <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Name" onUpdate={onUpdate} isTitle={true} hideTitle={true}/>
           </div>
           {this.isCSV()
           ? <div>
-              <h2 className="contentTitle">Download a CSV Template</h2>
-              <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>Download</CSVLink>
-              <h2 className="contentTitle">Choose file for import</h2>
+              <h2 className="contentTitle">{t("downloadTemplate")}</h2>
+              <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>{t("download")}</CSVLink>
+              <h2 className="contentTitle">{t("chooseFile")}</h2>
               <CsvParse
                 className="csv-input"
                 keys={["email", "firstName", "lastName", "description"]}
@@ -63,27 +63,27 @@ export default class ContentDetailsEditor extends PureComponent {
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
               />
-              {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>Download Uploaded Content</CSVLink> : null}
-              {this.state.totalImport > 0 && <h2 className="successText">{`Successfully imported ${this.state.succesfulImport} of ${this.state.totalImport}`}</h2>}
+              {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
+              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
           </div>
           : <div className="homeBox">
-            <h2 className="contentTitle">Add Content</h2>
+            <h2 className="contentTitle">{t("content")}</h2>
             <MultiLineEditor content={content} prop="text" title="Content" onUpdate={onUpdate} hideTitle={true}/>
           </div>}
         </div>
       case "webCSV":
       case 'web': return <div className="content-editor__box" key={`${content.type}Fields`}>
           <div>
-            <h2 className="contentTitle">Would you like to import individualized content from a CSV?</h2>
+            <h2 className="contentTitle">{t("csvQuestion")}</h2>
             <RadioIcon checked = {this.isCSV()} offApprove = {this.offCSV} onApprove = {this.onCSV}/>
-            <h2 className="contentTitle">Add a Title</h2>
+            <h2 className="contentTitle">{t("title")}</h2>
             <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Website" onUpdate={onUpdate} isTitle={true} hideTitle={true}/>
           </div>
           {this.isCSV()
           ? <div>
-              <h2 className="contentTitle">Download a CSV Template</h2>
-              <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>Download</CSVLink>
-              <h2 className="contentTitle">Choose file for import</h2>
+              <h2 className="contentTitle">{t("downloadTemplate")}</h2>
+              <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>{t("download")}</CSVLink>
+              <h2 className="contentTitle">{t("chooseFile")}</h2>
               <CsvParse
                 className="csv-input"
                 keys={["email", "firstName", "lastName", "url"]}
@@ -91,27 +91,27 @@ export default class ContentDetailsEditor extends PureComponent {
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
               />
-              {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>Download Uploaded Content</CSVLink> : null}
-              {this.state.totalImport > 0 && <h2 className="successText">{`Successfully imported ${this.state.succesfulImport} of ${this.state.totalImport}`}</h2>}
+              {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
+              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
           </div>
           : <div className="homeBox">
-            <h2 className="contentTitle">Add Content</h2>
-            <TextEditor content={content} prop="url" title="URL" regex={/^https?:\/\/[^/]/} validationMessage="The URL must begin with 'https://' or 'http://'" placeholder="http://www.acme.com" onUpdate={onUpdate} hideTitle={true}/>
+            <h2 className="contentTitle">{t("content")}</h2>
+            <TextEditor content={content} prop="url" title="URL" regex={/^https?:\/\/[^/]/} validationMessage={t("urlHelp")} placeholder="http://www.acme.com" onUpdate={onUpdate} hideTitle={true}/>
           </div>}
         </div>
       case "videoCSV":
       case 'video': return <div className="content-editor__box" key={`${content.type}Fields`}>
         <div>
-          <h2 className="contentTitle">Would you like to import individualized content from a CSV?</h2>
+          <h2 className="contentTitle">{t("csvQuestion")}</h2>
           <RadioIcon checked = {this.isCSV()} offApprove = {this.offCSV} onApprove = {this.onCSV}/>
-          <h2 className="contentTitle">Add a Title</h2>
+          <h2 className="contentTitle">{t("title")}</h2>
           <TextEditor content={content} prop="title" title="Title" placeholder="Acme Co. Website" onUpdate={onUpdate} isTitle={true} hideTitle={true}/>
         </div>
         {this.isCSV()
         ? <div>
-            <h2 className="contentTitle">Download a CSV Template</h2>
-            <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>Download</CSVLink>
-            <h2 className="contentTitle">Choose file for import</h2>
+            <h2 className="contentTitle">{t("downloadTemplate")}</h2>
+            <CSVLink className="csvButton" data={this.makeCSVTemplate()} filename={"questions.csv"}>{t("download")}</CSVLink>
+            <h2 className="contentTitle">{t("chooseFile")}</h2>
             <CsvParse
               className="csv-input"
               keys={["email", "firstName", "lastName", "url"]}
@@ -119,16 +119,16 @@ export default class ContentDetailsEditor extends PureComponent {
               onError={this.props.handleError}
               render={onChange => <input type="file" onChange={onChange} />}
             />
-            {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>Download Uploaded Content</CSVLink> : null}
-            {this.state.totalImport > 0 && <h2 className="successText">{`Successfully imported ${this.state.succesfulImport} of ${this.state.totalImport}`}</h2>}
+            {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
+            {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
           </div>
           : <div className="homeBox">
-            <h2 className="contentTitle">Add a Youtube Link</h2>
-            <TextEditor content={content} prop="url" title="URL" regex={/^(https?:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/} validationMessage="Your video must follow the placeholder format" placeholder="https://www.youtube.com/watch?v=Ycd-C85AdCk" onUpdate={onUpdate} hideTitle={true}/>
+            <h2 className="contentTitle">{t("youtube")}</h2>
+            <TextEditor content={content} prop="url" title="URL" regex={/^(https?:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/} validationMessage={t("videoFormat")} placeholder="https://www.youtube.com/watch?v=Ycd-C85AdCk" onUpdate={onUpdate} hideTitle={true}/>
           </div>}
         </div>
       case 'survey': return <div className="content-editor__box" key={`${content.type}Fields`}>
-          <h2 className="contentTitle">Choose Survey</h2>
+          <h2 className="contentTitle">{t("survey")}</h2>
           <SelectEditor size={6} content={content} prop="surveyId" title="Survey" onUpdate={this.onUpdateSurvey} options={surveys} />
         </div>
       default: return <div />

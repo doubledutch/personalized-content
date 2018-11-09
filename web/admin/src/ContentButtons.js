@@ -15,6 +15,7 @@
  */
 
 import React, { Component } from 'react'
+import {translate as t} from '@doubledutch/admin-client'
 import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
 import VideoIcon from "./images/video.svg"
@@ -26,7 +27,7 @@ export default class ContentButtons extends Component {
     const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}]
     return (
       <span className="content-buttons__box">
-        <h2 className="contentTitle" >Select Content Type</h2>
+        <h2 className="contentTitle" >{t("selectContent")}</h2>
         <span className="buttonsBox">
           { types.map(this.renderButton) }
         </span>

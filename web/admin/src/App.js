@@ -105,7 +105,7 @@ class App extends PureComponent {
     const allContent = this.state.pendingContent.length > 0
     const published = Object.values(this.state.publishedContent).length > 0
     
-    if (lastPublishedAt === undefined) return <div>Loading...</div>
+    if (lastPublishedAt === undefined) return <div>{t("loading")}</div>
     return (
       <div className="app">
         <Router>
@@ -113,7 +113,7 @@ class App extends PureComponent {
             <Route exact path="/" render={({history}) => (
               <div>
                 <h1 className="pageTitle">My Info</h1>
-                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Card</button>
+                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>{t("addNew")}</button>
                 <CurrentContent
                   content={searchContent}
                   publishedContent={publishedContent}
