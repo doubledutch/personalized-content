@@ -15,7 +15,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking, Dimensions } from 'react-native'
 import client from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
@@ -65,12 +65,19 @@ export class WebContent extends PureComponent {
 }
 
 export class HTMLContent extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isExpand: false
+     }
+  }
   render() {
+
     const {title, text} = this.props
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
-        <View style={s.htmlContainer}>
+        <View style={this.state.isExpand ? s.htmlContainerLarge : s.htmlContainer}>
           <WebView style={s.web}
             ref={(ref) => { this.webview = ref; }} 
             source={{html: text}}
@@ -85,9 +92,19 @@ export class HTMLContent extends PureComponent {
               }
             }}
           />
+          <View style={s.webFooter}>
+            <View  style={{flex: 1}}/>
+            <TouchableOpacity onPress={this.expandCell}>
+              <Text style={s.webFooterLink}>{this.state.isExpand ? "Minimize Page" : "Expand Page"}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     )
+  }
+  expandCell = () => {
+    const current = this.state.isExpand
+    this.setState({isExpand: !current})
   }
 }
 
@@ -211,6 +228,9 @@ const s = StyleSheet.create({
   htmlContainer: {
     height: 200
   },
+  htmlContainerLarge: {
+    height: Dimensions.get('window').height - 150
+  },
   webContainer: {
     height: 300
   },
@@ -235,7 +255,6 @@ const s = StyleSheet.create({
     fontSize: 18,
     padding: 0,
     margin: 5,
-    width: 90,
     color: gray
   },
   web: {
