@@ -136,10 +136,7 @@ export default class ContentDetailsEditor extends PureComponent {
   }
 
   isCSV = () => {
-    if (this.props.content.type === "textCSV" || this.props.content.type === "webCSV" || this.props.content.type === "videoCSV") {
-      return true 
-    }
-    else return false
+    return ['textCSV', 'webCSV', 'videoCSV'].includes(this.props.content.type)
   }
 
   onCSV = () => {
