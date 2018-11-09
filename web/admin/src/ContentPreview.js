@@ -21,7 +21,7 @@ import VideoPlaceholder from "./images/videoplaceholder.png"
 export default class ContentPreview extends PureComponent {
 
   render() {
-    const {content, hidden, allContent} = this.props
+    const {content, hidden} = this.props
     const sectionStyle = {
       backgroundImage: `url(${Background})`
     }
@@ -73,7 +73,7 @@ export default class ContentPreview extends PureComponent {
         )
       }
     }
-    else return <h1 className="staticText"></h1>
+    else return <h1 className="staticText">...</h1>
   }
 
   editorFor = (c, i) => {
@@ -99,7 +99,7 @@ export default class ContentPreview extends PureComponent {
         <button className="surveyButton">Take the survey</button>
       </div>
       case 'video': return <div className="webCell" key={i}>
-        <img className="videoBox" src={VideoPlaceholder}title="videoview"></img>
+        <img className="videoBox" src={VideoPlaceholder}title="videoview" alt="video" />
         <div className="webFooter">
           <h2 className="webFooterTitle">{c.title}</h2>
         </div>

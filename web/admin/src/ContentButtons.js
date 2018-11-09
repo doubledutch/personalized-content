@@ -23,7 +23,7 @@ import HTMLIcon from './images/HTMLIcon.png'
 
 export default class ContentButtons extends Component {
   render() {
-    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}, {name: "CSV", type:"csv"}]
+    const types = [{name: "Web Page", type: "web"}, {name: "Plain Text", type: "text"}, {name: "Survey", type: "survey"}, {name: "HTML", type: "html"}, {name: "Video", type:"video"}]
     return (
       <span className="content-buttons__box">
         <h2 className="contentTitle" >Select Content Type</h2>
@@ -36,7 +36,7 @@ export default class ContentButtons extends Component {
 
   renderButton = type => {
     var color = "#FFFFFF"
-    if (type.type === this.props.content.type){
+    if (type.type === this.props.content.type || this.props.content.type === type.type + "CSV"){
       color = "#E2E2E2"
     }
     return (
@@ -59,11 +59,13 @@ export default class ContentButtons extends Component {
   renderIcon = (type) => {
     switch (type) {
     case 'survey': return <img className="standIcon" src={PageIcon} alt="survey"/>
+    case 'textCSV':
     case 'text': return <img className="standIcon" src={TextIcon} alt="text"/>
     case 'html': return <img className="htmlIcon" src={HTMLIcon} alt="html"/>
+    case 'webCSV':
     case 'web': return <img className="standIcon" src={WebIcon} alt="web"/>
+    case 'videoCSV':
     case 'video': return <img className="standIcon" src={VideoIcon} alt="video"/>
-    case 'csv': return <img className="standIcon" src={PageIcon} alt="csv"/>
     default: return <div/>
     }
   }

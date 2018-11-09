@@ -18,7 +18,7 @@ import React, { PureComponent } from 'react'
 import './App.css'
 import moment from 'moment'
 import client from '@doubledutch/admin-client'
-import FirebaseConnector from '@doubledutch/firebase-connector'
+import {provideFirebaseConnectorToReactComponent} from '@doubledutch/firebase-connector'
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
@@ -26,8 +26,6 @@ import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
 import '@doubledutch/react-components/lib/base.css'
 
-const fbc = FirebaseConnector(client, 'personalizedcontent')
-fbc.initializeAppWithSimpleBackend()
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -35,9 +33,9 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default class App extends PureComponent {
-  constructor() {
-    super()
+class App extends PureComponent {
+  constructor(props) {
+    super(props)
     this.state = {
       publishedContent: {}, // Published content is stored by key
       pendingContent: [],
@@ -52,14 +50,14 @@ export default class App extends PureComponent {
       surveys: []
     }
 
-    this.signin = fbc.signinAdmin()
+    this.signin = props.fbc.signinAdmin()
       .then(user => this.user = user)
       .catch(err => console.error(err))
   }
 
   componentDidMount() {
     this.signin.then(() => {
-      client.getUsers().then(users => {
+      client.getAttendees().then(users => {
         this.setState({allUsers: users})
       })
 
@@ -76,19 +74,19 @@ export default class App extends PureComponent {
       
       const setPublishedContent = data => this.setState(state => ({publishedContent: {...state.publishedContent, [data.key]: addDefaults(data.val())}}))
 
-      publishedContentRef().on('child_added', setPublishedContent)
-      pendingContentRef().on('child_added', addContent('pendingContent'))
+      this.publishedContentRef().on('child_added', setPublishedContent)
+      this.pendingContentRef().on('child_added', addContent('pendingContent'))
 
-      publishedContentRef().on('child_removed', data => this.setState(state => {
+      this.publishedContentRef().on('child_removed', data => this.setState(state => {
         const { [data.key]: deletedItem, ...publishedContent } = state.publishedContent
         return {publishedContent}
       }))
-      pendingContentRef().on('child_removed', removeContent('pendingContent'))
+      this.pendingContentRef().on('child_removed', removeContent('pendingContent'))
 
-      publishedContentRef().on('child_changed', setPublishedContent)
-      pendingContentRef().on('child_changed', changeContent('pendingContent'))
+      this.publishedContentRef().on('child_changed', setPublishedContent)
+      this.pendingContentRef().on('child_changed', changeContent('pendingContent'))
 
-      lastPublishedAtRef().on('value', data => {
+      this.lastPublishedAtRef().on('value', data => {
         const time = data.val()
         this.setState({lastPublishedAt: time ? moment(data.val()) : null})
       })
@@ -124,12 +122,11 @@ export default class App extends PureComponent {
                   onDragEnd={this.onDragEnd}
                   checkOrder={this.checkOrder}
                   cancelUpdates={this.cancelUpdates} 
-                  publish={this.publish}
                   hideTable={this.hideTable}
                   disableButtons={this.disableButtons}
                   disable={this.state.disable}
                   search={this.state.search}
-                  unpublish={this.unpublish} />
+                />
                 <div className="AttendeeBox" style={{marginTop: 50}}>
                   <AllAttendees content={this.state.publishedContent}
                     updateUserData={this.updateUserData}
@@ -210,7 +207,7 @@ export default class App extends PureComponent {
       if (c.order !== index) {
         this.onUpdate(c, "order", index) // update pending content
         if (this.state.publishedContent[c.key]) {
-          return publishedContentRef().child(c.key).child('order').set(index) // update published content
+          return this.publishedContentRef().child(c.key).child('order').set(index) // update published content
         }
       }
       return Promise.resolve()
@@ -229,7 +226,7 @@ export default class App extends PureComponent {
 
   addNewContent = ({history}) => {
     const {pendingContent} = this.state
-    const ref = pendingContentRef().push({order: pendingContent.length})
+    const ref = this.pendingContentRef().push({order: pendingContent.length})
     history.push(`/content/${ref.key}`)
     this.setState({search: false})
   }
@@ -238,18 +235,20 @@ export default class App extends PureComponent {
 
   deleteContent = key => {
    this.unpublish({key})
-   pendingContentRef().child(key).remove()
+   this.pendingContentRef().child(key).remove()
   }
 
   onUpdate = (contentItem, prop, value) => {
     const { attendeeIds, tierIds, groupIds, order } = contentItem
     const checkAll = contentItem.checkAll ? contentItem.checkAll : false
+    console.log(prop)
+    console.log(value)
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {
-        pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll, order})
+        this.pendingContentRef().child(contentItem.key).set({[prop]: value, attendeeIds, tierIds, groupIds, checkAll, order})
       } else {
-        pendingContentRef().child(contentItem.key).update({[prop]: value})
+        this.pendingContentRef().child(contentItem.key).update({[prop]: value})
       }
     }
   }
@@ -272,9 +271,9 @@ export default class App extends PureComponent {
   doPublish = content => {
 
     // 1. Remove all derived copies of all content
-    publicContentRef().remove()
-    usersRef().remove()
-    tiersRef().remove()
+    this.publicContentRef().remove()
+    this.usersRef().remove()
+    this.tiersRef().remove()
 
     // 2. Create derived copies from `publishedContent`
     const { key, ...contentToPublish } = content
@@ -297,7 +296,7 @@ export default class App extends PureComponent {
     //check for reordering thus content blank
     if (Object.keys(content).length === 0) {
       publishedContent.forEach(item => {
-        if (item.type === "csv") {
+        if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
           let newOrderData = item.rawData.slice()
           newOrderData.forEach(newItem => {
             newItem.order = item.order
@@ -311,24 +310,24 @@ export default class App extends PureComponent {
       const publicContent = contentArrayToFirebaseObject(publishedContent
         .filter(c =>
           c.groupIds.length
-          || (!c.tierIds.length && !c.attendeeIds.length && c.type !== "csv"))
+          || (!c.tierIds.length && !c.attendeeIds.length && c.type !== "textCSV" || c.type !== "webCSV" || c.type !== "videoCSV"))
         .map(c => ({...c, tierIds: null, attendeeIds: null}))
       )
-      publicContentRef().set(publicContent)
+      this.publicContentRef().set(publicContent)
 
       // 2b. Users bucket gets a copy for each attendee
       //add back user CSV data
         const newContent = publishedContent.concat(csvData)
-        usersRef().set(getDerivedCopiesGroupedBy(newContent, 'attendeeIds'))
+        this.usersRef().set(getDerivedCopiesGroupedBy(newContent, 'attendeeIds'))
 
       // 2c. Tiers bucket gets a copy for each tier
-      tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
+      this.tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
       
       // 3. Copy content to published location
-      if (key) publishedContentRef().child(key).set(contentToPublish)
+      if (key) this.publishedContentRef().child(key).set(contentToPublish)
       
       // 4. Update published timestamp
-      lastPublishedAtRef().set(moment().valueOf())
+      this.lastPublishedAtRef().set(moment().valueOf())
   }
 
   publishCSVData = (data, key) => {
@@ -339,7 +338,16 @@ export default class App extends PureComponent {
   }
   
 
+  publishedContentRef = () => this.props.fbc.database.private.adminRef('content')
+  pendingContentRef = () => this.props.fbc.database.private.adminRef('pendingContent')
+  lastPublishedAtRef = () => this.props.fbc.database.private.adminRef('lastPublishedAt')
+
+  publicContentRef = () => this.props.fbc.database.public.adminRef('content')
+  usersRef = userId => this.props.fbc.database.private.adminableUsersRef(userId)
+  tiersRef = tierId => this.props.fbc.database.private.tiersRef(tierId)
 }
+
+export default provideFirebaseConnectorToReactComponent(client, 'personalizedcontent', (props, fbc) => <App {...props} fbc={fbc} />, PureComponent)
 
 function getDerivedCopiesGroupedBy(pendingContent, groupIdArrayKey) {
   const groupedArrays = pendingContent.reduce((groupedArrays, c) => {
@@ -374,13 +382,5 @@ function addDefaults(content) {
 }
 
 const sortContent = (a,b) => a.order < b.order ? -1 : 1
-
-const publishedContentRef = () => fbc.database.private.adminRef('content')
-const pendingContentRef = () => fbc.database.private.adminRef('pendingContent')
-const lastPublishedAtRef = () => fbc.database.private.adminRef('lastPublishedAt')
-
-const publicContentRef = () => fbc.database.public.adminRef('content')
-const usersRef = userId => fbc.database.private.adminableUsersRef(userId)
-const tiersRef = tierId => fbc.database.private.tiersRef(tierId)
 
 const isGlobalSurvey = s => !s.listId && !s.itemIds.length

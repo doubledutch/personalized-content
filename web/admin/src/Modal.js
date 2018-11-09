@@ -6,8 +6,10 @@ export class CustomModal extends Component {
 
   render() {
     const areUrlsOkay = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
+    const isContentComplete = this.checkContent()
+    const isCSV = this.props.selectedContent.type === "textCSV" || this.props.selectedContent.type === "webCSV" || this.props.selectedContent.type === "videoCSV" ? true : false
     const letPublish = (this.props.selectedContent)
-      ? areUrlsOkay && (this.props.selectedContent.type === "csv" && this.props.selectedContent.rawData) || (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
+      ? areUrlsOkay && (isCSV && this.props.selectedContent.rawData) || (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
       : false
     
     return(
@@ -23,18 +25,32 @@ export class CustomModal extends Component {
         <div>
           <button className="closeButton" onClick={this.props.closeModal}>X</button>
           <div className="modalTextBox">
-            {this.modalMessage(letPublish)}
+            {this.modalMessage(letPublish, areUrlsOkay, isContentComplete)}
           </div>
           <div className="modalButtonBox">
-            {this.modalButtons(letPublish)}
+            {this.modalButtons(letPublish, areUrlsOkay, isContentComplete)}
           </div >    
         </div>
       </Modal>
     )
   }
 
-  modalMessage = (letPublish) => {
-    if (this.props.selectedContent.type && letPublish) {
+  checkContent = () => {
+    const itemType = this.props.selectedContent.type
+    let publishOkay = true
+    if (itemType === "web" || itemType === "video"){
+      publishOkay = this.props.selectedContent.url ? this.props.selectedContent.url.length : false
+      return publishOkay
+    }
+    if (itemType === "text" || itemType === "html"){
+      publishOkay = this.props.selectedContent.text ? this.props.selectedContent.text.length : false
+      return publishOkay
+    }
+    else return publishOkay
+  }
+
+  modalMessage = (letPublish, areUrlsOkay, isContentComplete) => {
+    if (this.props.selectedContent.type && letPublish && isContentComplete) {
       return (
         <div>
           { this.props.isPublished
@@ -45,7 +61,7 @@ export class CustomModal extends Component {
       )
     }
     else {
-      if (this.props.selectedContent.type && letPublish === false) {
+      if (this.props.selectedContent.type && letPublish === false && areUrlsOkay && isContentComplete) {
         return (
           <div>
             <p className="modalHeadline">Content must be assigned to at least one attendee in order to publish.</p>
@@ -62,9 +78,9 @@ export class CustomModal extends Component {
     }
   }
 
-  modalButtons = (letPublish) => {
+  modalButtons = (letPublish, areUrlsOkay, isContentComplete) => {
     const c = this.props.selectedContent
-    if (this.props.selectedContent.type && letPublish) {
+    if (this.props.selectedContent.type && letPublish && isContentComplete && areUrlsOkay) {
       return (
         <div>
           <button className="modalDone" onClick={this.props.closeModal}>Cancel</button>

@@ -16,7 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking } from 'react-native'
-import client, { Color } from '@doubledutch/rn-client'
+import client from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
 export class TextContent extends PureComponent {
@@ -71,7 +71,20 @@ export class HTMLContent extends PureComponent {
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
         <View style={s.htmlContainer}>
-        <WebView style={s.web} source={{html: text}} />
+          <WebView style={s.web}
+            ref={(ref) => { this.webview = ref; }} 
+            source={{html: text}}
+            onNavigationStateChange={(event) => {
+              let info = event.title
+              if (info) {
+                info = info.replace('data:text/html; charset=utf-8,', '')
+              }
+              if (event.title !== info) {
+                this.webview.stopLoading();
+                Linking.openURL(event.url);
+              }
+            }}
+          />
         </View>
       </View>
     )
@@ -101,7 +114,7 @@ export class SurveyContent extends PureComponent {
             </View>
           </View>
        </View>
-       <TouchableOpacity style={s.surveyButton} onPress={this.takeSurvey}>
+       <TouchableOpacity style={[s.surveyButton, {backgroundColor: this.props.primaryColor}]} onPress={this.takeSurvey}>
           <Text style={s.surveyButtonText}>{"Take the Survey"}</Text>
        </TouchableOpacity>
      </View>
@@ -145,7 +158,6 @@ const s = StyleSheet.create({
   },
 
   surveyButton: {
-    backgroundColor: client.primaryColor,
     flex: 1,
     padding: 12,
     marginLeft: 10,

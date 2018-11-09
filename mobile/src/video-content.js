@@ -4,6 +4,7 @@ import ReactNative, { StyleSheet, Text, TouchableHighlight, View, WebView, Image
 import client, { Color } from '@doubledutch/rn-client'
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube'
 import Video from 'react-native-video'
+import secrets from './secrets'
 
 export default class VideoContent extends Component {
   constructor(props) {
@@ -45,20 +46,20 @@ export default class VideoContent extends Component {
         style={{ flex: 1 }}
         onPress={() => {
         YouTubeStandaloneAndroid.playVideo({
-            apiKey: 'AIzaSyDO5L4KzrzG_2aiX6HWpTAR23xk5UcKTf8',
+            apiKey: secrets.youTube.apiKey,
             videoId: videoId,
-            autoplay: true
+            autoplay: false
         })
         }}>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-              source={{ uri: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` }}
-              resizeMode='cover'
-              style={ s.video }
-              />
-              <View style={ s.playButton }>
-                  <Text style={ s.playButtonText }>▶</Text>
-              </View>
+            <Image
+            source={{ uri: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` }}
+            resizeMode='cover'
+            style={ s.video }
+            />
+            <View style={ s.playButton }>
+              <Text style={ s.playButtonText }>▶</Text>
+            </View>
           </View>
         </TouchableHighlight>
       )
@@ -67,7 +68,7 @@ export default class VideoContent extends Component {
       return (
         <YouTube
           videoId={videoId}        // The YouTube video ID
-          play={true}             // control playback of video with true/false
+          play={false}             // control playback of video with true/false
           fullscreen={false}       // control whether the video should play in fullscreen or inline
           loop={false}             // control whether the video should loop when ended
           onReady={e => this.setState({ isReady: true })}
@@ -93,11 +94,9 @@ export default class VideoContent extends Component {
     return (
       <TouchableHighlight
       ref={(ref) => {
-        console.log(ref)
       }} style={{ flex: 1 }} onPress={() => this.videoRef.presentFullscreenPlayer()}>
         <Video
           ref={(ref) => {
-            console.log(ref)
           }}
           source={{ uri: url }}
           style={s.video}

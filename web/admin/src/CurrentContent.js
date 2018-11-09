@@ -168,7 +168,9 @@ export default class CurrentContent extends PureComponent {
   }
 
   csvIsPublished = (c, publishedContent) => {
-    if (c.type === "csv" && publishedContent[c.key]){
+    console.log(c, publishedContent)
+    const isCSV = c.type === "textCSV" || c.type === "webCSV" || c.type === "videoCSV" ? true : false
+    if (isCSV && publishedContent[c.key]){
       if (c.rawData && publishedContent[c.key].rawData) {
         if (c.rawData.length !== publishedContent[c.key].rawData.length){
           return false

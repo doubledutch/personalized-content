@@ -46,7 +46,7 @@ export default class AttendeeSelector extends PureComponent {
   searchAttendees = debounce(query => {
     this.lastSearch = query
     //The purpose of this line of code is to prevent queries with any special characters which will in any case return no results but also cause the search results to error out
-    if (!/[~`!#$%\^&*+=\()-\[\]\\';,/{}|\\":<>\?]/g.test(query)) {
+    if (/^[a-zA-Z0-9 _]*$/.test(query)) {
       this.props.getAttendees(query).then(attendees => {
         if (this.lastSearch === query) {
           this.setState({attendees: attendees.sort(sortUsers)})
@@ -64,11 +64,11 @@ export default class AttendeeSelector extends PureComponent {
   render() {
     const {search, view} = this.state
     const type = this.props.content.type
-    if (type === "csv") this.csvSelectAll()
+    if (type === "textCSV" || type === "webCSV" || type === "videoCSV") this.csvSelectAll()
     return (
       <div>
         <h2 className="contentTitle">Select Attendees</h2>
-        {type === "csv" ? <p>Unavailable for CSV import</p> : <div className="attendee-selector">
+        {type === "textCSV" || type === "webCSV" || type === "videoCSV"? <p>Unavailable for CSV import</p> : <div className="attendee-selector">
           <div className="attendee-selector__menu">
             <div className="attendee-selector__menu-header">{this.menuHeaderText()}</div>
             <div className={this.classNameForMenuItem('attendees')} onClick={this.viewAllAttendees}>All attendees</div>
