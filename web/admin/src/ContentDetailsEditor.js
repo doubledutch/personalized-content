@@ -58,7 +58,7 @@ export default class ContentDetailsEditor extends PureComponent {
               <h2 className="contentTitle">Choose file for import</h2>
               <CsvParse
                 className="csv-input"
-                keys={["email", "firstName", "lastName", "description"]}
+                keys={["email", "description"]}
                 onDataUploaded={this.handleImport}
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
@@ -86,7 +86,7 @@ export default class ContentDetailsEditor extends PureComponent {
               <h2 className="contentTitle">Choose file for import</h2>
               <CsvParse
                 className="csv-input"
-                keys={["email", "firstName", "lastName", "url"]}
+                keys={["email", "url"]}
                 onDataUploaded={this.handleImport}
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
@@ -114,7 +114,7 @@ export default class ContentDetailsEditor extends PureComponent {
             <h2 className="contentTitle">Choose file for import</h2>
             <CsvParse
               className="csv-input"
-              keys={["email", "firstName", "lastName", "url"]}
+              keys={["email", "url"]}
               onDataUploaded={this.handleImport}
               onError={this.props.handleError}
               render={onChange => <input type="file" onChange={onChange} />}
@@ -161,6 +161,7 @@ export default class ContentDetailsEditor extends PureComponent {
         if (currentUser) {
           let newUserData = {}
           const underlyingType = content.type.replace('CSV', '')
+          console.log(userInfo)
           if (underlyingType === 'text' ? userInfo.description.length : userInfo.url.length) {
             newUserData = {checkAll: false, order: content.order, title: content.title, type: underlyingType, attendeeIds: [currentUser.id]}
             if (underlyingType === 'text') {
