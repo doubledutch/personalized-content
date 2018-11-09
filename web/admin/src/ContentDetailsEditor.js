@@ -161,7 +161,6 @@ export default class ContentDetailsEditor extends PureComponent {
         if (currentUser) {
           let newUserData = {}
           const underlyingType = content.type.replace('CSV', '')
-          console.log(userInfo)
           if (underlyingType === 'text' ? userInfo.description.length : userInfo.url.length) {
             newUserData = {checkAll: false, order: content.order, title: content.title, type: underlyingType, attendeeIds: [currentUser.id]}
             if (underlyingType === 'text') {
