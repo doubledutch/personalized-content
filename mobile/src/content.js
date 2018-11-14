@@ -72,12 +72,14 @@ export class HTMLContent extends PureComponent {
      }
   }
   render() {
-
+    const htmlContainerLarge = {
+      height: Dimensions.get('window').height - 150
+    }
     const {title, text} = this.props
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
-        <View style={this.state.isExpand ? s.htmlContainerLarge : s.htmlContainer}>
+        <View style={this.state.isExpand ? htmlContainerLarge : s.htmlContainer}>
           <WebView style={s.web}
             ref={(ref) => { this.webview = ref; }} 
             source={{html: text}}
@@ -226,9 +228,6 @@ const s = StyleSheet.create({
   },
   htmlContainer: {
     height: 200
-  },
-  htmlContainerLarge: {
-    height: Dimensions.get('window').height - 150
   },
   webContainer: {
     height: 300
