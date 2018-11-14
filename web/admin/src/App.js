@@ -109,8 +109,8 @@ class App extends PureComponent {
           <div>
             <Route exact path="/" render={({history}) => (
               <div>
-                <h1 className="pageTitle">Custom Content</h1>
-                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Content</button>
+                <h1 className="pageTitle">My Info</h1>
+                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Card</button>
                 <CurrentContent
                   content={searchContent}
                   publishedContent={publishedContent}
@@ -147,6 +147,8 @@ class App extends PureComponent {
                 <ContentEditor
                   content={editingContent}
                   getAttendees={this.getAttendees}
+                  allUsers={this.state.allUsers}
+                  handleImport={this.handleImport}
                   groups={groups}
                   tiers={tiers}
                   surveys={surveys}
@@ -210,7 +212,6 @@ class App extends PureComponent {
       }
       return Promise.resolve()
     })
-
     // Publish the order changes only
     Promise.all(updates).then(() => this.doPublish({} /* no content updated */))
   }
@@ -265,30 +266,55 @@ class App extends PureComponent {
     this.doPublish(content)
   }
 
-  doPublish = content => {
+  doPublish = origContent => {
+
     // 1. Remove all derived copies of all content
     this.publicContentRef().remove()
     this.usersRef().remove()
     this.tiersRef().remove()
 
     // 2. Create derived copies from `publishedContent`
+    const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
+    let csvData = []
+    //check if new object is for csv
+    if (content.rawData) {
+      const publishData = content.rawData.slice()
+
+      //add key to data then remove so not published publically
+      csvData = this.publishCSVData(publishData, key)
+      delete content.rawData
+    }
+  
     const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
-    
+
+    //check for reordering thus content blank
+    if (Object.keys(content).length === 0) {
+      publishedContent.forEach(item => {
+        if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
+          let newOrderData = item.rawData
+          newOrderData.forEach(newItem => {
+            newItem.order = item.order
+          })
+          csvData = csvData.concat(newOrderData)
+        }
+      })
+    }
     // 2a. Public bucket gets copies of global content and those with attendee group filters.
     const publicContent = contentArrayToFirebaseObject(publishedContent
       .filter(c =>
         c.groupIds.length
-        || (!c.tierIds.length && !c.attendeeIds.length))
+        || (!c.tierIds.length && !c.attendeeIds.length && c.type !== "textCSV" || c.type !== "webCSV" || c.type !== "videoCSV"))
       .map(c => ({...c, tierIds: null, attendeeIds: null}))
     )
-    
     this.publicContentRef().set(publicContent)
 
     // 2b. Users bucket gets a copy for each attendee
-    this.usersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'attendeeIds'))
+    //add back user CSV data
+    const newContent = publishedContent.concat(csvData)
+    this.usersRef().set(getDerivedCopiesGroupedBy(newContent, 'attendeeIds'))
 
     // 2c. Tiers bucket gets a copy for each tier
     this.tiersRef().set(getDerivedCopiesGroupedBy(publishedContent, 'tierIds'))
@@ -299,6 +325,14 @@ class App extends PureComponent {
     // 4. Update published timestamp
     this.lastPublishedAtRef().set(moment().valueOf())
   }
+
+  publishCSVData = (data, key) => {
+    data.forEach(item => {
+      item.key = key
+    })
+    return data
+  }
+  
 
   publishedContentRef = () => this.props.fbc.database.private.adminRef('content')
   pendingContentRef = () => this.props.fbc.database.private.adminRef('pendingContent')

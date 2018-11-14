@@ -27,11 +27,17 @@ export default class ContentEditor extends PureComponent {
     super()
   }
   render() {
-    const {content, getAttendees, groups, onDelete, onUpdate, surveys, tiers} = this.props
+    const {content, getAttendees, groups, onDelete, onUpdate, surveys, tiers, handleImport} = this.props
     return (
       <div>
         <div>
-          <button className="button-big red" onClick={onDelete}>Delete</button>
+        </div>
+        <div className="content-editor__content">
+          <div className="editorBox">
+            <ContentButtons content={content} onUpdate={onUpdate}/>
+            <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
+          </div>
+          <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} handleImport={handleImport} allUsers={this.props.allUsers}/>
         </div>
         <AttendeeSelector
           content={content}
@@ -41,14 +47,8 @@ export default class ContentEditor extends PureComponent {
           groups={groups}
           tiers={tiers}
         />
-        <div className="content-editor__content">
-          <div className="editorBox">
-            <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
-          </div>
-          <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} />
-          <Link to="/" className="button-big">Done</Link>
-        </div>
+        <button className="button-big red" onClick={onDelete}>Delete</button>
+        <Link to="/" className="button-big">Done</Link>
       </div>
     )
   }

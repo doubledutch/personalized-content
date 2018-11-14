@@ -7,10 +7,10 @@ export class CustomModal extends Component {
   render() {
     const areUrlsOkay = this.props.selectedContent.type !== 'web' || !!this.props.selectedContent.url
     const isContentComplete = this.checkContent()
+    const isCSV = this.props.selectedContent.type === "textCSV" || this.props.selectedContent.type === "webCSV" || this.props.selectedContent.type === "videoCSV" ? true : false
     const letPublish = (this.props.selectedContent)
-      ? areUrlsOkay && (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
+      ? areUrlsOkay && (isCSV && this.props.selectedContent.rawData) || (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
       : false
-    
     return(
       <Modal
       ariaHideApp={false}
