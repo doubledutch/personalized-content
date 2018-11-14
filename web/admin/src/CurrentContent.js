@@ -143,7 +143,6 @@ export default class CurrentContent extends PureComponent {
       return (
         <ul className="current-content__list">
           { content.map(c => {
-         
             const isPublished = areEqual(c, publishedContent[c.key]) || this.csvIsPublished(c, publishedContent)
             const previousPublish = publishedContent[c.key]
             return (

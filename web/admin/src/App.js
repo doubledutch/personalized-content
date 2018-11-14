@@ -266,7 +266,7 @@ class App extends PureComponent {
     this.doPublish(content)
   }
 
-  doPublish = content => {
+  doPublish = origContent => {
 
     // 1. Remove all derived copies of all content
     this.publicContentRef().remove()
@@ -274,9 +274,9 @@ class App extends PureComponent {
     this.tiersRef().remove()
 
     // 2. Create derived copies from `publishedContent`
+    const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
     let csvData = []
-
     //check if new object is for csv
     if (content.rawData) {
       const publishData = content.rawData.slice()
@@ -294,7 +294,7 @@ class App extends PureComponent {
     if (Object.keys(content).length === 0) {
       publishedContent.forEach(item => {
         if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
-          let newOrderData = item.rawData.slice()
+          let newOrderData = item.rawData
           newOrderData.forEach(newItem => {
             newItem.order = item.order
           })
