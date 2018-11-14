@@ -12,7 +12,6 @@ export class CustomModal extends Component {
     const letPublish = (this.props.selectedContent)
       ? areUrlsOkay && (isCSV && this.props.selectedContent.rawData) || (this.props.selectedContent.checkAll || this.props.selectedContent.attendeeIds.length > 0 || this.props.selectedContent.groupIds.length > 0 || this.props.selectedContent.tierIds.length > 0)
       : false
-    
     return(
       <Modal
       ariaHideApp={false}

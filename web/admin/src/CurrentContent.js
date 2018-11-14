@@ -144,7 +144,6 @@ export default class CurrentContent extends PureComponent {
       return (
         <ul className="current-content__list">
           { content.map(c => {
-         
             const isPublished = areEqual(c, publishedContent[c.key]) || this.csvIsPublished(c, publishedContent)
             const previousPublish = publishedContent[c.key]
             return (
@@ -267,9 +266,12 @@ export default class CurrentContent extends PureComponent {
 function iconFor(c) {
   switch (c.type) {
     case 'survey': return <img className="current-content__icon" src={PageIcon} alt="survey"/>
+    case 'textCSV':
     case 'text': return <img className="current-content__icon" src={TextIcon} alt="text"/>
     case 'html': return <img className="current-content__icon-html" src={HTMLIcon} alt="html"/>
+    case 'webCSV':
     case 'web': return <img className="current-content__icon" src={WebIcon} alt="web"/>
+    case 'videoCSV':
     case 'video': return <img className="current-content__icon" src={VideoIcon} alt="video"/>
     default: return <div className="current-content__icon" alt="blank"/>
   }

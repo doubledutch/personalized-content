@@ -58,7 +58,7 @@ export default class ContentDetailsEditor extends PureComponent {
               <h2 className="contentTitle">{t("chooseFile")}</h2>
               <CsvParse
                 className="csv-input"
-                keys={["email", "firstName", "lastName", "description"]}
+                keys={["email", "description"]}
                 onDataUploaded={this.handleImport}
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
@@ -86,7 +86,7 @@ export default class ContentDetailsEditor extends PureComponent {
               <h2 className="contentTitle">{t("chooseFile")}</h2>
               <CsvParse
                 className="csv-input"
-                keys={["email", "firstName", "lastName", "url"]}
+                keys={["email", "url"]}
                 onDataUploaded={this.handleImport}
                 onError={this.props.handleError}
                 render={onChange => <input type="file" onChange={onChange} />}
@@ -114,7 +114,7 @@ export default class ContentDetailsEditor extends PureComponent {
             <h2 className="contentTitle">{t("chooseFile")}</h2>
             <CsvParse
               className="csv-input"
-              keys={["email", "firstName", "lastName", "url"]}
+              keys={["email", "url"]}
               onDataUploaded={this.handleImport}
               onError={this.props.handleError}
               render={onChange => <input type="file" onChange={onChange} />}
