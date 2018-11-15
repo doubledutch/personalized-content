@@ -64,7 +64,8 @@ export default class ContentDetailsEditor extends PureComponent {
                 render={onChange => <input type="file" onChange={onChange} />}
               />
               {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
-              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
+              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {successfulImport: this.state.successfulImport, totalImport: this.state.totalImport})}</h2>}
+              {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
           </div>
           : <div className="homeBox">
             <h2 className="contentTitle">{t("content")}</h2>
@@ -92,7 +93,8 @@ export default class ContentDetailsEditor extends PureComponent {
                 render={onChange => <input type="file" onChange={onChange} />}
               />
               {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
-              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
+              {this.state.totalImport > 0 && <h2 className="successText">{t("success", {successfulImport: this.state.successfulImport, totalImport: this.state.totalImport})}</h2>}
+              {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
           </div>
           : <div className="homeBox">
             <h2 className="contentTitle">{t("content")}</h2>
@@ -120,7 +122,8 @@ export default class ContentDetailsEditor extends PureComponent {
               render={onChange => <input type="file" onChange={onChange} />}
             />
             {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
-            {this.state.totalImport > 0 && <h2 className="successText">{t("success", {succesfulImport: this.state.succesfulImport, totalImport: this.state.totalImport})}</h2>}
+            {this.state.totalImport > 0 && <h2 className="successText">{t("success", {successfulImport: this.state.successfulImport, totalImport: this.state.totalImport})}</h2>}
+            {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
           </div>
           : <div className="homeBox">
             <h2 className="contentTitle">{t("youtube")}</h2>
@@ -172,7 +175,7 @@ export default class ContentDetailsEditor extends PureComponent {
           }
         }
       })
-      this.setState({succesfulImport: newData.length, totalImport: data.length})
+      this.setState({successfulImport: newData.length, totalImport: data.length})
       this.props.onUpdate("rawData", newData)
     }
     )

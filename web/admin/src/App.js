@@ -280,6 +280,7 @@ class App extends PureComponent {
     const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
     let csvData = []
+
     //check if new object is for csv
     if (content.rawData) {
       const publishData = content.rawData.slice()
@@ -288,7 +289,7 @@ class App extends PureComponent {
       csvData = this.publishCSVData(publishData, key)
       delete content.rawData
     }
-  
+
     const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
@@ -305,11 +306,22 @@ class App extends PureComponent {
         }
       })
     }
+
+    // //check if its a different item being changes to readd csv items
+    if (!content.type.includes("CSV")) {
+      publishedContent.forEach(item => {
+        if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
+          const data = this.publishCSVData(item.rawData, item.key)
+          csvData = csvData.concat(data)
+        }
+      })
+    }
+
     // 2a. Public bucket gets copies of global content and those with attendee group filters.
     const publicContent = contentArrayToFirebaseObject(publishedContent
       .filter(c =>
         c.groupIds.length
-        || (!c.tierIds.length && !c.attendeeIds.length && c.type !== "textCSV" || c.type !== "webCSV" || c.type !== "videoCSV"))
+        || (!c.tierIds.length && !c.attendeeIds.length && (c.type !== "textCSV" || c.type !== "webCSV" || c.type !== "videoCSV")))
       .map(c => ({...c, tierIds: null, attendeeIds: null}))
     )
     this.publicContentRef().set(publicContent)
