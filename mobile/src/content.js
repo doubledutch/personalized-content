@@ -16,7 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking, Dimensions } from 'react-native'
-import client from '@doubledutch/rn-client'
+import client, { translate as t } from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
 export class TextContent extends PureComponent {
@@ -32,7 +32,7 @@ export class TextContent extends PureComponent {
             ? <View>
                 <Text style={[s.textText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
                 <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
-                  <Text style={s.textShowMore}>{showMore ? 'Show Less' : 'Show More'}</Text>
+                  <Text style={s.textShowMore}>{showMore ? t("showLess") : t("showMore")}</Text>
                 </TouchableOpacity>
               </View>
             : <Text style={s.textText}>{text}</Text>
@@ -56,7 +56,7 @@ export class WebContent extends PureComponent {
             <Text style={s.webFooterTitle} ellipsizeMode='tail' numberOfLines={2}>{title}</Text>
           </View>
           <TouchableOpacity onPress={()=>{Linking.openURL(url)}}>
-            <Text style={s.webFooterLink}>View Page</Text>
+            <Text style={s.webFooterLink}>{t("viewPage")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -72,12 +72,14 @@ export class HTMLContent extends PureComponent {
      }
   }
   render() {
-
+    const htmlContainerLarge = {
+      height: Dimensions.get('window').height - 150
+    }
     const {title, text} = this.props
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
-        <View style={this.state.isExpand ? s.htmlContainerLarge : s.htmlContainer}>
+        <View style={this.state.isExpand ? htmlContainerLarge : s.htmlContainer}>
           <WebView style={s.web}
             ref={(ref) => { this.webview = ref; }} 
             source={{html: text}}
@@ -111,7 +113,6 @@ export class HTMLContent extends PureComponent {
 export class SurveyContent extends PureComponent {
   render() {
     const {description, title} = this.props
-    const text = "This is sample text that needs to be replaced to a props for the survey description. This is to test the spacing among other design"
     return (
        <View style={s.container}>
         <View style={s.rowContainer}>
@@ -123,7 +124,7 @@ export class SurveyContent extends PureComponent {
                 ? <View>
                     <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? description : description.substring(0,showMoreTextLimit) + '...'}</Text>
                     <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
-                      <Text style={s.textShowMore}>{showMore ? 'Show Less' : 'Show More'}</Text>
+                      <Text style={s.textShowMore}>{showMore ? t("showLess") : t("showMore")}</Text>
                     </TouchableOpacity>
                   </View>
                 : <Text style={s.desText}>{description}</Text>
@@ -132,7 +133,7 @@ export class SurveyContent extends PureComponent {
           </View>
        </View>
        <TouchableOpacity style={[s.surveyButton, {backgroundColor: this.props.primaryColor}]} onPress={this.takeSurvey}>
-          <Text style={s.surveyButtonText}>{"Take the Survey"}</Text>
+          <Text style={s.surveyButtonText}>{t("takeSurvey")}</Text>
        </TouchableOpacity>
      </View>
     )
@@ -227,9 +228,6 @@ const s = StyleSheet.create({
   },
   htmlContainer: {
     height: 200
-  },
-  htmlContainerLarge: {
-    height: Dimensions.get('window').height - 150
   },
   webContainer: {
     height: 300

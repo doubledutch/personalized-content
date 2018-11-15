@@ -18,6 +18,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {translate as t} from '@doubledutch/admin-client'
 import PageIcon from './images/text-doc.svg'
 import WebIcon from './images/earth.svg'
 import TextIcon from './images/TextIcon.png'
@@ -56,9 +57,9 @@ export default class CurrentContent extends PureComponent {
           <div className="current-content">
             {this.renderModal()}
             <span className="content-bar">
-              <h2 className="contentTitle">Current Cards</h2>
-              <button className="button-small__white" onClick={this.cancelNow}>Cancel</button>
-              <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>Save Order</button>
+              <h2 className="contentTitle">{t("currentCards")}</h2>
+              <button className="button-small__white" onClick={this.cancelNow}>{t("cancel")}</button>
+              <button className="button-small__color" style={{marginLeft: 10}} onClick={this.saveNow}>{t("saveOrder")}</button>
               <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
             </span>
             <DragDropContext onDragEnd={this.props.onDragEnd}>
@@ -90,8 +91,8 @@ export default class CurrentContent extends PureComponent {
           <div className="current-content">
             {this.renderModal()}
             <span className="content-bar">
-              <h2 className="contentTitle">Current Cards</h2>
-              <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>Reorder Content</button>
+              <h2 className="contentTitle">{t("currentCards")}</h2>
+              <button className="button-small__white" disabled={!this.props.content.length} onClick={this.moveNow}><img src={ReorderIcon} className="reorder-content__move" alt={""}/>{t("reorder")}</button>
               <SearchBar disable={this.props.disable} updateList={this.props.updateList}/>
             </span>
             {this.renderBox(content, publishedContent)}
@@ -153,8 +154,8 @@ export default class CurrentContent extends PureComponent {
                 </Link>
                 {this.renderStatus(isPublished, previousPublish)}
                 { isPublished
-                  ? <button className="current-content__pub button-thin__borderless" onClick={this.confirmUnpublish(c)}>Unpublish</button>
-                  : <button className="current-content__pub button-thin__blue" onClick={this.confirmPublish(c)}>Publish</button> }
+                  ? <button className="current-content__pub button-thin__borderless" onClick={this.confirmUnpublish(c)}>{t("unpublish")}</button>
+                  : <button className="current-content__pub button-thin__blue" onClick={this.confirmPublish(c)}>{t("publish")}</button> }
               </li>
             )
           })}
@@ -193,10 +194,10 @@ export default class CurrentContent extends PureComponent {
   }
 
   renderStatus = (isPublished, previousPublish) => {
-    if (isPublished) return <span className="current-content__live">Live</span>
+    if (isPublished) return <span className="current-content__live">{t("live")}</span>
     else {
-      if (previousPublish) return <span className="current-content__changes">Unpublished Changes</span>
-      else return <span className="current-content__draft">Draft</span>
+      if (previousPublish) return <span className="current-content__changes">{t("unpublished")}</span>
+      else return <span className="current-content__draft">{t("draft")}</span>
     }
   }
 
@@ -204,17 +205,17 @@ export default class CurrentContent extends PureComponent {
     if (this.props.search){
       return (
         <div className="current-content__list-text">
-          <h1>Please try another search</h1>
-          <h2>No content matches that description</h2>
+          <h1>{t("searchHelp")}</h1>
+          <h2>{t("searchContent")}</h2>
         </div>
       )
     }
     else {
       return (
         <div className="current-content__list-text">
-          <h1>Curate your attendees&#39; experience with custom content</h1>
-          <h2>Click below to build your first piece of content</h2>
-          <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>Add New Card</button>
+          <h1>{t("currentMessage")}</h1>
+          <h2>{t("firstContent")}</h2>
+          <button className="button-big" onClick={() => this.props.addNewContent(this.props.history)}>{t("addNew")}</button>
         </div>
       )
     }

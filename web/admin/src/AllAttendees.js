@@ -15,6 +15,7 @@
  */
 
 import React, { PureComponent } from 'react'
+import {translate as t} from '@doubledutch/admin-client'
 import debounce from 'lodash.debounce'
 
 export default class AllAttendees extends PureComponent {
@@ -67,7 +68,7 @@ export default class AllAttendees extends PureComponent {
       return (
         <div className="all-attendees__table">
           <span className="content-bar">
-            <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>Hide Attendees</button>
+            <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>{t("hideAttendees")}</button>
             <div className="searchBar">
               <input type="text" placeholder="Search" value={search} onChange={this.onSearchChange}/>
             </div>
@@ -86,7 +87,7 @@ export default class AllAttendees extends PureComponent {
       return (
         <div className="all-attendees__table">
         <span className="content-bar">
-          <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>View Attendees</button>
+          <button className='contentTitle__button' disabled={this.props.disable} onClick={this.props.hideTable}>{t("viewAttendees")}</button>
         </span>
       </div>
       )
@@ -98,8 +99,8 @@ export default class AllAttendees extends PureComponent {
       if (this.state.search) {
         return (
           <div className="current-content__list-text">
-            <h1>Please try another search</h1>
-            <h2>No user matches that description</h2>
+            <h1>{t("searchHelp")}</h1>
+            <h2>{t("searchHelpDes")}</h2>
           </div>
         )
       }

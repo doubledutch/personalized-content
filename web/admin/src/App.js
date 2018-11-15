@@ -17,14 +17,17 @@
 import React, { PureComponent } from 'react'
 import './App.css'
 import moment from 'moment'
-import client from '@doubledutch/admin-client'
+import client, {translate as t, useStrings} from '@doubledutch/admin-client'
 import {provideFirebaseConnectorToReactComponent} from '@doubledutch/firebase-connector'
+import i18n from './i18n'
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
 import '@doubledutch/react-components/lib/base.css'
+
+useStrings(i18n)
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -102,7 +105,7 @@ class App extends PureComponent {
     const allContent = this.state.pendingContent.length > 0
     const published = Object.values(this.state.publishedContent).length > 0
     
-    if (lastPublishedAt === undefined) return <div>Loading...</div>
+    if (lastPublishedAt === undefined) return <div>{t("loading")}</div>
     return (
       <div className="app">
         <Router>
@@ -110,7 +113,7 @@ class App extends PureComponent {
             <Route exact path="/" render={({history}) => (
               <div>
                 <h1 className="pageTitle">My Info</h1>
-                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>Add New Card</button>
+                <button className="button-big" disabled={this.state.disable} onClick={() => this.addNewContent({history})}>{t("addNew")}</button>
                 <CurrentContent
                   content={searchContent}
                   publishedContent={publishedContent}
