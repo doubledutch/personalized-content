@@ -16,9 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
 import i18n from './i18n'
-import VideoContent from "./video-content"
 import client, { Avatar, TitleBar, translate as t, useStrings } from '@doubledutch/rn-client'
 import { provideFirebaseConnectorToReactComponent } from '@doubledutch/firebase-connector'
 import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'

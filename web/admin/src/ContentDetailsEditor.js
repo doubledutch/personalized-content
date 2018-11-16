@@ -326,16 +326,10 @@ export default class ContentDetailsEditor extends PureComponent {
           }
         }
       })
-<<<<<<< HEAD
       this.setState({successfulImport: newData.length, totalImport: data.length})
       this.props.onUpdate("rawData", newData)
     }
     )
-=======
-      this.setState({ succesfulImport: newData.length, totalImport: data.length })
-      this.props.onUpdate('rawData', newData)
-    })
->>>>>>> bc16d6884a78b6ac23015c4ce1842beb73f3d159
   }
 
   makeCSVTemplate = () => {

@@ -342,12 +342,8 @@ class App extends PureComponent {
     const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
     let csvData = []
-<<<<<<< HEAD
 
     //check if new object is for csv
-=======
-    // check if new object is for csv
->>>>>>> bc16d6884a78b6ac23015c4ce1842beb73f3d159
     if (content.rawData) {
       const publishData = content.rawData.slice()
 
@@ -355,17 +351,10 @@ class App extends PureComponent {
       csvData = this.publishCSVData(publishData, key)
       delete content.rawData
     }
-<<<<<<< HEAD
 
     const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
     .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
     .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
-=======
->>>>>>> bc16d6884a78b6ac23015c4ce1842beb73f3d159
-
-    const publishedContent = Object.keys({ ...this.state.publishedContent, [key]: content })
-      .map(k => (k === key ? content : { ...this.state.publishedContent[k], key: k }))
-      .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
 
     // check for reordering thus content blank
     if (Object.keys(content).length === 0) {
@@ -393,13 +382,6 @@ class App extends PureComponent {
     }
 
     // 2a. Public bucket gets copies of global content and those with attendee group filters.
-<<<<<<< HEAD
-    const publicContent = contentArrayToFirebaseObject(publishedContent
-      .filter(c =>
-        c.groupIds.length
-        || (!c.tierIds.length && !c.attendeeIds.length && (c.type !== "textCSV" || c.type !== "webCSV" || c.type !== "videoCSV")))
-      .map(c => ({...c, tierIds: null, attendeeIds: null}))
-=======
     const publicContent = contentArrayToFirebaseObject(
       publishedContent
         .filter(
@@ -410,7 +392,6 @@ class App extends PureComponent {
               c.type !== 'videoCSV'),
         )
         .map(c => ({ ...c, tierIds: null, attendeeIds: null })),
->>>>>>> bc16d6884a78b6ac23015c4ce1842beb73f3d159
     )
     this.publicContentRef().set(publicContent)
 
