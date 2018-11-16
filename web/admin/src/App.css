@@ -64,6 +64,10 @@ body {
   color: green;
 }
 
+.failText {
+  color: red;
+}
+
 .contentTitle__button {
   font-weight: 600;
   flex: 1;

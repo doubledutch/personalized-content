@@ -342,7 +342,8 @@ class App extends PureComponent {
     const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
     let csvData = []
-    // check if new object is for csv
+
+    //check if new object is for csv
     if (content.rawData) {
       const publishData = content.rawData.slice()
 
@@ -351,9 +352,9 @@ class App extends PureComponent {
       delete content.rawData
     }
 
-    const publishedContent = Object.keys({ ...this.state.publishedContent, [key]: content })
-      .map(k => (k === key ? content : { ...this.state.publishedContent[k], key: k }))
-      .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
+    const publishedContent = Object.keys({...this.state.publishedContent, [key]: content})
+    .map(k => k === key ? content : {...this.state.publishedContent[k], key: k})
+    .filter(x => Object.keys(x).length > 1) // Ignore key-only objects that are being unpublished
 
     // check for reordering thus content blank
     if (Object.keys(content).length === 0) {
@@ -367,6 +368,19 @@ class App extends PureComponent {
         }
       })
     }
+
+    // //check if its a different item being changes to readd csv items
+    if (content.type){
+      if (!content.type.includes("CSV")) {
+        publishedContent.forEach(item => {
+          if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
+            const data = this.publishCSVData(item.rawData, item.key)
+            csvData = csvData.concat(data)
+          }
+        })
+      }
+    }
+
     // 2a. Public bucket gets copies of global content and those with attendee group filters.
     const publicContent = contentArrayToFirebaseObject(
       publishedContent

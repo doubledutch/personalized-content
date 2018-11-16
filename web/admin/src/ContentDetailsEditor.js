@@ -109,6 +109,7 @@ export default class ContentDetailsEditor extends PureComponent {
                     })}
                   </h2>
                 )}
+                {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -173,6 +174,7 @@ export default class ContentDetailsEditor extends PureComponent {
                     })}
                   </h2>
                 )}
+                {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -270,6 +272,9 @@ export default class ContentDetailsEditor extends PureComponent {
               onUpdate={this.onUpdateSurvey}
               options={surveys}
             />
+            {content.rawData ? <CSVLink className="csvButton" data={content.rawData} filename={"questions.csv"}>{t("downloadUpload")}</CSVLink> : null}
+            {this.state.totalImport > 0 && <h2 className="successText">{t("success", {successfulImport: this.state.successfulImport, totalImport: this.state.totalImport})}</h2>}
+            {this.state.totalImport > 0 && this.state.successfulImport === 0 && <h2 className="failText">{t("fail")}</h2>}
           </div>
         )
       default:
@@ -321,9 +326,10 @@ export default class ContentDetailsEditor extends PureComponent {
           }
         }
       })
-      this.setState({ succesfulImport: newData.length, totalImport: data.length })
-      this.props.onUpdate('rawData', newData)
-    })
+      this.setState({successfulImport: newData.length, totalImport: data.length})
+      this.props.onUpdate("rawData", newData)
+    }
+    )
   }
 
   makeCSVTemplate = () => {
