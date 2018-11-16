@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,48 +15,67 @@
  */
 
 import React, { PureComponent } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, WebView, Image, Linking, Dimensions } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  WebView,
+  Image,
+  Linking,
+  Dimensions,
+} from 'react-native'
 import client, { translate as t } from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
 export class TextContent extends PureComponent {
   state = {}
+
   render() {
-    const {text, title} = this.props
-    const {showMore} = this.state
+    const { text, title } = this.props
+    const { showMore } = this.state
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
         <View>
-          { text && text.length > showMoreTextLimit
-            ? <View>
-                <Text style={[s.textText, showMore ? s.textTextShowMore : null]}>{showMore ? text : text.substring(0,showMoreTextLimit) + '...'}</Text>
-                <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
-                  <Text style={s.textShowMore}>{showMore ? t("showLess") : t("showMore")}</Text>
-                </TouchableOpacity>
-              </View>
-            : <Text style={s.textText}>{text}</Text>
-          }
+          {text && text.length > showMoreTextLimit ? (
+            <View>
+              <Text style={[s.textText, showMore ? s.textTextShowMore : null]}>
+                {showMore ? text : `${text.substring(0, showMoreTextLimit)}...`}
+              </Text>
+              <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
+                <Text style={s.textShowMore}>{showMore ? t('showLess') : t('showMore')}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <Text style={s.textText}>{text}</Text>
+          )}
         </View>
       </View>
     )
   }
 
-  toggleShowMore = () => this.setState(state => ({showMore: !state.showMore}))
+  toggleShowMore = () => this.setState(state => ({ showMore: !state.showMore }))
 }
 
 export class WebContent extends PureComponent {
   render() {
-    const {title, url} = this.props
+    const { title, url } = this.props
     return (
       <View style={[s.container, s.webContainer]}>
-        <WebView style={s.web} source={{uri: url}} />
+        <WebView style={s.web} source={{ uri: url }} />
         <View style={s.webFooter}>
-          <View  style={{flex: 1}}>
-            <Text style={s.webFooterTitle} ellipsizeMode='tail' numberOfLines={2}>{title}</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={s.webFooterTitle} ellipsizeMode="tail" numberOfLines={2}>
+              {title}
+            </Text>
           </View>
-          <TouchableOpacity onPress={()=>{Linking.openURL(url)}}>
-            <Text style={s.webFooterLink}>{t("viewPage")}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(url)
+            }}
+          >
+            <Text style={s.webFooterLink}>{t('viewPage')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -68,77 +87,95 @@ export class HTMLContent extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isExpand: false
-     }
+      isExpand: false,
+    }
   }
+
   render() {
     const htmlContainerLarge = {
-      height: Dimensions.get('window').height - 150
+      height: Dimensions.get('window').height - 150,
     }
-    const {title, text} = this.props
+    const { title, text } = this.props
     return (
       <View style={s.container}>
         <Text style={s.textTitle}>{title}</Text>
         <View style={this.state.isExpand ? htmlContainerLarge : s.htmlContainer}>
-          <WebView style={s.web}
-            ref={(ref) => { this.webview = ref; }} 
-            source={{html: text}}
-            onNavigationStateChange={(event) => {
+          <WebView
+            style={s.web}
+            ref={ref => {
+              this.webview = ref
+            }}
+            source={{ html: text }}
+            onNavigationStateChange={event => {
               let info = event.title
               if (info) {
                 info = info.replace('data:text/html; charset=utf-8,', '')
               }
               if (event.title !== info) {
-                this.webview.stopLoading();
-                Linking.openURL(event.url);
+                this.webview.stopLoading()
+                Linking.openURL(event.url)
               }
             }}
           />
           <View style={s.webFooter}>
-            <View  style={{flex: 1}}/>
+            <View style={{ flex: 1 }} />
             <TouchableOpacity onPress={this.expandCell}>
-              <Text style={s.webFooterLink}>{this.state.isExpand ? "Minimize Page" : "Expand Page"}</Text>
+              <Text style={s.webFooterLink}>
+                {this.state.isExpand ? 'Minimize Page' : 'Expand Page'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
     )
   }
+
   expandCell = () => {
     const current = this.state.isExpand
-    this.setState({isExpand: !current})
+    this.setState({ isExpand: !current })
   }
 }
 
 export class SurveyContent extends PureComponent {
   render() {
-    const {description, title} = this.props
+    const { description, title } = this.props
     return (
-       <View style={s.container}>
+      <View style={s.container}>
         <View style={s.rowContainer}>
-          <Image style={s.icon} source={{uri: "https://dml2n2dpleynv.cloudfront.net/extensions/personalized-content/survey_icon@2x.png"}}/>
+          <Image
+            style={s.icon}
+            source={{
+              uri:
+                'https://dml2n2dpleynv.cloudfront.net/extensions/personalized-content/survey_icon@2x.png',
+            }}
+          />
           <View style={s.textContainer}>
             <Text style={s.textTitleLeft}>{title}</Text>
             <View>
-              { description && description.length > showMoreTextLimit
-                ? <View>
-                    <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>{showMore ? description : description.substring(0,showMoreTextLimit) + '...'}</Text>
-                    <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
-                      <Text style={s.textShowMore}>{showMore ? t("showLess") : t("showMore")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                : <Text style={s.desText}>{description}</Text>
-              }
+              {description && description.length > showMoreTextLimit ? (
+                <View>
+                  <Text style={[s.desText, showMore ? s.textTextShowMore : null]}>
+                    {showMore ? description : `${description.substring(0, showMoreTextLimit)}...`}
+                  </Text>
+                  <TouchableOpacity style={s.textShowMoreContainer} onPress={this.toggleShowMore}>
+                    <Text style={s.textShowMore}>{showMore ? t('showLess') : t('showMore')}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <Text style={s.desText}>{description}</Text>
+              )}
             </View>
           </View>
-       </View>
-       <TouchableOpacity style={[s.surveyButton, {backgroundColor: this.props.primaryColor}]} onPress={this.takeSurvey}>
-          <Text style={s.surveyButtonText}>{t("takeSurvey")}</Text>
-       </TouchableOpacity>
-     </View>
+        </View>
+        <TouchableOpacity
+          style={[s.surveyButton, { backgroundColor: this.props.primaryColor }]}
+          onPress={this.takeSurvey}
+        >
+          <Text style={s.surveyButtonText}>{t('takeSurvey')}</Text>
+        </TouchableOpacity>
+      </View>
     )
   }
-  
 
   takeSurvey = () => client.openURL(`dd://survey/${this.props.surveyId}`)
 }
@@ -151,14 +188,14 @@ const s = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: lightGray,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   rowContainer: {
     flexDirection: 'row',
   },
   textContainer: {
     marginRight: 24,
-    paddingRight: 24
+    paddingRight: 24,
   },
   icon: {
     height: 40,
@@ -166,13 +203,13 @@ const s = StyleSheet.create({
     padding: 1,
     marginTop: 15,
     marginLeft: 24,
-    marginRight: 24
+    marginRight: 24,
   },
   surveyButtonText: {
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: "bold",
-    color: "white",
+    fontWeight: 'bold',
+    color: 'white',
   },
 
   surveyButton: {
@@ -186,23 +223,23 @@ const s = StyleSheet.create({
   },
   textTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: gray,
     marginTop: 15,
     marginBottom: 3,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   textText: {
     margin: 7,
-    color: gray
+    color: gray,
   },
   textTitleLeft: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: gray,
     marginTop: 15,
     marginBottom: 3,
-    marginRight: 24
+    marginRight: 24,
   },
   desText: {
     color: gray,
@@ -213,30 +250,30 @@ const s = StyleSheet.create({
     paddingLeft: 0,
   },
   textTextShowMore: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   textShowMoreContainer: {
     position: 'absolute',
     bottom: 0,
-    right: 5
+    right: 5,
   },
   textShowMore: {
     paddingLeft: 5,
     paddingTop: 5,
     color: '#2789c0',
-    backgroundColor: 'rgba(255,255,255,0.8)'
+    backgroundColor: 'rgba(255,255,255,0.8)',
   },
   htmlContainer: {
-    height: 200
+    height: 200,
   },
   webContainer: {
-    height: 300
+    height: 300,
   },
   webFooter: {
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   webFooterTitle: {
     marginLeft: 15,
@@ -245,7 +282,7 @@ const s = StyleSheet.create({
     fontWeight: 'bold',
     color: gray,
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   webFooterLink: {
     marginLeft: 5,
@@ -253,9 +290,9 @@ const s = StyleSheet.create({
     fontSize: 18,
     padding: 0,
     margin: 5,
-    color: gray
+    color: gray,
   },
   web: {
-    flex: 1
+    flex: 1,
   },
 })

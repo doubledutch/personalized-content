@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,18 +26,33 @@ export default class ContentEditor extends PureComponent {
   constructor(props) {
     super()
   }
+
   render() {
-    const {content, getAttendees, groups, onDelete, onUpdate, surveys, tiers, handleImport} = this.props
+    const {
+      content,
+      getAttendees,
+      groups,
+      onDelete,
+      onUpdate,
+      surveys,
+      tiers,
+      handleImport,
+    } = this.props
     return (
       <div>
-        <div>
-        </div>
+        <div />
         <div className="content-editor__content">
           <div className="editorBox">
-            <ContentButtons content={content} onUpdate={onUpdate}/>
-            <ContentPreview content={[content]} surveys={surveys} hidden={true}/>
+            <ContentButtons content={content} onUpdate={onUpdate} />
+            <ContentPreview content={[content]} surveys={surveys} hidden />
           </div>
-          <ContentDetailsEditor content={content} onUpdate={onUpdate} surveys={surveys} handleImport={handleImport} allUsers={this.props.allUsers}/>
+          <ContentDetailsEditor
+            content={content}
+            onUpdate={onUpdate}
+            surveys={surveys}
+            handleImport={handleImport}
+            allUsers={this.props.allUsers}
+          />
         </div>
         <AttendeeSelector
           content={content}
@@ -47,10 +62,13 @@ export default class ContentEditor extends PureComponent {
           groups={groups}
           tiers={tiers}
         />
-        <button className="button-big red" onClick={onDelete}>Delete</button>
-        <Link to="/" className="button-big">Done</Link>
+        <button className="button-big red" onClick={onDelete}>
+          Delete
+        </button>
+        <Link to="/" className="button-big">
+          Done
+        </Link>
       </div>
     )
   }
-
 }
