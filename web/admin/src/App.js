@@ -308,13 +308,15 @@ class App extends PureComponent {
     }
 
     // //check if its a different item being changes to readd csv items
-    if (!content.type.includes("CSV")) {
-      publishedContent.forEach(item => {
-        if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
-          const data = this.publishCSVData(item.rawData, item.key)
-          csvData = csvData.concat(data)
-        }
-      })
+    if (content.type){
+      if (!content.type.includes("CSV")) {
+        publishedContent.forEach(item => {
+          if (item.type === "textCSV" || item.type === "webCSV" || item.type === "videoCSV") {
+            const data = this.publishCSVData(item.rawData, item.key)
+            csvData = csvData.concat(data)
+          }
+        })
+      }
     }
 
     // 2a. Public bucket gets copies of global content and those with attendee group filters.
