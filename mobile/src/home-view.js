@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,93 +16,106 @@
 
 import React, { PureComponent } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { TextContent, WebContent, SurveyContent, HTMLContent} from './content'
-import VideoContent from "./video-content"
 import client, { Avatar, TitleBar, translate as t, useStrings } from '@doubledutch/rn-client'
-import {provideFirebaseConnectorToReactComponent} from '@doubledutch/firebase-connector'
+import { provideFirebaseConnectorToReactComponent } from '@doubledutch/firebase-connector'
+import { TextContent, WebContent, SurveyContent, HTMLContent } from './content'
+import VideoContent from './video-content'
 
 useStrings(i18n)
 
 class HomeView extends PureComponent {
   publicContentRef = () => this.props.fbc.database.public.adminRef('content')
+
   userRef = () => this.props.fbc.database.private.adminableUsersRef(this.state.currentUser.id)
+
   tierRef = () => this.props.fbc.database.private.tiersRef(this.state.currentUser.tierId)
 
   constructor(props) {
     super(props)
 
-    this.state = { }
+    this.state = {}
 
-    this.signin = props.fbc.signin()
-      .then(user => this.user = user)
-      // .then(() => client.getAttendee(client.currentUser.id))
+    this.signin = props.fbc.signin().then(user => (this.user = user))
+    // .then(() => client.getAttendee(client.currentUser.id))
 
     this.signin.catch(err => console.error(err))
-   
   }
 
   componentDidMount() {
-    const {fbc} = this.props
-    client.getPrimaryColor().then(primaryColor => this.setState({primaryColor}))
+    const { fbc } = this.props
+    client.getPrimaryColor().then(primaryColor => this.setState({ primaryColor }))
     client.getCurrentUser().then(currentUser => {
-      this.setState({currentUser})
+      this.setState({ currentUser })
       this.signin.then(() => {
         const setContent = (stateKey, filter) => data => {
           const content = data.val() || {}
-          const contentArray = Object.keys(content).map(key => Object.assign(content[key], {key}))
+          const contentArray = Object.keys(content).map(key => Object.assign(content[key], { key }))
           const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
-          this.setState({[stateKey]: filteredContentArray})
+          this.setState({ [stateKey]: filteredContentArray })
         }
-        
-        this.publicContentRef().on('value', setContent('groupContent', c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g))))
+
+        this.publicContentRef().on(
+          'value',
+          setContent(
+            'groupContent',
+            c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g)),
+          ),
+        )
         this.userRef().on('value', setContent('attendeeContent'))
         this.tierRef().on('value', setContent('tierContent'))
-
       })
     })
-
   }
 
   render() {
-    const {currentUser, primaryColor} = this.state
+    const { currentUser, primaryColor } = this.state
     if (!currentUser || !primaryColor) return null
 
     return (
       <View style={s.container}>
         <TitleBar title="My Info" client={client} signin={this.signin} />
         <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
-          { this.renderContent() }
+          {this.renderContent()}
         </ScrollView>
       </View>
     )
   }
 
   content = () => {
-    let {attendeeContent, groupContent, tierContent} = this.state
-    if (!attendeeContent && !groupContent && !tierContent) return null    
-    return unique(x => x.key,
-      (attendeeContent || [])
-      .concat(tierContent || [])
-      .concat(groupContent || [])
-    ).sort((a,b) => a.order - b.order)
+    const { attendeeContent, groupContent, tierContent } = this.state
+    if (!attendeeContent && !groupContent && !tierContent) return null
+    return unique(
+      x => x.key,
+      (attendeeContent || []).concat(tierContent || []).concat(groupContent || []),
+    ).sort((a, b) => a.order - b.order)
   }
 
   renderContent() {
     const content = this.content()
     if (!content) return <Text>Loading...</Text>
-    if (content.length === 0) return <Text style={s.helpText}>{t("noAssign")}</Text>
-    return content.map(c => <View style={s.contentWrapper} key={c.key}>{this.renderContentItem(c)}</View>)
-    return <Text>{content.length}</Text>    
+    if (content.length === 0) return <Text style={s.helpText}>{t('noAssign')}</Text>
+    return content.map(c => (
+      <View style={s.contentWrapper} key={c.key}>
+        {this.renderContentItem(c)}
+      </View>
+    ))
+    return <Text>{content.length}</Text>
   }
 
   renderContentItem(c) {
     switch (c.type) {
-      case 'text': return <TextContent {...c} />
-      case 'web': return <WebContent {...c} />
-      case 'survey': return <SurveyContent {...c} primaryColor={this.state.primaryColor} />
-      case 'html': return <HTMLContent {...c} />
-      case 'video': return <VideoContent {...c} />
-      default: return null
+      case 'text':
+        return <TextContent {...c} />
+      case 'web':
+        return <WebContent {...c} />
+      case 'survey':
+        return <SurveyContent {...c} primaryColor={this.state.primaryColor} />
+      case 'html':
+        return <HTMLContent {...c} />
+      case 'video':
+        return <VideoContent {...c} />
+      default:
+        return null
     }
   }
 }
@@ -117,7 +130,12 @@ function unique(identityFn, array) {
   })
 }
 
-export default provideFirebaseConnectorToReactComponent(client, 'personalizedcontent', (props, fbc) => <HomeView {...props} fbc={fbc} />, PureComponent)
+export default provideFirebaseConnectorToReactComponent(
+  client,
+  'personalizedcontent',
+  (props, fbc) => <HomeView {...props} fbc={fbc} />,
+  PureComponent,
+)
 
 const s = StyleSheet.create({
   container: {
@@ -127,14 +145,14 @@ const s = StyleSheet.create({
   scroll: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 7
+    paddingHorizontal: 7,
   },
   contentWrapper: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   helpText: {
     fontSize: 16,
     textAlign: 'center',
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 })
