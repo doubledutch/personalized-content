@@ -330,7 +330,7 @@ export default class ContentDetailsEditor extends PureComponent {
             newUserData = {
               checkAll: false,
               order: content.order,
-              title: content.title,
+              title: content.title || '',
               type: underlyingType,
               attendeeIds: [currentUser.id],
             }

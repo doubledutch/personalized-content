@@ -26,6 +26,12 @@ export default class ContentPreview extends PureComponent {
       backgroundImage: `url(${Background})`,
     }
 
+    console.log(content)
+
+    // let csvContent = content.filter(item => item.rawData)
+    // csvContent = csvContent.map(item => this.publishCSVData(item.rawData, item.key))
+    // const newContent = content.concat(csvContent)
+
     if (hidden) {
       if (content.length) {
         return (
@@ -48,6 +54,13 @@ export default class ContentPreview extends PureComponent {
     return null
   }
 
+  publishCSVData = (data, key) => {
+    data.forEach(item => {
+      item.key = key
+    })
+    return data
+  }
+
   renderText = () => {
     if (this.props.allUsers.length) {
       if (this.props.allContent) {
@@ -65,6 +78,7 @@ export default class ContentPreview extends PureComponent {
 
   editorFor = (c, i) => {
     switch (c.type) {
+      case 'textCSV':
       case 'text':
         return (
           <div className="textCell" key={i}>
@@ -74,6 +88,7 @@ export default class ContentPreview extends PureComponent {
             </p>
           </div>
         )
+      case 'webCSV':
       case 'web':
         return (
           <div className="webCell" key={i}>
@@ -101,6 +116,7 @@ export default class ContentPreview extends PureComponent {
             <button className="surveyButton">{t('takeSurvey')}</button>
           </div>
         )
+      case 'videoCSV':
       case 'video':
         return (
           <div className="webCell" key={i}>
@@ -108,15 +124,6 @@ export default class ContentPreview extends PureComponent {
             <div className="webFooter">
               <h2 className="webFooterTitle">{c.title}</h2>
             </div>
-          </div>
-        )
-      case 'csv':
-        return (
-          <div className="textCell" key={i}>
-            <h2 className="textCellTitle">{c.title}</h2>
-            <p className="textCellText" rows={5}>
-              {t('specific')}
-            </p>
           </div>
         )
       default:
