@@ -26,12 +26,6 @@ export default class ContentPreview extends PureComponent {
       backgroundImage: `url(${Background})`,
     }
 
-    console.log(content)
-
-    // let csvContent = content.filter(item => item.rawData)
-    // csvContent = csvContent.map(item => this.publishCSVData(item.rawData, item.key))
-    // const newContent = content.concat(csvContent)
-
     if (hidden) {
       if (content.length) {
         return (
@@ -54,9 +48,10 @@ export default class ContentPreview extends PureComponent {
     return null
   }
 
-  publishCSVData = (data, key) => {
+  publishCSVData = (data, key, title) => {
     data.forEach(item => {
       item.key = key
+      item.title = title
     })
     return data
   }

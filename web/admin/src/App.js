@@ -349,7 +349,8 @@ class App extends PureComponent {
       const publishData = content.rawData.slice()
 
       // add key to data then remove so not published publically
-      csvData = this.publishCSVData(publishData, key)
+
+      csvData = this.publishCSVData(publishData, key, content.title)
       delete content.rawData
     }
 
@@ -374,7 +375,7 @@ class App extends PureComponent {
     publishedContent.forEach(item => {
       if (item.key !== content.key) {
         if (item.type === 'textCSV' || item.type === 'webCSV' || item.type === 'videoCSV') {
-          const data = this.publishCSVData(item.rawData, item.key)
+          const data = this.publishCSVData(item.rawData, item.key, item.title)
           csvData = csvData.concat(data)
         }
       }
@@ -410,9 +411,10 @@ class App extends PureComponent {
     this.lastPublishedAtRef().set(moment().valueOf())
   }
 
-  publishCSVData = (data, key) => {
+  publishCSVData = (data, key, title) => {
     data.forEach(item => {
       item.key = key
+      item.title = title || ''
     })
     return data
   }
