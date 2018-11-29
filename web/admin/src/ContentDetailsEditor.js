@@ -246,6 +246,9 @@ export default class ContentDetailsEditor extends PureComponent {
                     })}
                   </h2>
                 )}
+                {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
+                  <h2 className="failText">{t('fail')}</h2>
+                )}
               </div>
             ) : (
               <div className="homeBox">
@@ -281,23 +284,14 @@ export default class ContentDetailsEditor extends PureComponent {
                 {t('downloadUpload')}
               </CSVLink>
             ) : null}
-            {this.state.totalImport > 0 && (
-              <h2 className="successText">
-                {t('success', {
-                  successfulImport: this.state.successfulImport,
-                  totalImport: this.state.totalImport,
-                })}
-              </h2>
-            )}
-            {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
-              <h2 className="failText">{t('fail')}</h2>
-            )}
           </div>
         )
       default:
         return <div />
     }
   }
+
+  videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)
 
   isCSV = () => ['textCSV', 'webCSV', 'videoCSV'].includes(this.props.content.type)
 
@@ -339,7 +333,11 @@ export default class ContentDetailsEditor extends PureComponent {
             } else {
               newUserData.url = userInfo.url
             }
-            newData.push(newUserData)
+            if (newUserData.url ? this.videoValidation(newUserData.url) : true) {
+              console.log(newUserData.url)
+              console.log(this.videoValidation(newUserData.url))
+              newData.push(newUserData)
+            }
           }
         }
       })
