@@ -27,10 +27,18 @@ export default class ContentDetailsEditor extends PureComponent {
     this.state = {
       successfulImport: 0,
       totalImport: 0,
+      fileError: false,
+    }
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.content.type !== nextProps.content.type) {
+      this.setState({ sucessfulImport: 0, totalImport: 0, fileError: false })
     }
   }
 
   render() {
+    console.log(this.state.fileError)
     const { content, onUpdate, surveys } = this.props
     switch (content.type) {
       case 'html':
@@ -112,6 +120,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
                   <h2 className="failText">{t('fail')}</h2>
                 )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -179,6 +188,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
                   <h2 className="failText">{t('fail')}</h2>
                 )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -249,6 +259,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
                   <h2 className="failText">{t('fail')}</h2>
                 )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -334,16 +345,23 @@ export default class ContentDetailsEditor extends PureComponent {
               newUserData.url = userInfo.url
             }
             if (newUserData.url ? this.videoValidation(newUserData.url) : true) {
-              console.log(newUserData.url)
-              console.log(this.videoValidation(newUserData.url))
               newData.push(newUserData)
             }
           }
         }
       })
-      this.setState({ successfulImport: newData.length, totalImport: data.length })
+      const fileState = !data.length
+      this.setState({
+        successfulImport: newData.length,
+        totalImport: data.length,
+        fileError: fileState,
+      })
       this.props.onUpdate('rawData', newData)
     })
+    // if (data.length === 0) {
+    //   console.log('hello')
+    //   this.setState({ fileError: true })
+    // }
   }
 
   makeCSVTemplate = () => {
