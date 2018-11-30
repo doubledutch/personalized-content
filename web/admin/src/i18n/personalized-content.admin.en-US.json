@@ -21,6 +21,7 @@
   "downloadUpload": "Download Uploaded Content",
   "success": "Successfully imported ${successfulImport} of ${totalImport}",
   "fail": "*Please check that your file was formatted correctly and use the template for guidance",
+  "failError": "*This file cannot successfully be imported",
   "youtube": "Add a Youtube Link",
   "survey": "Choose Survey",
   "videoFormat": "Your video must follow the placeholder format",
