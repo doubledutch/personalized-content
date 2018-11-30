@@ -301,7 +301,6 @@ export default class ContentDetailsEditor extends PureComponent {
     }
   }
 
-
   videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)
 
   isCSV = () => ['textCSV', 'webCSV', 'videoCSV'].includes(this.props.content.type)
@@ -319,14 +318,13 @@ export default class ContentDetailsEditor extends PureComponent {
   handleImport = data => {
     const { content } = this.props
     const newData = []
-    const attendeeImportPromises = data.map(cell => {
-      console.log(cell.email)
-      if (isValid(cell.email) && cell.email.length) {
-        return client
-          .getAttendees(cell.email)
-          .then(attendees => ({ ...attendees[0] }))
-          .catch(err => 'error')
-      }
+    const attendeeImportPromises = data
+    .filter(cell => isValid(cell.email) && isValidASC(cell.email))
+    .map(cell => {
+      return client
+        .getAttendees(cell.email)
+        .then(attendees => ({ ...attendees[0] }))
+        .catch(err => 'error')
     })
     Promise.all(attendeeImportPromises).then(attendees => {
       data.forEach(userInfo => {
@@ -382,6 +380,10 @@ export default class ContentDetailsEditor extends PureComponent {
       onUpdate('description', survey.description)
     }
   }
+}
+
+function isValidASC(str){
+  return !/^[\x00-\x7F]*$/.test(str)  
 }
 
 function isValid(str){
