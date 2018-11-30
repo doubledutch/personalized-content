@@ -302,6 +302,7 @@ export default class ContentDetailsEditor extends PureComponent {
     }
   }
 
+
   videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)
 
   isCSV = () => ['textCSV', 'webCSV', 'videoCSV'].includes(this.props.content.type)
@@ -319,15 +320,17 @@ export default class ContentDetailsEditor extends PureComponent {
   handleImport = data => {
     const { content } = this.props
     const newData = []
-    const attendeeImportPromises = data.map(cell =>
-      client
-        .getAttendees(cell.email)
-        .then(attendees => ({ ...attendees[0] }))
-        .catch(err => 'error'),
-    )
+    const attendeeImportPromises = data.map(cell => {
+      if (isValid(cell.email)) {
+        return client
+          .getAttendees(cell.email)
+          .then(attendees => ({ ...attendees[0] }))
+          .catch(err => 'error')
+      }
+    })
     Promise.all(attendeeImportPromises).then(attendees => {
       data.forEach(userInfo => {
-        const currentUser = attendees.find(user => user.email === userInfo.email)
+        const currentUser = attendees.find(user => user ? user.email === userInfo.email : undefined)
         if (currentUser) {
           let newUserData = {}
           const underlyingType = content.type.replace('CSV', '')
@@ -358,10 +361,6 @@ export default class ContentDetailsEditor extends PureComponent {
       })
       this.props.onUpdate('rawData', newData)
     })
-    // if (data.length === 0) {
-    //   console.log('hello')
-    //   this.setState({ fileError: true })
-    // }
   }
 
   makeCSVTemplate = () => {
@@ -384,3 +383,7 @@ export default class ContentDetailsEditor extends PureComponent {
     }
   }
 }
+
+function isValid(str){
+  return !/[~`!#$%\^&*+=�\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+ }
