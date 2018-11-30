@@ -383,7 +383,7 @@ export default class ContentDetailsEditor extends PureComponent {
 }
 
 function isValidASC(str){
-  return !/^[\x00-\x7F]*$/.test(str)  
+  return !/^[\x00-\x20]*$/.test(str)  
 }
 
 function isValid(str){

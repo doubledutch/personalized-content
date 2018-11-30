@@ -48,10 +48,9 @@ export default class ContentPreview extends PureComponent {
     return null
   }
 
-  publishCSVData = (data, key, title) => {
+  publishCSVData = (data, key) => {
     data.forEach(item => {
       item.key = key
-      item.title = title
     })
     return data
   }
