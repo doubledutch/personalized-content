@@ -38,7 +38,6 @@ export default class ContentDetailsEditor extends PureComponent {
   }
 
   render() {
-    console.log(this.state.fileError)
     const { content, onUpdate, surveys } = this.props
     switch (content.type) {
       case 'html':
@@ -321,7 +320,8 @@ export default class ContentDetailsEditor extends PureComponent {
     const { content } = this.props
     const newData = []
     const attendeeImportPromises = data.map(cell => {
-      if (isValid(cell.email)) {
+      console.log(cell.email)
+      if (isValid(cell.email) && cell.email.length) {
         return client
           .getAttendees(cell.email)
           .then(attendees => ({ ...attendees[0] }))
