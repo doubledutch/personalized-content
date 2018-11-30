@@ -388,4 +388,4 @@ function isValidASC(str){
 
 function isValid(str){
   return !/[~`!#$%\^&*+=�\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
- }
+}
