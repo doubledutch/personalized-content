@@ -27,6 +27,13 @@ export default class ContentDetailsEditor extends PureComponent {
     this.state = {
       successfulImport: 0,
       totalImport: 0,
+      fileError: false,
+    }
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.content.type !== nextProps.content.type) {
+      this.setState({ sucessfulImport: 0, totalImport: 0, fileError: false })
     }
   }
 
@@ -112,6 +119,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
                   <h2 className="failText">{t('fail')}</h2>
                 )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -179,6 +187,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
                   <h2 className="failText">{t('fail')}</h2>
                 )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -246,6 +255,10 @@ export default class ContentDetailsEditor extends PureComponent {
                     })}
                   </h2>
                 )}
+                {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
+                  <h2 className="failText">{t('fail')}</h2>
+                )}
+                {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
               <div className="homeBox">
@@ -281,23 +294,14 @@ export default class ContentDetailsEditor extends PureComponent {
                 {t('downloadUpload')}
               </CSVLink>
             ) : null}
-            {this.state.totalImport > 0 && (
-              <h2 className="successText">
-                {t('success', {
-                  successfulImport: this.state.successfulImport,
-                  totalImport: this.state.totalImport,
-                })}
-              </h2>
-            )}
-            {this.state.totalImport > 0 && this.state.successfulImport === 0 && (
-              <h2 className="failText">{t('fail')}</h2>
-            )}
           </div>
         )
       default:
         return <div />
     }
   }
+
+  videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)
 
   isCSV = () => ['textCSV', 'webCSV', 'videoCSV'].includes(this.props.content.type)
 
@@ -314,15 +318,17 @@ export default class ContentDetailsEditor extends PureComponent {
   handleImport = data => {
     const { content } = this.props
     const newData = []
-    const attendeeImportPromises = data.map(cell =>
-      client
+    const attendeeImportPromises = data
+    .filter(cell => isValid(cell.email) && isValidASC(cell.email))
+    .map(cell => {
+      return client
         .getAttendees(cell.email)
         .then(attendees => ({ ...attendees[0] }))
-        .catch(err => 'error'),
-    )
+        .catch(err => 'error')
+    })
     Promise.all(attendeeImportPromises).then(attendees => {
       data.forEach(userInfo => {
-        const currentUser = attendees.find(user => user.email === userInfo.email)
+        const currentUser = attendees.find(user => user ? user.email === userInfo.email : undefined)
         if (currentUser) {
           let newUserData = {}
           const underlyingType = content.type.replace('CSV', '')
@@ -339,11 +345,18 @@ export default class ContentDetailsEditor extends PureComponent {
             } else {
               newUserData.url = userInfo.url
             }
-            newData.push(newUserData)
+            if (newUserData.url ? this.videoValidation(newUserData.url) : true) {
+              newData.push(newUserData)
+            }
           }
         }
       })
-      this.setState({ successfulImport: newData.length, totalImport: data.length })
+      const fileState = !data.length
+      this.setState({
+        successfulImport: newData.length,
+        totalImport: data.length,
+        fileError: fileState,
+      })
       this.props.onUpdate('rawData', newData)
     })
   }
@@ -367,4 +380,12 @@ export default class ContentDetailsEditor extends PureComponent {
       onUpdate('description', survey.description)
     }
   }
+}
+
+function isValidASC(str){
+  return !/^[\x00-\x20]*$/.test(str)  
+}
+
+function isValid(str){
+  return !/[~`!#$%\^&*+=�\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
 }

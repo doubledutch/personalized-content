@@ -342,7 +342,6 @@ class App extends PureComponent {
     const content = Object.assign({}, origContent)
     const { key, ...contentToPublish } = content
     let csvData = []
-    console.log(content)
 
     // check if new object is for csv
     if (content.rawData) {
@@ -412,8 +411,8 @@ class App extends PureComponent {
   }
 
   publishCSVData = (data, key, title) => {
-    data.forEach(item => {
-      item.key = key
+    data.forEach((item, i) => {
+      item.key = key + i
       item.title = title || ''
     })
     return data
