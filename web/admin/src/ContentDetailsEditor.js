@@ -345,7 +345,7 @@ export default class ContentDetailsEditor extends PureComponent {
             } else {
               newUserData.url = userInfo.url
             }
-            if (newUserData.url ? this.videoValidation(newUserData.url) : true) {
+            if (newUserData.url && underlyingType === 'video' ? this.videoValidation(newUserData.url) : true) {
               newData.push(newUserData)
             }
           }
@@ -387,5 +387,5 @@ function isValidASC(str){
 }
 
 function isValid(str){
-  return !/[~`!#$%\^&*+=�\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+  return !/[~`!#$%\^&*=�\\[\]\\';,/{}|\\":<>\?]/g.test(str);
 }
