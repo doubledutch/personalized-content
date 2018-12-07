@@ -69,12 +69,13 @@ class HomeView extends PureComponent {
   }
 
   render() {
+    const { suggestedTitle } = this.props
     const { currentUser, primaryColor } = this.state
     if (!currentUser || !primaryColor) return null
 
     return (
       <View style={s.container}>
-        <TitleBar title="My Info" client={client} signin={this.signin} />
+        <TitleBar title={suggestedTitle || 'My Info'} client={client} signin={this.signin} />
         <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
           {this.renderContent()}
         </ScrollView>
