@@ -286,7 +286,7 @@ class App extends PureComponent {
     const { pendingContent } = this.state
     const ref = this.pendingContentRef().push({ order: pendingContent.length })
     history.push(`/content/${ref.key}`)
-    this.setState({ search: false })
+    this.setState({ search: false, searchContent: [] })
   }
 
   stopEditing = () => this.setState({ editingContentId: null })
@@ -317,7 +317,7 @@ class App extends PureComponent {
 
   hideTable = () => {
     const current = this.state.hidden
-    this.setState({ hidden: !current })
+    this.setState({ hidden: !current, userContent: [] })
   }
 
   disableButtons = () => {

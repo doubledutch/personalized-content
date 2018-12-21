@@ -33,7 +33,7 @@ export default class ContentDetailsEditor extends PureComponent {
 
   componentDidUpdate(nextProps) {
     if (this.props.content.type !== nextProps.content.type) {
-      this.setState({ sucessfulImport: 0, totalImport: 0, fileError: false })
+      this.setState({ successfulImport: 0, totalImport: 0, fileError: false })
     }
   }
 
@@ -319,21 +319,24 @@ export default class ContentDetailsEditor extends PureComponent {
     const { content } = this.props
     const newData = []
     const attendeeImportPromises = data
-    .filter(cell => isValid(cell.email) && isValidASC(cell.email))
-    .map(cell => {
-      return client
-        .getAttendees(cell.email)
-        .then(attendees => ({ ...attendees[0] }))
-        .catch(err => 'error')
-    })
+      .filter(cell => isValid(cell.email) && isValidASC(cell.email))
+      .map(cell =>
+        client
+          .getAttendees(cell.email)
+          .then(attendees => ({ ...attendees[0] }))
+          .catch(err => 'error'),
+      )
     Promise.all(attendeeImportPromises).then(attendees => {
       data.forEach(userInfo => {
-        const currentUser = attendees.find(user => user ? user.email === userInfo.email : undefined)
+        const currentUser = attendees.find(user =>
+          user ? user.email === userInfo.email : undefined,
+        )
         if (currentUser) {
           let newUserData = {}
           const underlyingType = content.type.replace('CSV', '')
           if (underlyingType === 'text' ? userInfo.description.length : userInfo.url.length) {
             newUserData = {
+              email: userInfo.email,
               checkAll: false,
               order: content.order,
               title: content.title || '',
@@ -345,7 +348,11 @@ export default class ContentDetailsEditor extends PureComponent {
             } else {
               newUserData.url = userInfo.url
             }
-            if (newUserData.url && underlyingType === 'video' ? this.videoValidation(newUserData.url) : true) {
+            if (
+              newUserData.url && underlyingType === 'video'
+                ? this.videoValidation(newUserData.url)
+                : true
+            ) {
               newData.push(newUserData)
             }
           }
@@ -382,10 +389,10 @@ export default class ContentDetailsEditor extends PureComponent {
   }
 }
 
-function isValidASC(str){
-  return !/^[\x00-\x20]*$/.test(str)  
+function isValidASC(str) {
+  return !/^[\x00-\x20]*$/.test(str)
 }
 
-function isValid(str){
-  return !/[~`!#$%\^&*=�\\[\]\\';,/{}|\\":<>\?]/g.test(str);
+function isValid(str) {
+  return !/[~`!#$%\^&*=�\\[\]\\';,/{}|\\":<>\?]/g.test(str)
 }
