@@ -322,7 +322,7 @@ class App extends PureComponent {
 
   disableButtons = () => {
     const current = this.state.disable
-    this.setState({ disable: !current })
+    this.setState({ disable: !current, search: false, searchContent: [] })
   }
 
   unpublish = content => this.doPublish({ key: content.key })

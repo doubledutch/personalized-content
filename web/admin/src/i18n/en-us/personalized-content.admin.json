@@ -22,7 +22,7 @@
   "success": "Successfully imported ${successfulImport} of ${totalImport}",
   "fail": "*Please check that your file was formatted correctly and use the template for guidance",
   "failError": "*This file cannot successfully be imported",
-  "youtube": "Add a Youtube Link",
+  "youtube": "Add a YouTube Link",
   "survey": "Choose Survey",
   "videoFormat": "Your video must follow the placeholder format",
   "urlHelp": "The URL must begin with 'https://' or 'http://'",
