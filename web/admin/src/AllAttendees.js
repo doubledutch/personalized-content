@@ -42,6 +42,7 @@ export default class AllAttendees extends PureComponent {
     }
     if (nextProps.hidden) {
       this.setState({ search: '' })
+      this.searchAttendees('')
     }
   }
 
