@@ -156,7 +156,11 @@ export default class CurrentContent extends PureComponent {
             const previousPublish = publishedContent[c.key]
             return (
               <li key={c.key}>
-                <Link to={`/content/${c.key}`} className="current-content__link">
+                <Link
+                  to={`/content/${c.key}`}
+                  className="current-content__link"
+                  onClick={() => this.props.updateList('')}
+                >
                   {iconFor(c)}
                   <p className="current-content__title">{titleFor(c)}</p>
                 </Link>
@@ -194,6 +198,9 @@ export default class CurrentContent extends PureComponent {
           return false
         }
       }
+      if (c.title !== publishedContent[c.key].title) {
+        return false
+      }
       let areSameArray = true
       for (const i in c.rawData) {
         if (publishedContent[c.key].rawData) {
@@ -209,7 +216,6 @@ export default class CurrentContent extends PureComponent {
 
   renderStatus = (isPublished, previousPublish) => {
     if (isPublished) return <span className="current-content__live">{t('live')}</span>
-
     if (previousPublish) return <span className="current-content__changes">{t('unpublished')}</span>
     return <span className="current-content__draft">{t('draft')}</span>
   }

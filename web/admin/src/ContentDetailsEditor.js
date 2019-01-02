@@ -364,7 +364,9 @@ export default class ContentDetailsEditor extends PureComponent {
         totalImport: data.length,
         fileError: fileState,
       })
-      this.props.onUpdate('rawData', newData)
+      if (newData.length) {
+        this.props.onUpdate('rawData', newData)
+      }
     })
   }
 
