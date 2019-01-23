@@ -51,6 +51,7 @@
   "publishContent": "Publish Content",
   "yes": "Yes",
   "no": "No",
-  "search": "Search"
-
+  "search": "Search",
+  "close": "Close",
+  "delete": "Delete"
 }

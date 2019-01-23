@@ -86,6 +86,10 @@ body {
   border-radius: 5px;
 }
 
+.isActiveTextBox {
+  height: 30px;
+}
+
 /* Customize the label (the container) */
 .radioContainer {
   width: 1px;
@@ -364,9 +368,7 @@ body {
 }
 
 .multiline-editor__box {
-  margin-top: 20px;
   border: 0px;
-  padding: 10px;
 }
 
 .editorBox__header {
@@ -558,6 +560,7 @@ button {
 .attendee-selector {
   display: flex;
   border: 1px solid #e2e2e2;
+  border-radius: 4px;
   height: 30em;
   background-color: white;
 }
@@ -854,7 +857,7 @@ button {
 }
 
 .content-editor__content {
-  margin: 3em 0 5em;
+  margin: 3em 0 0em;
 }
 
 .current-content {
@@ -889,6 +892,7 @@ button {
   padding: 0;
   height: 351px;
   border: 1px solid #e2e2e2;
+  border-radius: 4px;
   overflow-y: auto;
   background-color: #fbfbfb;
   overflow-x: hidden;
@@ -1012,10 +1016,10 @@ button {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  margin-top: 20px;
 }
 
 .content-buttons__box {
-  margin-top: 20px;
 }
 
 .searchBar input {
@@ -1135,6 +1139,7 @@ button {
   background-color: #FFFFFF;
   font-size: 1.25em;
   border: 1px solid #AEAEAE;
+  border-radius: 4px;
   padding: 10px 10px;
   align-self: flex-start;
   display: flex;

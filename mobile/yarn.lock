@@ -711,9 +711,9 @@
     to-fast-properties "^2.0.0"
 
 "@doubledutch/base-client@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-4.2.0.tgz#3a9c96cd7f3d006692c78c39f2e9da21bf3cffd0"
-  integrity sha512-KU49gdwkA97axemiNojJFiGm8zxRVk0wHuimn8zx0xfGKH0wUIpoGEJhdcBCeflc21wAtPPheVZrbjtBLuHWiQ==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@doubledutch/base-client/-/base-client-4.2.1.tgz#8d1558d90c36600a018f5ac7ec95808cdefe9d80"
+  integrity sha512-dYuVbRtIlkWgRlommnKDOEVSp0Z+gkcO12J40NRZXTzljdl65eSOBG5vfAHSYw/LK1rcAx/x6x40L714vPHczA==
 
 "@doubledutch/firebase-connector@^4.1.0":
   version "4.1.0"

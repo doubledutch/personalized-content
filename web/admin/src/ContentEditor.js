@@ -16,7 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-
+import { translate as t } from '@doubledutch/admin-client'
 import AttendeeSelector from './AttendeeSelector'
 import ContentDetailsEditor from './ContentDetailsEditor'
 import ContentButtons from './ContentButtons'
@@ -25,30 +25,31 @@ import ContentPreview from './ContentPreview'
 export default class ContentEditor extends PureComponent {
   constructor(props) {
     super()
+    this.state = {
+      showSaving: false,
+    }
+  }
+
+  onUpdate = (contentItem, prop, value) => {
+    this.props.onUpdate(contentItem, prop, value)
+    this.setState({ showSaving: true })
+    setTimeout(() => this.setState({ showSaving: false }), 1000)
   }
 
   render() {
-    const {
-      content,
-      getAttendees,
-      groups,
-      onDelete,
-      onUpdate,
-      surveys,
-      tiers,
-      handleImport,
-    } = this.props
+    const { content, getAttendees, groups, onDelete, surveys, tiers, handleImport } = this.props
     return (
       <div>
         <div />
         <div className="content-editor__content">
+          <div className="isActiveTextBox">{this.state.showSaving && <p>Saving...</p>}</div>
           <div className="editorBox">
-            <ContentButtons content={content} onUpdate={onUpdate} />
+            <ContentButtons content={content} onUpdate={this.onUpdate} />
             <ContentPreview content={[content]} surveys={surveys} hidden />
           </div>
           <ContentDetailsEditor
             content={content}
-            onUpdate={onUpdate}
+            onUpdate={this.onUpdate}
             surveys={surveys}
             handleImport={handleImport}
             allUsers={this.props.allUsers}
@@ -56,17 +57,17 @@ export default class ContentEditor extends PureComponent {
         </div>
         <AttendeeSelector
           content={content}
-          onUpdate={onUpdate}
+          onUpdate={this.onUpdate}
           getAttendees={getAttendees}
           allUsers={this.props.allUsers}
           groups={groups}
           tiers={tiers}
         />
         <button className="button-big red" onClick={onDelete}>
-          Delete
+          {t('delete')}
         </button>
         <Link to="/" className="button-big">
-          Done
+          {t('close')}
         </Link>
       </div>
     )
