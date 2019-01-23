@@ -37,7 +37,6 @@ class HomeView extends PureComponent {
     this.state = {}
 
     this.signin = props.fbc.signin().then(user => (this.user = user))
-    // .then(() => client.getAttendee(client.currentUser.id))
 
     this.signin.catch(err => console.error(err))
   }
@@ -59,7 +58,7 @@ class HomeView extends PureComponent {
           'value',
           setContent(
             'groupContent',
-            c => !c.groupIds || currentUser.userGroupIds.find(g => c.groupIds.includes(g)),
+            c => !c.groupIds || currentUser.userGroupIds.find(g => Object.values(c.groupIds).includes(g))
           ),
         )
         this.userRef().on('value', setContent('attendeeContent'))
