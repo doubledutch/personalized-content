@@ -26,14 +26,14 @@ export default class ContentEditor extends PureComponent {
   constructor(props) {
     super()
     this.state = {
-      isEditing: false,
+      showSaving: false,
     }
   }
 
   onUpdate = (contentItem, prop, value) => {
     this.props.onUpdate(contentItem, prop, value)
-    this.setState({ isEditing: true })
-    setTimeout(() => this.setState({ isEditing: false }), 1000)
+    this.setState({ showSaving: true })
+    setTimeout(() => this.setState({ showSaving: false }), 1000)
   }
 
   render() {
@@ -42,7 +42,7 @@ export default class ContentEditor extends PureComponent {
       <div>
         <div />
         <div className="content-editor__content">
-          <div className="isActiveTextBox">{this.state.isEditing && <p>Saving...</p>}</div>
+          <div className="isActiveTextBox">{this.state.showSaving && <p>Saving...</p>}</div>
           <div className="editorBox">
             <ContentButtons content={content} onUpdate={this.onUpdate} />
             <ContentPreview content={[content]} surveys={surveys} hidden />
