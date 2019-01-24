@@ -170,7 +170,7 @@ export default class AllAttendees extends PureComponent {
       )
       this.props.updateUserData(userContent)
     } else {
-      this.props.updateUserData(Object.values(content))
+      // this.props.updateUserData(Object.values(content))
     }
   }
 }
