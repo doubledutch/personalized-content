@@ -80,7 +80,6 @@ body {
 
 .csv-input {
   padding: 10px;
-  /* display: block; */
   margin: 15px auto;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -88,6 +87,10 @@ body {
 
 .isActiveTextBox {
   height: 30px;
+}
+
+.isActiveText {
+  margin: 0px;
 }
 
 /* Customize the label (the container) */
@@ -849,6 +852,10 @@ button {
 }
 
 .button-big:last-of-type {
+  margin-right: 1em;
+}
+
+.button-big.space {
   margin-right: 1em;
 }
 
