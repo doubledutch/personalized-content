@@ -23,49 +23,30 @@ import ContentButtons from './ContentButtons'
 import ContentPreview from './ContentPreview'
 
 export default class ContentEditor extends PureComponent {
-  constructor(props) {
-    super()
-    this.state = {
-      showSaving: false,
-    }
-  }
-
-  onUpdate = (contentItem, prop, value) => {
-    this.props.onUpdate(contentItem, prop, value)
-    this.setState({ showSaving: true })
-    setTimeout(() => this.setState({ showSaving: false }), 1000)
-  }
-
   render() {
-    const { content, getAttendees, groups, onDelete, surveys, tiers, handleImport } = this.props
+    const { content, onDelete, surveys, handleImport, onUpdate } = this.props
     return (
       <div>
         <div />
         <div className="content-editor__content">
-          <div className="isActiveTextBox">{this.state.showSaving && <p>Saving...</p>}</div>
           <div className="editorBox">
-            <ContentButtons content={content} onUpdate={this.onUpdate} />
+            <ContentButtons content={content} onUpdate={onUpdate} />
             <ContentPreview content={[content]} surveys={surveys} hidden />
           </div>
           <ContentDetailsEditor
             content={content}
-            onUpdate={this.onUpdate}
+            onUpdate={onUpdate}
             surveys={surveys}
             handleImport={handleImport}
             allUsers={this.props.allUsers}
           />
         </div>
-        <AttendeeSelector
-          content={content}
-          onUpdate={this.onUpdate}
-          getAttendees={getAttendees}
-          allUsers={this.props.allUsers}
-          groups={groups}
-          tiers={tiers}
-        />
         <button className="button-big red" onClick={onDelete}>
           {t('delete')}
         </button>
+        <Link to={`/content/${this.props.contentId}/attendeeSelector`} className="button-big space">
+          {t('selectAtt')}
+        </Link>
         <Link to="/" className="button-big">
           {t('close')}
         </Link>

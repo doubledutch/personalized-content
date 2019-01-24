@@ -19,10 +19,11 @@ import './App.css'
 import moment from 'moment'
 import client, { translate as t, useStrings } from '@doubledutch/admin-client'
 import { provideFirebaseConnectorToReactComponent } from '@doubledutch/firebase-connector'
-import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Link } from 'react-router-dom'
 import i18n from './i18n'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
+import AttendeeSelector from './AttendeeSelector'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
 import '@doubledutch/react-components/lib/base.css'
@@ -51,6 +52,7 @@ class App extends PureComponent {
       hidden: false,
       disable: false,
       surveys: [],
+      showSaving: false,
     }
 
     this.signin = props.fbc
@@ -199,17 +201,53 @@ class App extends PureComponent {
                 const editingContent = this.state.pendingContent.find(c => c.key === contentId)
                 if (!editingContent) return <Redirect to="/" />
                 return (
-                  <ContentEditor
-                    content={editingContent}
-                    getAttendees={this.getAttendees}
-                    allUsers={this.state.allUsers}
-                    handleImport={this.handleImport}
-                    groups={groups}
-                    tiers={tiers}
-                    surveys={surveys}
-                    onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
-                    onDelete={() => this.deleteContent(editingContent.key)}
-                  />
+                  <div>
+                    <div className="isActiveTextBox">
+                      {this.state.showSaving && <p className="isActiveText">Saving...</p>}
+                    </div>
+                    <ContentEditor
+                      content={editingContent}
+                      getAttendees={this.getAttendees}
+                      handleImport={this.handleImport}
+                      contentId={contentId}
+                      surveys={surveys}
+                      onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+                      onDelete={() => this.deleteContent(editingContent.key)}
+                    />
+                  </div>
+                )
+              }}
+            />
+            <Route
+              exact
+              path="/content/:contentId/attendeeSelector"
+              render={({ match }) => {
+                const { contentId } = match.params
+                const editingContent = this.state.pendingContent.find(c => c.key === contentId)
+                if (!editingContent) return <Redirect to="/" />
+                return (
+                  <div>
+                    <div className="isActiveTextBox">
+                      {this.state.showSaving && <p className="isActiveText">Saving...</p>}
+                    </div>
+                    <AttendeeSelector
+                      content={editingContent}
+                      onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+                      getAttendees={this.getAttendees}
+                      allUsers={this.state.allUsers}
+                      groups={groups}
+                      tiers={tiers}
+                    />
+                    <button
+                      className="button-big red"
+                      onClick={() => this.deleteContent(editingContent.key)}
+                    >
+                      {t('delete')}
+                    </button>
+                    <Link to="/" className="button-big">
+                      {t('close')}
+                    </Link>
+                  </div>
                 )
               }}
             />
@@ -292,13 +330,16 @@ class App extends PureComponent {
   stopEditing = () => this.setState({ editingContentId: null })
 
   deleteContent = key => {
-    this.unpublish({ key })
-    this.pendingContentRef()
-      .child(key)
-      .remove()
+    if (window.confirm(t('confirmDelete'))) {
+      this.unpublish({ key })
+      this.pendingContentRef()
+        .child(key)
+        .remove()
+    }
   }
 
   onUpdate = (contentItem, prop, value) => {
+    this.setState({ showSaving: true })
     const { attendeeIds, tierIds, groupIds, order } = contentItem
     const checkAll = contentItem.checkAll ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
@@ -313,6 +354,7 @@ class App extends PureComponent {
           .update({ [prop]: value })
       }
     }
+    setTimeout(() => this.setState({ showSaving: false }), 1000)
   }
 
   hideTable = () => {
