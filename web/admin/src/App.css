@@ -851,6 +851,10 @@ button {
   font-size: 1em;
 }
 
+.closeButton {
+  border: none;
+}
+
 .button-big:last-of-type {
   margin-right: 1em;
 }
@@ -1022,8 +1026,9 @@ button {
 .content-preview {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 20px;
+  margin-left: 30px;
 }
 
 .content-buttons__box {

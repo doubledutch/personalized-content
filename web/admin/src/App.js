@@ -20,6 +20,7 @@ import moment from 'moment'
 import client, { translate as t, useStrings } from '@doubledutch/admin-client'
 import { provideFirebaseConnectorToReactComponent } from '@doubledutch/firebase-connector'
 import { HashRouter as Router, Redirect, Route, Link } from 'react-router-dom'
+import Modal from 'react-modal'
 import i18n from './i18n'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
@@ -53,6 +54,7 @@ class App extends PureComponent {
       disable: false,
       surveys: [],
       showSaving: false,
+      showModal: false,
     }
 
     this.signin = props.fbc
@@ -129,6 +131,7 @@ class App extends PureComponent {
       tiers,
       search,
       newList,
+      showModal,
     } = this.state
     let searchContent = pendingContent
     if (search) {
@@ -147,6 +150,31 @@ class App extends PureComponent {
               path="/"
               render={({ history }) => (
                 <div>
+                  <Modal
+                    ariaHideApp={false}
+                    isOpen={showModal}
+                    onRequestClose={() => {
+                      this.setState({ showModal: false })
+                    }}
+                    contentLabel="Modal"
+                    className="Modal"
+                    overlayClassName="Overlay"
+                  >
+                    <button
+                      className="closeButton"
+                      onClick={() => this.setState({ showModal: false })}
+                    >
+                      X
+                    </button>
+                    <ContentPreview
+                      content={this.state.userContent}
+                      allUsers={this.state.allUsers}
+                      surveys={surveys}
+                      hidden={this.state.hidden}
+                      allContent={allContent}
+                      isPublished={published}
+                    />
+                  </Modal>
                   <h1 className="pageTitle">My Info</h1>
                   <button
                     className="button-big"
@@ -180,14 +208,6 @@ class App extends PureComponent {
                       hidden={this.state.hidden}
                       disable={this.state.disable}
                       hideTable={this.hideTable}
-                    />
-                    <ContentPreview
-                      content={this.state.userContent}
-                      allUsers={this.state.allUsers}
-                      surveys={surveys}
-                      hidden={this.state.hidden}
-                      allContent={allContent}
-                      isPublished={published}
                     />
                   </div>
                 </div>
@@ -277,7 +297,7 @@ class App extends PureComponent {
 
   updateUserData = content => {
     const userContent = content.sort(sortContent)
-    this.setState({ userContent })
+    this.setState({ userContent, showModal: true })
   }
 
   onDragEnd = result => {

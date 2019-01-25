@@ -44,6 +44,9 @@ export default class AllAttendees extends PureComponent {
       this.setState({ search: '' })
       this.searchAttendees('')
     }
+    if (!nextProps.hidden) {
+      this.setState({ id: '' })
+    }
   }
 
   searchAttendees = debounce(query => {
@@ -169,8 +172,6 @@ export default class AllAttendees extends PureComponent {
           c.tierIds.includes(user.tierId), // ...or is he/she in one of the selected tiers?
       )
       this.props.updateUserData(userContent)
-    } else {
-      this.props.updateUserData(Object.values(content))
     }
   }
 }

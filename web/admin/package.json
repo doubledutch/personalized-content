@@ -14,7 +14,7 @@
     "react-beautiful-dnd": "5.0.0",
     "react-csv": "^1.0.14",
     "react-dom": "^16.6.3",
-    "react-modal": "^3.3.1",
+    "react-modal": "^3.8.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^2.1.1"
   },

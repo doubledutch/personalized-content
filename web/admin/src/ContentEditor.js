@@ -44,9 +44,14 @@ export default class ContentEditor extends PureComponent {
         <button className="button-big red" onClick={onDelete}>
           {t('delete')}
         </button>
-        <Link to={`/content/${this.props.contentId}/attendeeSelector`} className="button-big space">
-          {t('selectAtt')}
-        </Link>
+        {!this.props.content.type.includes('CSV') && (
+          <Link
+            to={`/content/${this.props.contentId}/attendeeSelector`}
+            className="button-big space"
+          >
+            {t('selectAtt')}
+          </Link>
+        )}
         <Link to="/" className="button-big">
           {t('close')}
         </Link>
