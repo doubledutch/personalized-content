@@ -209,14 +209,6 @@ class App extends PureComponent {
                       disable={this.state.disable}
                       hideTable={this.hideTable}
                     />
-                    {/* <ContentPreview
-                      content={this.state.userContent}
-                      allUsers={this.state.allUsers}
-                      surveys={surveys}
-                      hidden={this.state.hidden}
-                      allContent={allContent}
-                      isPublished={published}
-                    /> */}
                   </div>
                 </div>
               )}
@@ -305,7 +297,6 @@ class App extends PureComponent {
 
   updateUserData = content => {
     const userContent = content.sort(sortContent)
-    console.log(userContent, this.state.isPublished)
     this.setState({ userContent, showModal: true })
   }
 
