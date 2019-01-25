@@ -44,6 +44,9 @@ export default class AllAttendees extends PureComponent {
       this.setState({ search: '' })
       this.searchAttendees('')
     }
+    if (!nextProps.hidden) {
+      this.setState({ id: '' })
+    }
   }
 
   searchAttendees = debounce(query => {
