@@ -204,7 +204,11 @@ export default class CurrentContent extends PureComponent {
       let areSameArray = true
       for (const i in c.rawData) {
         if (publishedContent[c.key].rawData) {
-          if (c.rawData[i].text !== publishedContent[c.key].rawData[i].text) {
+          if (
+            c.rawData[i].text !== publishedContent[c.key].rawData[i].text ||
+            c.rawData[i].email !== publishedContent[c.key].rawData[i].email ||
+            c.rawData[i].web !== publishedContent[c.key].rawData[i].web
+          ) {
             areSameArray = false
           }
         }
@@ -308,6 +312,5 @@ const areEqual = (c1, c2) => {
     const { key, order, ...rest } = c
     return rest
   }
-
   return JSON.stringify(actualContent(c1)) === JSON.stringify(actualContent(c2))
 }
