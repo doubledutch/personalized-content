@@ -208,6 +208,7 @@ class App extends PureComponent {
                       hidden={this.state.hidden}
                       disable={this.state.disable}
                       hideTable={this.hideTable}
+                      hideModal={this.hideModal}
                     />
                   </div>
                 </div>
@@ -300,6 +301,10 @@ class App extends PureComponent {
     this.setState({ userContent, showModal: true })
   }
 
+  hideModal = () => {
+    this.setState({ showModal: false })
+  }
+
   onDragEnd = result => {
     let pendingContent = this.state.pendingContent
     // dropped outside the list
@@ -344,7 +349,7 @@ class App extends PureComponent {
     const { pendingContent } = this.state
     const ref = this.pendingContentRef().push({ order: pendingContent.length })
     history.push(`/content/${ref.key}`)
-    this.setState({ search: false, searchContent: [] })
+    this.setState({ search: false, searchContent: [], showModal: false })
   }
 
   stopEditing = () => this.setState({ editingContentId: null })
@@ -379,7 +384,7 @@ class App extends PureComponent {
 
   hideTable = () => {
     const current = this.state.hidden
-    this.setState({ hidden: !current, userContent: [] })
+    this.setState({ hidden: !current, userContent: [], showModal: false })
   }
 
   disableButtons = () => {
