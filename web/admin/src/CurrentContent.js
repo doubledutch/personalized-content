@@ -207,7 +207,7 @@ export default class CurrentContent extends PureComponent {
           if (
             c.rawData[i].text !== publishedContent[c.key].rawData[i].text ||
             c.rawData[i].email !== publishedContent[c.key].rawData[i].email ||
-            c.rawData[i].web !== publishedContent[c.key].rawData[i].web
+            c.rawData[i].url !== publishedContent[c.key].rawData[i].url
           ) {
             areSameArray = false
           }
