@@ -166,6 +166,9 @@ class App extends PureComponent {
                     >
                       X
                     </button>
+                    <div className="modalHeader">
+                      <h2 className="modalTitle">Content Preview</h2>
+                    </div>
                     <ContentPreview
                       content={this.state.userContent}
                       allUsers={this.state.allUsers}
@@ -174,6 +177,14 @@ class App extends PureComponent {
                       allContent={allContent}
                       isPublished={published}
                     />
+                    <div className="modalFooter">
+                      <button
+                        className="dd-bordered"
+                        onClick={() => this.setState({ showModal: false })}
+                      >
+                        {t('close')}
+                      </button>
+                    </div>
                   </Modal>
                   <h1 className="pageTitle">My Info</h1>
                   <button

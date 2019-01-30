@@ -272,6 +272,26 @@ body {
   background-color: gray;
 }
 
+.modalHeader {
+  padding: 10px;
+  padding-left: 20px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.modalFooter {
+  padding: 20px;
+  border-top: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  
+}
+
+.modalTitle {
+  margin-left: 
+  /* margin: 0px */
+}
+
 .modalTextBox {
   padding-top: 15px;
   padding-right: 30px;
