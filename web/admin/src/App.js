@@ -349,7 +349,7 @@ class App extends PureComponent {
     Promise.all(updates).then(() => this.doPublish({} /* no content updated */))
   }
 
-  newOrder = () => {
+  updateOrderForNewContent = () => {
     const updates = this.state.pendingContent.map((c, index) => {
       this.onUpdate(c, 'order', c.order + 1) // update pending content
       if (this.state.publishedContent[c.key]) {
@@ -374,7 +374,7 @@ class App extends PureComponent {
 
   addNewContent = ({ history }) => {
     const ref = this.pendingContentRef().push({ order: 0 })
-    this.newOrder()
+    this.updateOrderForNewContent()
     history.push(`/content/${ref.key}`)
     this.setState({
       search: false,
