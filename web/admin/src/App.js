@@ -332,31 +332,17 @@ class App extends PureComponent {
     this.setState({ pendingContent })
   }
 
-  checkOrder = () => {
+  checkOrder = isNewContent => {
     const updates = this.state.pendingContent.map((c, index) => {
-      if (c.order !== index) {
-        this.onUpdate(c, 'order', index) // update pending content
+      if (c.order !== index || isNewContent) {
+        const newIndex = isNewContent ? c.order + 1 : index
+        this.onUpdate(c, 'order', newIndex) // update pending content
         if (this.state.publishedContent[c.key]) {
           return this.publishedContentRef()
             .child(c.key)
             .child('order')
-            .set(index) // update published content
+            .set(newIndex) // update published content
         }
-      }
-      return Promise.resolve()
-    })
-    // Publish the order changes only
-    Promise.all(updates).then(() => this.doPublish({} /* no content updated */))
-  }
-
-  updateOrderForNewContent = () => {
-    const updates = this.state.pendingContent.map((c, index) => {
-      this.onUpdate(c, 'order', c.order + 1) // update pending content
-      if (this.state.publishedContent[c.key]) {
-        return this.publishedContentRef()
-          .child(c.key)
-          .child('order')
-          .set(c.order + 1) // update published content
       }
       return Promise.resolve()
     })
@@ -374,7 +360,7 @@ class App extends PureComponent {
 
   addNewContent = ({ history }) => {
     const ref = this.pendingContentRef().push({ order: 0 })
-    this.updateOrderForNewContent()
+    this.checkOrder(true)
     history.push(`/content/${ref.key}`)
     this.setState({
       search: false,
