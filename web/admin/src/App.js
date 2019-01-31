@@ -82,6 +82,7 @@ class App extends PureComponent {
             sortContent,
           ),
         }))
+
       const removeContent = stateKey => data =>
         this.setState(state => ({
           [stateKey]: state[stateKey]
@@ -331,15 +332,16 @@ class App extends PureComponent {
     this.setState({ pendingContent })
   }
 
-  checkOrder = () => {
+  checkOrder = isNewContent => {
     const updates = this.state.pendingContent.map((c, index) => {
-      if (c.order !== index) {
-        this.onUpdate(c, 'order', index) // update pending content
+      if (c.order !== index || isNewContent) {
+        const newIndex = isNewContent ? c.order + 1 : index
+        this.onUpdate(c, 'order', newIndex) // update pending content
         if (this.state.publishedContent[c.key]) {
           return this.publishedContentRef()
             .child(c.key)
             .child('order')
-            .set(index) // update published content
+            .set(newIndex) // update published content
         }
       }
       return Promise.resolve()
@@ -357,10 +359,14 @@ class App extends PureComponent {
   }
 
   addNewContent = ({ history }) => {
-    const { pendingContent } = this.state
-    const ref = this.pendingContentRef().push({ order: pendingContent.length })
+    const ref = this.pendingContentRef().push({ order: 0 })
+    this.checkOrder(true)
     history.push(`/content/${ref.key}`)
-    this.setState({ search: false, searchContent: [], showModal: false })
+    this.setState({
+      search: false,
+      searchContent: [],
+      showModal: false,
+    })
   }
 
   stopEditing = () => this.setState({ editingContentId: null })
