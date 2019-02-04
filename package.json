@@ -1,6 +1,6 @@
 {
   "name": "personalizedcontent",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "baseBundleVersion": "0.57.5",
   "private": true,
   "scripts": {
