@@ -49,11 +49,13 @@ export class CustomModal extends Component {
     const itemType = this.props.selectedContent.type
     let publishOkay = true
     if (itemType === 'web' || itemType === 'video') {
-      publishOkay = this.props.selectedContent.url ? this.props.selectedContent.url.length : false
+      const content = this.props.selectedContent.url || ''
+      publishOkay = content.trim() ? this.props.selectedContent.url.length : false
       return publishOkay
     }
     if (itemType === 'text' || itemType === 'html') {
-      publishOkay = this.props.selectedContent.text ? this.props.selectedContent.text.length : false
+      const content = this.props.selectedContent.text || ''
+      publishOkay = content.trim() ? this.props.selectedContent.text.length : false
       return publishOkay
     }
     return publishOkay

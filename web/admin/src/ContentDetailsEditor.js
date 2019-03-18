@@ -17,7 +17,7 @@
 import React, { PureComponent } from 'react'
 import client, { translate as t } from '@doubledutch/admin-client'
 import CsvParse from '@vtex/react-csv-parse'
-import { CSVLink } from 'react-csv'
+import { CSVLink } from '@doubledutch/react-csv'
 import RadioIcon from './RadioIcon'
 import { SelectEditor, TextEditor, MultiLineEditor } from './editors'
 
@@ -55,7 +55,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 hideTitle
               />
             </div>
-            <div className="homeBox">
+            <div>
               <h2 className="contentTitle">{t('content')}</h2>
               <MultiLineEditor
                 content={content}
@@ -122,7 +122,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
-              <div className="homeBox">
+              <div>
                 <h2 className="contentTitle">{t('content')}</h2>
                 <MultiLineEditor
                   content={content}
@@ -190,7 +190,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
-              <div className="homeBox">
+              <div>
                 <h2 className="contentTitle">{t('content')}</h2>
                 <TextEditor
                   content={content}
@@ -261,7 +261,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 {this.state.fileError && <h2 className="failText">{t('failError')}</h2>}
               </div>
             ) : (
-              <div className="homeBox">
+              <div>
                 <h2 className="contentTitle">{t('youtube')}</h2>
                 <TextEditor
                   content={content}

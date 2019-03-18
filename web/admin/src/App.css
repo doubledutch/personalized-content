@@ -80,10 +80,17 @@ body {
 
 .csv-input {
   padding: 10px;
-  /* display: block; */
   margin: 15px auto;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.isActiveTextBox {
+  height: 30px;
+}
+
+.isActiveText {
+  margin: 0px;
 }
 
 /* Customize the label (the container) */
@@ -265,6 +272,26 @@ body {
   background-color: gray;
 }
 
+.modalHeader {
+  padding: 10px;
+  padding-left: 20px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.modalFooter {
+  padding: 20px;
+  border-top: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  
+}
+
+.modalTitle {
+  margin-left: 
+  /* margin: 0px */
+}
+
 .modalTextBox {
   padding-top: 15px;
   padding-right: 30px;
@@ -364,9 +391,7 @@ body {
 }
 
 .multiline-editor__box {
-  margin-top: 20px;
   border: 0px;
-  padding: 10px;
 }
 
 .editorBox__header {
@@ -558,6 +583,7 @@ button {
 .attendee-selector {
   display: flex;
   border: 1px solid #e2e2e2;
+  border-radius: 4px;
   height: 30em;
   background-color: white;
 }
@@ -845,7 +871,15 @@ button {
   font-size: 1em;
 }
 
+.closeButton {
+  border: none;
+}
+
 .button-big:last-of-type {
+  margin-right: 1em;
+}
+
+.button-big.space {
   margin-right: 1em;
 }
 
@@ -854,7 +888,7 @@ button {
 }
 
 .content-editor__content {
-  margin: 3em 0 5em;
+  margin: 3em 0 0em;
 }
 
 .current-content {
@@ -889,6 +923,7 @@ button {
   padding: 0;
   height: 351px;
   border: 1px solid #e2e2e2;
+  border-radius: 4px;
   overflow-y: auto;
   background-color: #fbfbfb;
   overflow-x: hidden;
@@ -1011,11 +1046,12 @@ button {
 .content-preview {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 30px;
 }
 
 .content-buttons__box {
-  margin-top: 20px;
 }
 
 .searchBar input {
@@ -1135,6 +1171,7 @@ button {
   background-color: #FFFFFF;
   font-size: 1.25em;
   border: 1px solid #AEAEAE;
+  border-radius: 4px;
   padding: 10px 10px;
   align-self: flex-start;
   display: flex;

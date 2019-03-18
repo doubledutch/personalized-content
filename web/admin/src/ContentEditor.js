@@ -16,28 +16,15 @@
 
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-
+import { translate as t } from '@doubledutch/admin-client'
 import AttendeeSelector from './AttendeeSelector'
 import ContentDetailsEditor from './ContentDetailsEditor'
 import ContentButtons from './ContentButtons'
 import ContentPreview from './ContentPreview'
 
 export default class ContentEditor extends PureComponent {
-  constructor(props) {
-    super()
-  }
-
   render() {
-    const {
-      content,
-      getAttendees,
-      groups,
-      onDelete,
-      onUpdate,
-      surveys,
-      tiers,
-      handleImport,
-    } = this.props
+    const { content, onDelete, surveys, handleImport, onUpdate } = this.props
     return (
       <div>
         <div />
@@ -54,19 +41,19 @@ export default class ContentEditor extends PureComponent {
             allUsers={this.props.allUsers}
           />
         </div>
-        <AttendeeSelector
-          content={content}
-          onUpdate={onUpdate}
-          getAttendees={getAttendees}
-          allUsers={this.props.allUsers}
-          groups={groups}
-          tiers={tiers}
-        />
         <button className="button-big red" onClick={onDelete}>
-          Delete
+          {t('delete')}
         </button>
+        {!this.props.content.type.includes('CSV') && (
+          <Link
+            to={`/content/${this.props.contentId}/attendeeSelector`}
+            className="button-big space"
+          >
+            {t('selectAtt')}
+          </Link>
+        )}
         <Link to="/" className="button-big">
-          Done
+          {t('close')}
         </Link>
       </div>
     )

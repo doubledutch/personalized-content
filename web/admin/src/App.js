@@ -19,10 +19,12 @@ import './App.css'
 import moment from 'moment'
 import client, { translate as t, useStrings } from '@doubledutch/admin-client'
 import { provideFirebaseConnectorToReactComponent } from '@doubledutch/firebase-connector'
-import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Link } from 'react-router-dom'
+import Modal from 'react-modal'
 import i18n from './i18n'
 import ContentEditor from './ContentEditor'
 import AllAttendees from './AllAttendees'
+import AttendeeSelector from './AttendeeSelector'
 import CurrentContent from './CurrentContent'
 import ContentPreview from './ContentPreview'
 import '@doubledutch/react-components/lib/base.css'
@@ -51,6 +53,8 @@ class App extends PureComponent {
       hidden: false,
       disable: false,
       surveys: [],
+      showSaving: false,
+      showModal: false,
     }
 
     this.signin = props.fbc
@@ -78,6 +82,7 @@ class App extends PureComponent {
             sortContent,
           ),
         }))
+
       const removeContent = stateKey => data =>
         this.setState(state => ({
           [stateKey]: state[stateKey]
@@ -127,6 +132,7 @@ class App extends PureComponent {
       tiers,
       search,
       newList,
+      showModal,
     } = this.state
     let searchContent = pendingContent
     if (search) {
@@ -145,6 +151,42 @@ class App extends PureComponent {
               path="/"
               render={({ history }) => (
                 <div>
+                  <Modal
+                    ariaHideApp={false}
+                    isOpen={showModal}
+                    onRequestClose={() => {
+                      this.setState({ showModal: false })
+                    }}
+                    contentLabel="Modal"
+                    className="Modal"
+                    overlayClassName="Overlay"
+                  >
+                    <button
+                      className="closeButton"
+                      onClick={() => this.setState({ showModal: false })}
+                    >
+                      X
+                    </button>
+                    <div className="modalHeader">
+                      <h2 className="modalTitle">Content Preview</h2>
+                    </div>
+                    <ContentPreview
+                      content={this.state.userContent}
+                      allUsers={this.state.allUsers}
+                      surveys={surveys}
+                      hidden={this.state.hidden}
+                      allContent={allContent}
+                      isPublished={published}
+                    />
+                    <div className="modalFooter">
+                      <button
+                        className="dd-bordered"
+                        onClick={() => this.setState({ showModal: false })}
+                      >
+                        {t('close')}
+                      </button>
+                    </div>
+                  </Modal>
                   <h1 className="pageTitle">My Info</h1>
                   <button
                     className="button-big"
@@ -178,14 +220,7 @@ class App extends PureComponent {
                       hidden={this.state.hidden}
                       disable={this.state.disable}
                       hideTable={this.hideTable}
-                    />
-                    <ContentPreview
-                      content={this.state.userContent}
-                      allUsers={this.state.allUsers}
-                      surveys={surveys}
-                      hidden={this.state.hidden}
-                      allContent={allContent}
-                      isPublished={published}
+                      hideModal={this.hideModal}
                     />
                   </div>
                 </div>
@@ -199,17 +234,53 @@ class App extends PureComponent {
                 const editingContent = this.state.pendingContent.find(c => c.key === contentId)
                 if (!editingContent) return <Redirect to="/" />
                 return (
-                  <ContentEditor
-                    content={editingContent}
-                    getAttendees={this.getAttendees}
-                    allUsers={this.state.allUsers}
-                    handleImport={this.handleImport}
-                    groups={groups}
-                    tiers={tiers}
-                    surveys={surveys}
-                    onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
-                    onDelete={() => this.deleteContent(editingContent.key)}
-                  />
+                  <div>
+                    <div className="isActiveTextBox">
+                      {this.state.showSaving && <p className="isActiveText">Saving...</p>}
+                    </div>
+                    <ContentEditor
+                      content={editingContent}
+                      getAttendees={this.getAttendees}
+                      handleImport={this.handleImport}
+                      contentId={contentId}
+                      surveys={surveys}
+                      onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+                      onDelete={() => this.deleteContent(editingContent.key)}
+                    />
+                  </div>
+                )
+              }}
+            />
+            <Route
+              exact
+              path="/content/:contentId/attendeeSelector"
+              render={({ match }) => {
+                const { contentId } = match.params
+                const editingContent = this.state.pendingContent.find(c => c.key === contentId)
+                if (!editingContent) return <Redirect to="/" />
+                return (
+                  <div>
+                    <div className="isActiveTextBox">
+                      {this.state.showSaving && <p className="isActiveText">Saving...</p>}
+                    </div>
+                    <AttendeeSelector
+                      content={editingContent}
+                      onUpdate={(prop, value) => this.onUpdate(editingContent, prop, value)}
+                      getAttendees={this.getAttendees}
+                      allUsers={this.state.allUsers}
+                      groups={groups}
+                      tiers={tiers}
+                    />
+                    <button
+                      className="button-big red"
+                      onClick={() => this.deleteContent(editingContent.key)}
+                    >
+                      {t('delete')}
+                    </button>
+                    <Link to="/" className="button-big">
+                      {t('close')}
+                    </Link>
+                  </div>
                 )
               }}
             />
@@ -239,7 +310,11 @@ class App extends PureComponent {
 
   updateUserData = content => {
     const userContent = content.sort(sortContent)
-    this.setState({ userContent })
+    this.setState({ userContent, showModal: true })
+  }
+
+  hideModal = () => {
+    this.setState({ showModal: false })
   }
 
   onDragEnd = result => {
@@ -257,15 +332,16 @@ class App extends PureComponent {
     this.setState({ pendingContent })
   }
 
-  checkOrder = () => {
+  checkOrder = isNewContent => {
     const updates = this.state.pendingContent.map((c, index) => {
-      if (c.order !== index) {
-        this.onUpdate(c, 'order', index) // update pending content
+      if (c.order !== index || isNewContent) {
+        const newIndex = isNewContent ? c.order + 1 : index
+        this.onUpdate(c, 'order', newIndex) // update pending content
         if (this.state.publishedContent[c.key]) {
           return this.publishedContentRef()
             .child(c.key)
             .child('order')
-            .set(index) // update published content
+            .set(newIndex) // update published content
         }
       }
       return Promise.resolve()
@@ -283,22 +359,29 @@ class App extends PureComponent {
   }
 
   addNewContent = ({ history }) => {
-    const { pendingContent } = this.state
-    const ref = this.pendingContentRef().push({ order: pendingContent.length })
+    const ref = this.pendingContentRef().push({ order: 0 })
+    this.checkOrder(true)
     history.push(`/content/${ref.key}`)
-    this.setState({ search: false, searchContent: [] })
+    this.setState({
+      search: false,
+      searchContent: [],
+      showModal: false,
+    })
   }
 
   stopEditing = () => this.setState({ editingContentId: null })
 
   deleteContent = key => {
-    this.unpublish({ key })
-    this.pendingContentRef()
-      .child(key)
-      .remove()
+    if (window.confirm(t('confirmDelete'))) {
+      this.unpublish({ key })
+      this.pendingContentRef()
+        .child(key)
+        .remove()
+    }
   }
 
   onUpdate = (contentItem, prop, value) => {
+    this.setState({ showSaving: true })
     const { attendeeIds, tierIds, groupIds, order } = contentItem
     const checkAll = contentItem.checkAll ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
@@ -313,11 +396,12 @@ class App extends PureComponent {
           .update({ [prop]: value })
       }
     }
+    setTimeout(() => this.setState({ showSaving: false }), 1000)
   }
 
   hideTable = () => {
     const current = this.state.hidden
-    this.setState({ hidden: !current, userContent: [] })
+    this.setState({ hidden: !current, userContent: [], showModal: false })
   }
 
   disableButtons = () => {

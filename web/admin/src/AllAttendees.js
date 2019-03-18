@@ -40,8 +40,8 @@ export default class AllAttendees extends PureComponent {
       this.downloadUserData(this.state.id, nextProps.content)
       this.setState({ content: nextProps.content })
     }
-    if (nextProps.hidden) {
-      this.setState({ search: '' })
+    if (nextProps.hidden !== this.props.hidden) {
+      this.setState({ search: '', id: '' })
       this.searchAttendees('')
     }
   }
@@ -170,7 +170,7 @@ export default class AllAttendees extends PureComponent {
       )
       this.props.updateUserData(userContent)
     } else {
-      this.props.updateUserData(Object.values(content))
+      this.props.hideModal()
     }
   }
 }
