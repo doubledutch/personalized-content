@@ -281,14 +281,44 @@ export default class ContentDetailsEditor extends PureComponent {
         return (
           <div className="content-editor__box" key={`${content.type}Fields`}>
             <h2 className="contentTitle">{t('survey')}</h2>
-            <SelectEditor
-              size={6}
+            {!content.surveyURL && (
+              <SelectEditor
+                size={6}
+                content={content}
+                prop="surveyId"
+                title="Survey"
+                onUpdate={this.onUpdateSurvey}
+                options={surveys}
+              />
+            )}
+            <TextEditor
               content={content}
-              prop="surveyId"
-              title="Survey"
-              onUpdate={this.onUpdateSurvey}
-              options={surveys}
+              prop="surveyURL"
+              title="Optional: Use an Advanced Survey by entering its URL"
+              placeholder="dd://extensions/surveys?surveyId=-J123Sna323cn"
+              onUpdate={onUpdate}
+              isTitle
             />
+            {content.surveyURL && (
+              <div>
+                <TextEditor
+                  content={content}
+                  prop="title"
+                  title="Advanced Survey Title"
+                  placeholder="Tuesday Session Follow Up Survey"
+                  onUpdate={onUpdate}
+                  isTitle
+                />
+                <TextEditor
+                  content={content}
+                  prop="description"
+                  title="Advanced Survey Description"
+                  placeholder="Tuesday Session Follow Up Survey"
+                  onUpdate={onUpdate}
+                  isTitle
+                />
+              </div>
+            )}
             {content.rawData ? (
               <CSVLink className="csvButton" data={content.rawData} filename="questions.csv">
                 {t('downloadUpload')}
@@ -381,10 +411,10 @@ export default class ContentDetailsEditor extends PureComponent {
   }
 
   onUpdateSurvey = (prop, value) => {
-    const { onUpdate, surveys } = this.props
+    const { onUpdate, surveys, content } = this.props
     onUpdate(prop, value)
     const survey = surveys.find(s => s.id === value)
-    if (survey) {
+    if (survey && !content.surveyURL) {
       onUpdate('title', survey.name)
       onUpdate('description', survey.description)
     }
