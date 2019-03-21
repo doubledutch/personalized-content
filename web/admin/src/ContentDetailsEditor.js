@@ -295,7 +295,7 @@ export default class ContentDetailsEditor extends PureComponent {
               content={content}
               prop="surveyURL"
               title="Optional: Use an Advanced Survey by entering its URL"
-              placeholder="dd://extensions/surveys?surveyID=-J123Sna323cn"
+              placeholder="dd://extensions/surveys?surveyId=-J123Sna323cn"
               onUpdate={onUpdate}
               isTitle
             />
