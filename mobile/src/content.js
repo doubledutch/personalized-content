@@ -177,7 +177,12 @@ export class SurveyContent extends PureComponent {
     )
   }
 
-  takeSurvey = () => client.openURL(`dd://survey/${this.props.surveyId}`)
+  takeSurvey = () => {
+    if (this.props.surveyURL){
+      client.openURL(this.props.surveyURL)
+    }
+    else client.openURL(`dd://survey/${this.props.surveyId}`)
+  }
 }
 
 const gray = '#4b4b4b'
