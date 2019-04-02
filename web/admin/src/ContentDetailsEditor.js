@@ -91,7 +91,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 <CSVLink
                   className="csvButton"
                   data={this.makeCSVTemplate()}
-                  filename="questions.csv"
+                  filename="template.csv"
                 >
                   {t('download')}
                 </CSVLink>
@@ -104,7 +104,7 @@ export default class ContentDetailsEditor extends PureComponent {
                   render={onChange => <input type="file" onChange={onChange} />}
                 />
                 {content.rawData ? (
-                  <CSVLink className="csvButton" data={content.rawData} filename="questions.csv">
+                  <CSVLink className="csvButton" data={content.rawData} filename="content.csv">
                     {t('downloadUpload')}
                   </CSVLink>
                 ) : null}
@@ -159,7 +159,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 <CSVLink
                   className="csvButton"
                   data={this.makeCSVTemplate()}
-                  filename="questions.csv"
+                  filename="template.csv"
                 >
                   {t('download')}
                 </CSVLink>
@@ -172,7 +172,7 @@ export default class ContentDetailsEditor extends PureComponent {
                   render={onChange => <input type="file" onChange={onChange} />}
                 />
                 {content.rawData ? (
-                  <CSVLink className="csvButton" data={content.rawData} filename="questions.csv">
+                  <CSVLink className="csvButton" data={content.rawData} filename="content.csv">
                     {t('downloadUpload')}
                   </CSVLink>
                 ) : null}
@@ -230,7 +230,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 <CSVLink
                   className="csvButton"
                   data={this.makeCSVTemplate()}
-                  filename="questions.csv"
+                  filename="template.csv"
                 >
                   {t('download')}
                 </CSVLink>
@@ -243,7 +243,7 @@ export default class ContentDetailsEditor extends PureComponent {
                   render={onChange => <input type="file" onChange={onChange} />}
                 />
                 {content.rawData ? (
-                  <CSVLink className="csvButton" data={content.rawData} filename="questions.csv">
+                  <CSVLink className="csvButton" data={content.rawData} filename="content.csv">
                     {t('downloadUpload')}
                   </CSVLink>
                 ) : null}
@@ -320,7 +320,7 @@ export default class ContentDetailsEditor extends PureComponent {
               </div>
             )}
             {content.rawData ? (
-              <CSVLink className="csvButton" data={content.rawData} filename="questions.csv">
+              <CSVLink className="csvButton" data={content.rawData} filename="content.csv">
                 {t('downloadUpload')}
               </CSVLink>
             ) : null}
