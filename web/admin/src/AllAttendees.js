@@ -15,7 +15,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import { translate as t } from '@doubledutch/admin-client'
+import client, { translate as t } from '@doubledutch/admin-client'
 import debounce from 'lodash.debounce'
 
 export default class AllAttendees extends PureComponent {
@@ -24,25 +24,32 @@ export default class AllAttendees extends PureComponent {
     this.state = {
       search: '',
       id: '',
-      content: {},
       attendees: [],
     }
   }
 
   componentDidMount() {
     this.searchAttendees(this.state.search)
-    this.downloadUserData(this.state.id, this.props.content)
-    this.setState({ content: this.props.content })
+    this.downloadUserData(this.props.id || '')
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.content !== nextProps.content) {
-      this.downloadUserData(this.state.id, nextProps.content)
-      this.setState({ content: nextProps.content })
-    }
-    if (nextProps.hidden !== this.props.hidden) {
+  componentDidUpdate(prevProps, prevState) {
+    const { attendeeContent, groupContent, tierContent } = this.state
+    if (prevProps.hidden !== this.props.hidden) {
       this.setState({ search: '', id: '' })
       this.searchAttendees('')
+    }
+    if (
+      JSON.stringify(attendeeContent) !== JSON.stringify(prevState.attendeeContent) ||
+      JSON.stringify(groupContent) !== JSON.stringify(prevState.groupContent) ||
+      JSON.stringify(tierContent) !== JSON.stringify(prevState.tierContent)
+    ) {
+      if (!attendeeContent && !groupContent && !tierContent) return null
+      const content = unique(
+        x => x.key,
+        (attendeeContent || []).concat(tierContent || []).concat(groupContent || []),
+      ).sort((a, b) => a.order - b.order)
+      this.props.updateUserData(content)
     }
   }
 
@@ -159,20 +166,47 @@ export default class AllAttendees extends PureComponent {
     }
   }
 
-  downloadUserData = (id, content) => {
+  downloadUserData = id => {
     if (id) {
-      const user = this.state.attendees.find(user => user.id === id)
-      const userContent = Object.values(content).filter(
-        c =>
-          doArraysIntersect(user.userGroupIds, c.groupIds) || // Is attendee part of one of the selected attendee groups?
-          c.attendeeIds.includes(user.id) || // ...or is he/she specifically selected?
-          c.tierIds.includes(user.tierId), // ...or is he/she in one of the selected tiers?
-      )
-      this.props.updateUserData(userContent)
+      const user = this.state.attendees.find(user => id === user.id)
+      if (user) {
+        const setContent = (stateKey, filter) => data => {
+          const content = data.val() || {}
+          const contentArray = Object.keys(content).map(key => Object.assign(content[key], { key }))
+          const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
+          this.setState({ [stateKey]: filteredContentArray })
+        }
+        this.props.fbc.database.public
+          .adminRef('content')
+          .once(
+            'value',
+            setContent(
+              'groupContent',
+              c =>
+                !c.groupIds || user.userGroupIds.find(g => Object.values(c.groupIds).includes(g)),
+            ),
+          )
+        this.props.fbc.database.private
+          .adminableUsersRef(id)
+          .once('value', setContent('attendeeContent'))
+        this.props.fbc.database.private
+          .tiersRef(user.tierId)
+          .once('value', setContent('tierContent'))
+      }
     } else {
       this.props.hideModal()
     }
   }
+}
+
+function unique(identityFn, array) {
+  const alreadySeenKeys = {}
+  return array.filter(x => {
+    const key = identityFn(x)
+    if (alreadySeenKeys[key]) return false
+    alreadySeenKeys[key] = true
+    return true
+  })
 }
 
 function sortUsers(a, b) {
