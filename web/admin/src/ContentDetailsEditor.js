@@ -28,6 +28,7 @@ export default class ContentDetailsEditor extends PureComponent {
       successfulImport: 0,
       totalImport: 0,
       fileError: false,
+      showFields: false,
     }
   }
 
@@ -291,15 +292,20 @@ export default class ContentDetailsEditor extends PureComponent {
                 options={surveys}
               />
             )}
-            <TextEditor
-              content={content}
-              prop="surveyURL"
-              title="Optional: Use an Advanced Survey by entering its URL"
-              placeholder="dd://extensions/surveys?surveyId=-J123Sna323cn"
-              onUpdate={onUpdate}
-              isTitle
-            />
-            {content.surveyURL && (
+            <div>
+              <TextEditor
+                content={content}
+                prop="surveyURL"
+                title="Optional: Use an Advanced Survey by entering its URL"
+                placeholder="dd://extensions/surveys?surveyId=-J123Sna323cn"
+                onUpdate={onUpdate}
+                isTitle
+              />
+              <button className="dd-bordered" onClick={this.resetInfo}>
+                Continue
+              </button>
+            </div>
+            {this.state.showFields && (
               <div>
                 <TextEditor
                   content={content}
@@ -313,7 +319,7 @@ export default class ContentDetailsEditor extends PureComponent {
                   content={content}
                   prop="description"
                   title="Advanced Survey Description"
-                  placeholder="Tuesday Session Follow Up Survey"
+                  placeholder="Please tell us more..."
                   onUpdate={onUpdate}
                   isTitle
                 />
@@ -329,6 +335,12 @@ export default class ContentDetailsEditor extends PureComponent {
       default:
         return <div />
     }
+  }
+
+  resetInfo = () => {
+    this.props.onUpdate('title', '')
+    this.props.onUpdate('description', '')
+    this.setState({ showFields: true })
   }
 
   videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)

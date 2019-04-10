@@ -8,18 +8,18 @@
   },
   "dependencies": {
     "@doubledutch/firebase-connector": "^4.1.2",
-    "@doubledutch/rn-client": "^5.0.0",
-    "react": "^16.8.3",
+    "@doubledutch/rn-client": "^5.0.1",
+    "react": "16.8.3",
     "react-addons-update": "~15.6.0",
-    "react-native": "^0.59.1",
-    "react-native-camera": "^2.0.1",
-    "react-native-video": "^4.4.0",
+    "react-native": "^0.59.3",
+    "react-native-camera": "2.1.1",
+    "react-native-video": "4.4.0",
     "react-native-youtube": "1.1.0",
-    "rn-fetch-blob": "^0.10.15"
+    "rn-fetch-blob": "0.10.15"
   },
   "devDependencies": {
-    "babel-jest": "^24.5.0",
-    "eslint": "^5.9.0",
+    "babel-jest": "^24.6.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-import-resolver-node": "^0.3.2",
@@ -31,9 +31,9 @@
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.5.0",
-    "jest": "^24.5.0",
+    "jest": "^24.6.0",
     "metro-react-native-babel-preset": "^0.53.1",
     "prettier": "^1.15.2",
-    "react-test-renderer": "^16.8.3"
+    "react-test-renderer": "16.8.3"
   }
 }
