@@ -319,7 +319,7 @@ export default class ContentDetailsEditor extends PureComponent {
                   content={content}
                   prop="description"
                   title="Advanced Survey Description"
-                  placeholder="Tuesday Session Follow Up Survey"
+                  placeholder="Please tell us more..."
                   onUpdate={onUpdate}
                   isTitle
                 />
