@@ -58,6 +58,9 @@ export class CustomModal extends Component {
       publishOkay = content.trim() ? this.props.selectedContent.text.length : false
       return publishOkay
     }
+    if (itemType === 'survey') {
+      return !!this.props.selectedContent.title.trim()
+    }
     return publishOkay
   }
 

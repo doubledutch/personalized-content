@@ -32,9 +32,15 @@ export default class ContentDetailsEditor extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    if (this.props.content.surveyURL) {
+      this.setState({ showFields: true })
+    }
+  }
+
   componentDidUpdate(nextProps) {
     if (this.props.content.type !== nextProps.content.type) {
-      this.setState({ successfulImport: 0, totalImport: 0, fileError: false })
+      this.setState({ successfulImport: 0, totalImport: 0, fileError: false, showFields: false })
     }
   }
 
@@ -301,7 +307,11 @@ export default class ContentDetailsEditor extends PureComponent {
                 onUpdate={onUpdate}
                 isTitle
               />
-              <button className="dd-bordered" onClick={this.resetInfo}>
+              <button
+                className="dd-bordered"
+                onClick={this.resetInfo}
+                disabled={this.state.showFields}
+              >
                 Continue
               </button>
             </div>
@@ -338,9 +348,11 @@ export default class ContentDetailsEditor extends PureComponent {
   }
 
   resetInfo = () => {
-    this.props.onUpdate('title', '')
-    this.props.onUpdate('description', '')
-    this.setState({ showFields: true })
+    if (this.props.content.surveyURL) {
+      this.props.onUpdate('title', '')
+      this.props.onUpdate('description', '')
+      this.setState({ showFields: true })
+    }
   }
 
   videoValidation = link => link.match(/^(https?\:\/\/)(www\.)?(youtube\.com|youtu\.?be)\/.+$/)
