@@ -304,7 +304,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 prop="surveyURL"
                 title="Optional: Use an Advanced Survey by entering its URL"
                 placeholder="dd://extensions/surveys?surveyId=-J123Sna323cn"
-                onUpdate={onUpdate}
+                onUpdate={this.onUpdateSurveyURL}
                 isTitle
               />
               <button
@@ -315,7 +315,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 Continue
               </button>
             </div>
-            {this.state.showFields && (
+            {this.state.showFields && content.surveyURL.length > 0 && (
               <div>
                 <TextEditor
                   content={content}
@@ -349,9 +349,17 @@ export default class ContentDetailsEditor extends PureComponent {
 
   resetInfo = () => {
     if (this.props.content.surveyURL) {
+      this.props.onUpdate('surveyId', '')
       this.props.onUpdate('title', '')
       this.props.onUpdate('description', '')
       this.setState({ showFields: true })
+    }
+  }
+
+  onUpdateSurveyURL = (prop, value) => {
+    this.props.onUpdate(prop, value)
+    if (!value) {
+      this.setState({ showFields: false })
     }
   }
 
