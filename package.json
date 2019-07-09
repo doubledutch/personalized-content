@@ -1,12 +1,12 @@
 {
   "name": "personalizedcontent",
-  "version": "2.2.0",
-  "baseBundleVersion": "0.59.1",
+  "version": "2.2.1",
+  "baseBundleVersion": "0.59.3",
   "private": true,
   "scripts": {
     "start": "pushd mobile && npm run ios && popd && pushd web/admin && npm start && popd"
   },
-  "license": "apache-2.0",
+  "license": "Apache-2.0",
   "doubledutch": {
     "extension": true
   }
