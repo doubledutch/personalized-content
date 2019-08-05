@@ -32,7 +32,7 @@ export class TextEditor extends PureComponent {
   reset = ({ content, prop }) => this.setState({ value: content[prop] })
 
   render() {
-    const { title, placeholder, validationMessage, hideTitle } = this.props
+    const { title, placeholder, validationMessage, hideTitle, prop } = this.props
 
     return (
       <label className="text-editor">
@@ -46,7 +46,7 @@ export class TextEditor extends PureComponent {
             value={this.state.value}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            maxLength={150}
+            maxLength={prop === 'url' ? null : 150}
           />
           {this.isTitle()}
         </div>
