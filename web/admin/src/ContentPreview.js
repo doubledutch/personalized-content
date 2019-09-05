@@ -16,6 +16,7 @@
 
 import React, { PureComponent } from 'react'
 import { translate as t } from '@doubledutch/admin-client'
+import DOMPurify from 'dompurify'
 import Background from './iPhone.png'
 import VideoPlaceholder from './images/videoplaceholder.png'
 
@@ -97,7 +98,12 @@ export default class ContentPreview extends PureComponent {
         return (
           <div className="htmlCell" key={i}>
             <h2 className="textCellTitle">{c.title}</h2>
-            <iframe className="htmlBox" srcDoc={c.text} title="webview" onClick="return false" />
+            <iframe
+              className="htmlBox"
+              srcDoc={DOMPurify.sanitize(c.text)}
+              title="webview"
+              onClick="return false"
+            />
           </div>
         )
       case 'survey':
