@@ -44,25 +44,27 @@ class HomeView extends PureComponent {
   componentDidMount() {
     const { fbc } = this.props
     client.getPrimaryColor().then(primaryColor => this.setState({ primaryColor }))
-    client.getCurrentUser().then(currentUser => {
-      this.setState({ currentUser })
-      this.signin.then(() => {
-        const setContent = (stateKey, filter) => data => {
-          const content = data.val() || {}
-          const contentArray = Object.keys(content).map(key => Object.assign(content[key], { key }))
-          const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
-          this.setState({ [stateKey]: filteredContentArray })
-        }
+    client.getCurrentUser().then(currentUserOrig => {
+      client.getAttendee(currentUserOrig.id).then(currentUser => {
+        this.setState({ currentUser })
+        this.signin.then(() => {
+          const setContent = (stateKey, filter) => data => {
+            const content = data.val() || {}
+            const contentArray = Object.keys(content).map(key => Object.assign(content[key], { key }))
+            const filteredContentArray = filter ? contentArray.filter(filter) : contentArray
+            this.setState({ [stateKey]: filteredContentArray })
+          }
 
-        this.publicContentRef().on(
-          'value',
-          setContent(
-            'groupContent',
-            c => !c.groupIds || currentUser.userGroupIds.find(g => Object.values(c.groupIds).includes(g))
-          ),
-        )
-        this.userRef().on('value', setContent('attendeeContent'))
-        this.tierRef().on('value', setContent('tierContent'))
+          this.publicContentRef().on(
+            'value',
+            setContent(
+              'groupContent',
+              c => !c.groupIds || currentUser.userGroupIds.find(g => Object.values(c.groupIds).includes(g))
+            ),
+          )
+          this.userRef().on('value', setContent('attendeeContent'))
+          this.tierRef().on('value', setContent('tierContent'))
+        })
       })
     })
   }
