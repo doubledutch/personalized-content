@@ -46,6 +46,7 @@ export default class ContentDetailsEditor extends PureComponent {
 
   render() {
     const { content, onUpdate, surveys } = this.props
+    const helpText = `<meta name="viewport" content="width=device-width, initial-scale=1">`
     switch (content.type) {
       case 'html':
         return (
@@ -71,6 +72,9 @@ export default class ContentDetailsEditor extends PureComponent {
                 onUpdate={onUpdate}
                 hideTitle
               />
+              <p className="htmlHelpText">
+                Note: we recommend including: {helpText} to ensure proper scaling
+              </p>
             </div>
           </div>
         )

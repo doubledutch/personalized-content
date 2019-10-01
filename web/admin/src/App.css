@@ -278,6 +278,10 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.htmlHelpText {
+  margin: 0
+}
+
 .modalHeader {
   padding: 10px;
   padding-left: 20px;
