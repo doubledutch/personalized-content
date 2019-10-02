@@ -73,7 +73,7 @@ export default class ContentDetailsEditor extends PureComponent {
                 hideTitle
               />
               <p className="htmlHelpText">
-                Note: we recommend including: {helpText} to ensure proper scaling
+                Note: We recommend including: {helpText} to ensure proper scaling
               </p>
             </div>
           </div>
