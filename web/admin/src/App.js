@@ -384,8 +384,9 @@ class App extends PureComponent {
 
   onUpdate = (contentItem, prop, value) => {
     this.setState({ showSaving: true })
+    const isCSV = prop === 'type' ? value.includes('CSV') : false
     const { attendeeIds, tierIds, groupIds, order } = contentItem
-    const checkAll = contentItem.checkAll ? contentItem.checkAll : false
+    const checkAll = contentItem.checkAll && !isCSV ? contentItem.checkAll : false
     if (contentItem[prop] !== value) {
       if (value === undefined) value = null
       if (prop === 'type') {

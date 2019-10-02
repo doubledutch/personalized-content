@@ -45,6 +45,7 @@ body {
   font-size: 16px;
   padding: 0px;
   margin: 3px;
+  width: 240px;
   text-align: center;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -173,9 +174,7 @@ body {
   padding: 0px;
   margin: 3px;
   text-align: center;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  width: 240px;
 }
 
 .surveyCellText {
@@ -261,15 +260,25 @@ body {
 .Modal {
   position: absolute;
   width: 600px;
+  top: 10%;
+  left: 20%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+  border: 1px solid #CDCDCD;
+  border-radius: 4px;
   background-color: #FFFFFF;
 }
 
 .Overlay {
   position: fixed;
-  left: 29%;
-  top: 120px; 
-  background-color: gray;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.htmlHelpText {
+  margin: 0
 }
 
 .modalHeader {
@@ -319,10 +328,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   color: #4A4A4A;
+  width: 511px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .modalDone{
-  background-color: #009DCD;
+  background-color: #5193dd;
   border: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: white;
@@ -331,7 +344,7 @@ body {
   width: 81px;
   margin-top: 15px;
   margin-left: 30px;
-  border-radius: 0;
+  border-radius: 4px;
 }
 
 .closeButton{
@@ -348,7 +361,7 @@ body {
 }
 
 .modalExport{
-  background-color: #009DCD;
+  background-color: #5193dd;
   border: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Fira Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
   color: white;
@@ -359,6 +372,7 @@ body {
   margin-top: 15px;
   margin-left: 15px;
   margin-right: 20px;
+  border-radius: 4px;
 }
 
 .phoneBox {
