@@ -118,7 +118,11 @@ export class HTMLContent extends PureComponent {
             }}
           />
           <View style={s.webFooter}>
-            <View style={{ flex: 1 }} />
+            <View style={{ flex: 1 }}>
+              <Text style={s.webFooterTitle} ellipsizeMode="tail" numberOfLines={2}>
+                {title}
+              </Text>
+            </View>
             <TouchableOpacity onPress={this.expandCell}>
               <Text style={s.webFooterLink}>
                 {this.state.isExpand ? 'Minimize Page' : 'Expand Page'}
