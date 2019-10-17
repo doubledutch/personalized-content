@@ -59,7 +59,8 @@ export class CustomModal extends Component {
       return publishOkay
     }
     if (itemType === 'survey') {
-      return !!this.props.selectedContent.title.trim()
+      const name = this.props.selectedContent.title || ''
+      return !!name.trim()
     }
     return publishOkay
   }
