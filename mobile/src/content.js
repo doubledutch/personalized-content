@@ -63,7 +63,7 @@ export class WebContent extends PureComponent {
     const { title, url } = this.props
     return (
       <View style={[s.container, s.webContainer]}>
-        <WebView style={s.web} source={{ uri: url }} />
+        <WebView style={s.web} source={{ uri: url }} useWebKit/>
         <View style={s.webFooter}>
           <View style={{ flex: 1 }}>
             <Text style={s.webFooterTitle} ellipsizeMode="tail" numberOfLines={2}>
@@ -106,6 +106,7 @@ export class HTMLContent extends PureComponent {
               this.webview = ref
             }}
             source={{ html: text }}
+            useWebKit
             onNavigationStateChange={event => {
               let info = event.title
               if (info) {
