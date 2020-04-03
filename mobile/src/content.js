@@ -28,6 +28,8 @@ import {
 import client, { translate as t } from '@doubledutch/rn-client'
 
 const showMoreTextLimit = 300
+const isWebKitVersion = client.clientVersion.major > 8 && client.clientVersion.minor > 2
+
 export class TextContent extends PureComponent {
   state = {}
 
@@ -63,7 +65,7 @@ export class WebContent extends PureComponent {
     const { title, url } = this.props
     return (
       <View style={[s.container, s.webContainer]}>
-        <WebView style={s.web} source={{ uri: url }} useWebKit/>
+        <WebView style={s.web} source={{ uri: url }} useWebKit={isWebKitVersion}/>
         <View style={s.webFooter}>
           <View style={{ flex: 1 }}>
             <Text style={s.webFooterTitle} ellipsizeMode="tail" numberOfLines={2}>
@@ -106,7 +108,7 @@ export class HTMLContent extends PureComponent {
               this.webview = ref
             }}
             source={{ html: text }}
-            useWebKit
+            useWebKit={isWebKitVersion}
             onNavigationStateChange={event => {
               let info = event.title
               if (info) {
